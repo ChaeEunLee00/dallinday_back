@@ -1,7 +1,5 @@
 package com.by.dallinday.course;
 
-import com.by.dallinday.member.Member;
-import com.by.dallinday.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service

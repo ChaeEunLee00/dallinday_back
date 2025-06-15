@@ -1,6 +1,5 @@
 package com.by.dallinday.run;
 
-import com.by.dallinday.course.CourseRepository;
 import org.springframework.stereotype.Service;
 
 @Service

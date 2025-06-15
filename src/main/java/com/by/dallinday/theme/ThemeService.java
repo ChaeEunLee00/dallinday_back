@@ -1,7 +1,5 @@
 package com.by.dallinday.theme;
 
-import com.by.dallinday.member.Member;
-import com.by.dallinday.spot.SpotRepository;
 import org.springframework.stereotype.Service;
 
 @Service
