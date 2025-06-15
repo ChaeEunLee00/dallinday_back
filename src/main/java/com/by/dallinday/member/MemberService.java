@@ -4,7 +4,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-//    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     // 마이 페이지 조회
     public Member findMyPage() {

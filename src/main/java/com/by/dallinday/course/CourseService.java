@@ -1,11 +1,16 @@
 package com.by.dallinday.course;
 
 import com.by.dallinday.member.Member;
+import com.by.dallinday.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CourseService {
-//    private final CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
+
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
     // 코스 조회
     public Course findCourse() {
