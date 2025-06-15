@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/themes")
 public class ThemeController {
-//    private final ThemeService themeService;
+    private final ThemeService themeService;
 
     // 테마 리스트 조회
     @GetMapping

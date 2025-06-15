@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping
 public class CourseController {
-//    private final CourseService courseService;
+    private final CourseService courseService;
 
     // 코스 조회
     @GetMapping("/courses/{course-id}")
@@ -22,14 +22,14 @@ public class CourseController {
 
     // 관광지 별 코스 리스트 조회
     @GetMapping("/spots/{spot-id}")
-    public ResponseEntity getSpotCourseList() {
+    public ResponseEntity getSpotCourses() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 테마 별 코스 리스트 조회
     @GetMapping("/themes/{theme-id}")
-    public ResponseEntity getThemeCourseList() {
+    public ResponseEntity getThemeCourses() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

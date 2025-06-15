@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/members")
 public class MemberController {
-//    private final MemberService memberService;
+    private final MemberService memberService;
 
     // 마이 페이지 조회
     @GetMapping("/{member-id}")
@@ -41,7 +41,7 @@ public class MemberController {
 
     // 나의 달리기 리스트 조회
     @GetMapping("/{member-id}/runs")
-    public ResponseEntity getMyCourses() {
+    public ResponseEntity getMyRuns() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

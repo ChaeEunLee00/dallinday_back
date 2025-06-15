@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/spots")
 public class SpotController {
-//    private final SpotService spotService;
+    private final SpotService spotService;
 
     // 관광지 리스트 조회
     @GetMapping

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/runs")
 public class RunController {
-//    private final RunService runService;
+    private final RunService runService;
 
     // 달리기 기록 생성
     @PostMapping
