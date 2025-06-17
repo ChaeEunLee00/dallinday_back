@@ -18,7 +18,7 @@ public class Run {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long runId;
 
     @Column
     private Long distance;
@@ -33,10 +33,10 @@ public class Run {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "courseId")
     private Course course;
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long spotId;
 
     @Column
     private String name;

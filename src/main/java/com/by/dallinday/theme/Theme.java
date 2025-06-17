@@ -19,7 +19,7 @@ import java.util.List;
 public class Theme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long themeId;
 
     @Column
     private String title;

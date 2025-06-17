@@ -18,13 +18,23 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long memberId;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false ,unique = true)
-    private String socialAccount;
+    @Column(nullable = false)
+    private String provider;
+
+    @Column(nullable = false)
+    private String providerId;
+
+    private String imageUrl;
+
+    private String role;
 
     @Column
     private LocalDateTime createdAt;

@@ -20,7 +20,7 @@ import java.util.List;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long courseId;
 
     @Column
     private String name;
@@ -44,11 +44,11 @@ public class Course {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "spotId")
     private Spot spot;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "themeId")
     private Theme theme;
 
     @OneToMany(mappedBy = "course")
