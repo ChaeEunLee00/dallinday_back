@@ -80,7 +80,8 @@ public class JwtTokenizer {
     public String generateRefreshToken(String base64EncodedSecretKey) {
         Key key = getKey(base64EncodedSecretKey);
         log.info("[generateToken] refreshToken 생성");
-        Date expiration = getExpiration(accessTokenExpirationMinutes);
+
+        Date expiration = getExpiration(refreshTokenExpirationMinutes);
         return Jwts.builder()
                 .setExpiration(expiration)
                 .signWith(key)

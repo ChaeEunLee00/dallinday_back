@@ -49,13 +49,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Member member = getMember(oAuth2UserInfo);
 
         log.info("memberId : {}", member.getMemberId());
-        log.info("email : {}", oAuth2UserInfo.getEmail());
-        log.info("oauth username : {}", oAuth2UserInfo.getName());
+        log.info("email : {}", member.getEmail());
+        log.info("oauth username : {}", member.getUsername());
         log.info("dallinday username : {}", member.getUsername());
 
         // 커스텀 OAuth2User 전달
         log.info("CustomOAuth2UserSerivce.loadUser() 종료");
-        return CustomOAuth2User.of(member, attributes);
+        return CustomOAuth2User.of(member, attributes, providerId);
     }
 
     private OAuth2UserInfo getOAuth2UserInfo(String provider, Map<String, Object> attributes) {

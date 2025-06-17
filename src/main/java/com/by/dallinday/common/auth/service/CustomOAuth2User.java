@@ -41,11 +41,12 @@ public class CustomOAuth2User extends DefaultOAuth2User {
     }
 
     public static CustomOAuth2User of(Member member,
-                                      Map<String, Object> attributes) {
+                                      Map<String, Object> attributes,
+                                      String nameAttributeKey) {
         return new CustomOAuth2User(
                 List.of(new SimpleGrantedAuthority(member.getRole())),
                 attributes,
-                member.getProviderId(),
+                nameAttributeKey,
                 member.getMemberId(),
                 member.getEmail(),
                 member.getRole()
