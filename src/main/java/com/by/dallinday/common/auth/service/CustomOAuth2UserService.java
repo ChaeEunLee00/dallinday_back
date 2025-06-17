@@ -48,9 +48,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 저장되어있는 member 정보 가져오기, 없으면 회원가입 진행
         Member member = getMember(oAuth2UserInfo);
 
-        log.info("memberId : {}", member.getMemberId());
-        log.info("email : {}", member.getEmail());
-        log.info("oauth username : {}", member.getUsername());
+        log.info("dallinday memberId : {}", member.getMemberId());
+        log.info("dallinday email : {}", member.getEmail());
         log.info("dallinday username : {}", member.getUsername());
 
         // 커스텀 OAuth2User 전달
