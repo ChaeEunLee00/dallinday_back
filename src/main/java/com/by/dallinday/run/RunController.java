@@ -22,7 +22,7 @@ public class RunController {
     }
 
     // 달리기 기록 조회
-    @GetMapping("/run-id}")
+    @GetMapping("/{run-id}")
     public ResponseEntity getRun() {
 
         return new ResponseEntity<>(HttpStatus.OK);
