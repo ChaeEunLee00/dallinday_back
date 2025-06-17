@@ -8,3 +8,7 @@
 .gradle
 build/
 out/
+
+# yml 설정파일
+application-prod.yml
+application-security.yml

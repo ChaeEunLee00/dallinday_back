@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: dallinday
+  profiles:
+    active: dev,security
+  output:
+    ansi:
+      enabled: DETECT
+  logging:
+    level:
+      root: INFO
+      org.apache: WARN
+      org.springframework.orm.jpa: DEBUG
