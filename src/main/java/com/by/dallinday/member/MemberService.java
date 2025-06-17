@@ -35,4 +35,9 @@ public class MemberService {
         return new Member();
     }
 
+    // 멤버 조회
+    public Member findMember(Long id){
+        return new Member();
+    };
+
 }
