@@ -33,6 +33,6 @@ public class Theme {
     @Column
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "spot")
-    private List<Course> runList = new ArrayList<>();
+    @OneToMany(mappedBy = "theme")
+    private List<Course> courseList = new ArrayList<>();
 }

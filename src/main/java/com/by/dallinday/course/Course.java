@@ -1,5 +1,6 @@
 package com.by.dallinday.course;
 
+import com.by.dallinday.run.Run;
 import com.by.dallinday.spot.Spot;
 import com.by.dallinday.theme.Theme;
 import jakarta.persistence.*;
@@ -43,13 +44,13 @@ public class Course {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "id")
     private Spot spot;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "id")
     private Theme theme;
 
-    @OneToMany(mappedBy = "spot")
-    private List<Course> runList = new ArrayList<>();
+    @OneToMany(mappedBy = "course")
+    private List<Run> runList = new ArrayList<>();
 }
