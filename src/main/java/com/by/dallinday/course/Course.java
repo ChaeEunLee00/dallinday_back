@@ -1,7 +1,6 @@
 package com.by.dallinday.course;
 
 import com.by.dallinday.run.Run;
-import com.by.dallinday.spot.Spot;
 import com.by.dallinday.theme.Theme;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -43,9 +42,8 @@ public class Course {
     @Column
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "spotId")
-    private Spot spot;
+    @Column
+    private String spotId;
 
     @ManyToOne
     @JoinColumn(name = "themeId")
