@@ -44,7 +44,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(configure ->
