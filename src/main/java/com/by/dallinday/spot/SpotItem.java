@@ -1,0 +1,66 @@
+package com.by.dallinday.spot;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SpotItem {
+
+    @JsonProperty("contentid")
+    private String spotid;
+
+    private String addr1;
+
+    private String addr2;
+
+    private String areacode;
+
+    private String cat1;
+
+    private String cat2;
+
+    private String cat3;
+
+    private String contenttypeid;
+
+    private String createdtime;
+
+    private String firstimage;
+
+    private String firstimage2;
+
+    private String cpyrhtDivCd;
+
+    private Double mapx;
+
+    private Double mapy;
+
+    private String mlevel;
+
+    private String modifiedtime;
+
+    private String sigungucode;
+
+    private String tel;
+
+    private String title;
+
+    private String zipcode;
+
+    @JsonProperty("lDongRegnCd")
+    private String lDongRegnCd;
+
+    @JsonProperty("lDongSignguCd")
+    private String lDongSignguCd;
+
+    private String lclsSystm1;
+
+    private String lclsSystm2;
+
+    private String lclsSystm3;
+
+    private Double dist;
+}
