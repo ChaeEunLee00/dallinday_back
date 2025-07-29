@@ -2,7 +2,6 @@ package com.by.dallinday.spot;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data

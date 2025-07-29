@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
-class SpotApiClientTest {
+class SpotAPIClientTest {
 
     @Autowired
     private SpotAPIClient spotApiClient;
