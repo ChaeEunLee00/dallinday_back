@@ -49,7 +49,7 @@ public class SpotAPIClient {
         }
         catch (Exception exception) {
             exception.printStackTrace();
-            throw new BusinessLogicException(ExceptionCode.DATABASE_ERROR);
+            throw new BusinessLogicException(ExceptionCode.EXTERNAL_API_ERROR);
         }
     }
 
@@ -86,7 +86,7 @@ public class SpotAPIClient {
         }
         catch (Exception exception) {
             exception.printStackTrace();
-            throw new BusinessLogicException(ExceptionCode.DATABASE_ERROR);
+            throw new BusinessLogicException(ExceptionCode.EXTERNAL_API_ERROR);
         }
     }
 }
