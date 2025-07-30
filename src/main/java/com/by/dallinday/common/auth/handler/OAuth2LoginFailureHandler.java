@@ -20,19 +20,19 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
         String errorMessage = exception.getMessage();
 
         response.setStatus(HttpStatus.BAD_REQUEST.value());
-        response.sendRedirect(createURI(errorMessage));
+//        response.sendRedirect(createURI(errorMessage));
         log.info("소셜 로그인에 실패했습니다. 에러 머세지 : {}", errorMessage);
     }
 
-    private String createURI(String errorMessage) {
-        return UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host("dallinday.com")
-//                .port(3000)
-                .path("/oauth")
-                .queryParam("error", errorMessage)
-                .encode(StandardCharsets.UTF_8)
-                .build()
-                .toUriString();
-    }
+//    private String createURI(String errorMessage) {
+//        return UriComponentsBuilder.newInstance()
+//                .scheme("https")
+//                .host("dallinday.com")
+// //                .port(3000)
+//                .path("/oauth")
+//                .queryParam("error", errorMessage)
+//                .encode(StandardCharsets.UTF_8)
+//                .build()
+//                .toUriString();
+//    }
 }

@@ -47,23 +47,23 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 응답 상태코드
         response.setStatus(HttpStatus.OK.value());
 
-        // 로그인 성공 후 리다이렉트 주소 -> 프론트 주소
-        response.sendRedirect(createURI(accessToken, refreshToken));
+//        // 로그인 성공 후 리다이렉트 주소 -> 프론트 주소
+//        response.sendRedirect(createURI(accessToken, refreshToken));
     }
 
-    private String createURI(String accessToken, String refreshToken) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token", accessToken);
-        queryParams.add("refresh_token", refreshToken);
-
-        return UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host("dallinday.com")
-//                .port(3000)
-                .path("/oauth")
-                .queryParams(queryParams)
-                .encode(StandardCharsets.UTF_8)
-                .build()
-                .toUriString();
-    }
+//    private String createURI(String accessToken, String refreshToken) {
+//        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+//        queryParams.add("access_token", accessToken);
+//        queryParams.add("refresh_token", refreshToken);
+//
+//        return UriComponentsBuilder.newInstance()
+//                .scheme("https")
+//                .host("dallinday.com")
+// //                .port(3000)
+//                .path("/oauth")
+//                .queryParams(queryParams)
+//                .encode(StandardCharsets.UTF_8)
+//                .build()
+//                .toUriString();
+//    }
 }
