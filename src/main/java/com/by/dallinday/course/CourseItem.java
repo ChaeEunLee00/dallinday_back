@@ -8,9 +8,11 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CourseItem {
 
-    private String routeIdx;
+    @JsonProperty("crsIdx")
+    private String courseId;
 
-    private String crsIdx;
+    @JsonProperty("routeIdx")
+    private String routeId;
 
     private String crsKorNm; // 코스명
 

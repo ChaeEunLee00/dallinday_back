@@ -9,7 +9,7 @@ import lombok.Data;
 public class SpotItem {
 
     @JsonProperty("contentid")
-    private String spotid;
+    private String spotId;
 
     private String addr1;
 
