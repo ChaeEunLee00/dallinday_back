@@ -28,20 +28,16 @@ public class JwtTokenizer {
     @Value("${jwt.key}")
     private String secretKey;
 
-    @Getter
     @Value("${jwt.access-token-expiration-minutes}")
     private int accessTokenExpirationMinutes;
 
-    @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
     @Value("${jwt.access.header}")
-    @Getter
     private String accessHeader;
 
     @Value("${jwt.refresh.header}")
-    @Getter
     private String refreshHeader;
 
     private final MemberService memberService;

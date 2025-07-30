@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -42,10 +44,11 @@ public class SecurityConfiguration {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/h2-console/**").permitAll()
-                                .anyRequest().permitAll()
-//                        .anyRequest().authenticated()
+                                .requestMatchers("/h2-console/**").permitAll() // h2 데이터베이스 접근 모두 허용 (개발용)
+                                .requestMatchers("/admin/login").permitAll() // admin 로그인 요청 모두 허용
+                                .requestMatchers("/admin/**").hasRole("ADMIN") // admin 관련 요청은 역할이 ADMIN인 경우만 가능
+                                .anyRequest().permitAll() // 임시 보안 해제
+//                              .anyRequest().authenticated()   // 임시 보안 해제
                 )
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(configure ->
@@ -68,6 +71,12 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cors);
         return source;
+    }
+
+    // passwordEncoder 빈 등록
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
 
