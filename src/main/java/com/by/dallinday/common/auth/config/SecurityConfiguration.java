@@ -1,10 +1,10 @@
 package com.by.dallinday.common.auth.config;
 
-import com.by.dallinday.common.auth.handler.OAuth2LoginFailureHandler;
-import com.by.dallinday.common.auth.handler.OAuth2LoginSuccessHandler;
+import com.by.dallinday.common.auth.oauth.OAuth2LoginFailureHandler;
+import com.by.dallinday.common.auth.oauth.OAuth2LoginSuccessHandler;
 import com.by.dallinday.common.auth.jwt.JwtTokenizer;
 import com.by.dallinday.common.auth.jwt.JwtVerificationFilter;
-import com.by.dallinday.common.auth.service.CustomOAuth2UserService;
+import com.by.dallinday.common.auth.oauth.CustomOAuth2UserService;
 import com.by.dallinday.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
