@@ -30,7 +30,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         String base64EncodedSecretKey = JwtTokenizer.encodedBase64SecretKey(JwtTokenizer.getSecretKey());
         String accessToken = JwtTokenizer.generateAccessToken(oAuth2User.getMemberId(), base64EncodedSecretKey);
-        String refreshToken = JwtTokenizer.generateRefreshToken(base64EncodedSecretKey);
+        String refreshToken = JwtTokenizer.generateRefreshToken(oAuth2User.getMemberId(), base64EncodedSecretKey);
 
         log.info("accessToken : {}", accessToken);
         log.info("refreshToken : {}", refreshToken);

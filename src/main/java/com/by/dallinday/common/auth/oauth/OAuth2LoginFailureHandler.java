@@ -17,7 +17,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         String errorMessage = exception.getMessage();
 
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 //        response.sendRedirect(createURI(errorMessage));
         log.info("소셜 로그인에 실패했습니다. 에러 머세지 : {}", errorMessage);
     }
