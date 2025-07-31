@@ -1,17 +1,25 @@
 package com.by.dallinday.spot;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-public class SpotService {
-    private final SpotRepository spotRepository;
+import java.util.List;
 
-    public SpotService(SpotRepository spotRepository) {
-        this.spotRepository = spotRepository;
+@Service
+@RequiredArgsConstructor
+public class SpotService {
+
+    private final SpotAPIClient spotAPIClient;
+
+    // 지역 기반 관광지 리스트 조회
+    public List<SpotItem> findSpotsByArea (int areaCode, int numOfRows, int pageNo) {
+        // spotApiClient를 통해 외부 API 호출
+        return spotAPIClient.callAreaBasedAPI(areaCode, numOfRows, pageNo);
     }
 
-    // 관광지 리스트 조회
-    public Spot findSpotList() {
-        return new Spot();
+    // 위치 기반 관광지 리스트 조회
+    public List<SpotItem> findSpotsByLocation(double mapX, double mapY, int areaCode, int radius, int numOfRows, int pageNo) {
+        // spotApiClient를 통해 외부 API 호출
+        return spotAPIClient.callLocationBasedAPI(mapX, mapY, areaCode, radius, numOfRows, pageNo);
     }
 }

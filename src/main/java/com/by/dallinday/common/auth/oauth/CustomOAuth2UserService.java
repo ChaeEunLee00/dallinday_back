@@ -1,6 +1,9 @@
-package com.by.dallinday.common.auth.service;
+package com.by.dallinday.common.auth.oauth;
 
-import com.by.dallinday.common.auth.userinfo.*;
+import com.by.dallinday.common.auth.oauth.userinfo.GoogleUserInfo;
+import com.by.dallinday.common.auth.oauth.userinfo.KakaoUserInfo;
+import com.by.dallinday.common.auth.oauth.userinfo.NaverUserInfo;
+import com.by.dallinday.common.auth.oauth.userinfo.OAuth2UserInfo;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.member.Member;

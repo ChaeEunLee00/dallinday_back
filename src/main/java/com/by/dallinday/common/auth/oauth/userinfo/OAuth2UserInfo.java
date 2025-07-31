@@ -1,4 +1,4 @@
-package com.by.dallinday.common.auth.userinfo;
+package com.by.dallinday.common.auth.oauth.userinfo;
 
 import java.util.Map;
 

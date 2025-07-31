@@ -1,4 +1,4 @@
-package com.by.dallinday.common.auth.userinfo;
+package com.by.dallinday.common.auth.oauth.userinfo;
 
 import java.util.Map;
 
@@ -39,10 +39,5 @@ public class KakaoUserInfo implements OAuth2UserInfo{
     @Override
     public String getImageUrl() {
         return (String) properties.get("profile_image");
-    }
-
-    private Map<String, Object> getStringObjectMap() {
-        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-        return (Map<String, Object>) kakaoAccount.get("profile");
     }
 }

@@ -1,4 +1,4 @@
-package com.by.dallinday.common.auth.service;
+package com.by.dallinday.common.auth.oauth;
 
 import com.by.dallinday.member.Member;
 import lombok.Getter;

@@ -4,33 +4,41 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/courses")
 public class CourseController {
     private final CourseService courseService;
 
     // 코스 조회
-    @GetMapping("/courses/{course-id}")
+    @GetMapping("/{course-id}")
     public ResponseEntity getCourse() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 관광지 별 코스 리스트 조회
-    @GetMapping("/spots/{spot-id}")
+    @GetMapping("/spot/{spot-id}")
     public ResponseEntity getSpotCourses() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 테마 별 코스 리스트 조회
-    @GetMapping("/themes/{theme-id}")
+    @GetMapping("/theme/{theme-id}")
     public ResponseEntity getThemeCourses() {
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 코스 데이터 동기화 요청
+    @PostMapping("/sync")
+    public ResponseEntity syncCourses() {
+        courseService.syncCourses();
+        return new ResponseEntity<>("Course data synced", HttpStatus.OK);
     }
 }

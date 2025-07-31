@@ -28,20 +28,16 @@ public class JwtTokenizer {
     @Value("${jwt.key}")
     private String secretKey;
 
-    @Getter
     @Value("${jwt.access-token-expiration-minutes}")
     private int accessTokenExpirationMinutes;
 
-    @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
     @Value("${jwt.access.header}")
-    @Getter
     private String accessHeader;
 
     @Value("${jwt.refresh.header}")
-    @Getter
     private String refreshHeader;
 
     private final MemberService memberService;
@@ -77,12 +73,13 @@ public class JwtTokenizer {
     }
 
     //리프레쉬 토큰 생성
-    public String generateRefreshToken(String base64EncodedSecretKey) {
+    public String generateRefreshToken(Long memberId, String base64EncodedSecretKey) {
         Key key = getKey(base64EncodedSecretKey);
         log.info("[generateToken] refreshToken 생성");
 
         Date expiration = getExpiration(refreshTokenExpirationMinutes);
         return Jwts.builder()
+                .claim("memberId", memberId)
                 .setExpiration(expiration)
                 .signWith(key)
                 .compact();

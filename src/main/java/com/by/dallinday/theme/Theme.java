@@ -28,7 +28,7 @@ public class Theme {
     private String description;
 
     @Column
-    private String image_url;
+    private String imageUrl;
 
     @Column
     private LocalDateTime createdAt;
