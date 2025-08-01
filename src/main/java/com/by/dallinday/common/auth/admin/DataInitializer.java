@@ -2,6 +2,7 @@ package com.by.dallinday.common.auth.admin;
 
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
+import com.by.dallinday.member.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ public class DataInitializer implements CommandLineRunner {
             admin.setEmail(adminId); // 아이디 역할
             admin.setProviderId(passwordEncoder.encode(adminPassword)); // 비밀번호 역할
             admin.setProvider("dallinday");
-            admin.setRole("ADMIN");
+            admin.setRole(Role.ADMIN.getRole());
             admin.setUsername("관리자");
             admin.setCreatedAt(LocalDateTime.now());
             admin.setImageUrl("https://wanderworld-bucket.s3.ap-northeast-2.amazonaws.com/default_profile.jpg");

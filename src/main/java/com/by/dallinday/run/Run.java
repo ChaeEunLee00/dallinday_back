@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
@@ -21,16 +19,27 @@ public class Run {
     private Long runId;
 
     @Column
-    private Long distance;
+    private Double distance;
 
     @Column
-    private Long duration;
+    private Double duration;
 
     @Column
-    private String review;
+    private Double pace;
 
     @Column
-    private LocalDateTime createdAt;
+    private Double calorie;
+
+    @Column
+    private Double accuracy;
+
+    @Column
+    private String startTime;
+
+    @Column
+    private String endTime;
+
+    // 실제 지나간 관광지 목록..?
 
     @ManyToOne
     @JoinColumn(name = "memberId")

@@ -4,6 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
+    COURSE_NOT_FOUND(404, "Course not found"),
+    RUN_NOT_FOUND(404, "Run not found"),
     MEMBER_EXIST(409, "Member exists"),
     ONLY_ADMIN(404, "Administrator only"),
     PROVIDER_NOT_FOUND(404, "The OAuth provider is not supported"),

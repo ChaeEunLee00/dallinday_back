@@ -34,7 +34,7 @@ public class CourseService {
 
         for (CourseItem item : courseItems) {
             // 이미 존재하는 코스인지 확인
-            Optional<Course> foundCourse = courseRepository.findByCourseId(item.getCourseId());
+            Optional<Course> foundCourse = courseRepository.findById(item.getCourseId());
             if (foundCourse.isPresent()) {
                 // 이미 있다면 업데이트
                 Course course = foundCourse.get();

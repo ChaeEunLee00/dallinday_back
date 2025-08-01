@@ -1,5 +1,7 @@
 package com.by.dallinday.member;
 
+import com.by.dallinday.common.exception.BusinessLogicException;
+import com.by.dallinday.common.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,7 +39,7 @@ public class MemberService {
 
     // 멤버 조회
     public Member findMember(Long id){
-        return new Member();
-    };
-
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
 }
