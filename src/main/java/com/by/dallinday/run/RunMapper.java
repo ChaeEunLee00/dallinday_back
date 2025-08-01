@@ -1,7 +1,7 @@
 package com.by.dallinday.run;
 
 import com.by.dallinday.run.dto.RunPostRequest;
-import com.by.dallinday.run.dto.RunPostResponse;
+import com.by.dallinday.run.dto.RunResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,24 +25,24 @@ public class RunMapper {
         return run;
     }
 
-    public RunPostResponse runToRunPostResponse(Run run) {
+    public RunResponse runToRunPostResponse(Run run) {
         if ( run == null ) {
             return null;
         }
 
-        RunPostResponse runPostResponse = new RunPostResponse();
+        RunResponse runResponse = new RunResponse();
 
-        runPostResponse.setRunId( run.getRunId());
-        runPostResponse.setMemberId( run.getMember().getMemberId());
-        runPostResponse.setCourseId( run.getCourse().getCourseId());
-        runPostResponse.setDistance( run.getDistance() );
-        runPostResponse.setDuration( run.getDuration() );
-        runPostResponse.setPace( run.getPace() );
-        runPostResponse.setCalorie( run.getCalorie() );
-        runPostResponse.setAccuracy( run.getAccuracy() );
-        runPostResponse.setStartTime( run.getStartTime() );
-        runPostResponse.setEndTime( run.getEndTime() );
+        runResponse.setRunId( run.getRunId());
+        runResponse.setMemberId( run.getMember().getMemberId());
+        runResponse.setCourseId( run.getCourse().getCourseId());
+        runResponse.setDistance( run.getDistance() );
+        runResponse.setDuration( run.getDuration() );
+        runResponse.setPace( run.getPace() );
+        runResponse.setCalorie( run.getCalorie() );
+        runResponse.setAccuracy( run.getAccuracy() );
+        runResponse.setStartTime( run.getStartTime() );
+        runResponse.setEndTime( run.getEndTime() );
 
-        return runPostResponse;
+        return runResponse;
     }
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RunPostResponse {
+public class RunResponse {
     private Long runId;
 
     private Long memberId;

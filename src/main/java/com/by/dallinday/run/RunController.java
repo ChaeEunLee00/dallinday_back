@@ -1,7 +1,8 @@
 package com.by.dallinday.run;
 
 import com.by.dallinday.run.dto.RunPostRequest;
-import com.by.dallinday.run.dto.RunPostResponse;
+import com.by.dallinday.run.dto.RunResponse;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +27,15 @@ public class RunController {
 
         request.setMemberId(memberId);
 
-        RunPostResponse response = runService.createRun(request);
+        RunResponse response = runService.createRun(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 달리기 기록 조회
     @GetMapping("/{run-id}")
-    public ResponseEntity getRun() {
+    public ResponseEntity getRun(@PathVariable("run-id") @Positive Long memberId) {
 
+        RunResponse response = runService.findRun(memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

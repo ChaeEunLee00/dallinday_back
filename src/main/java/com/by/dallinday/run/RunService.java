@@ -7,7 +7,7 @@ import com.by.dallinday.course.CourseRepository;
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
 import com.by.dallinday.run.dto.RunPostRequest;
-import com.by.dallinday.run.dto.RunPostResponse;
+import com.by.dallinday.run.dto.RunResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class RunService {
     private final CourseRepository courseRepository;
 
     // 달리기 기록 생성
-    public RunPostResponse createRun(RunPostRequest request) {
+    public RunResponse createRun(RunPostRequest request) {
         // dto -> entity
         Run run = runMapper.runPostRequestToRun(request);
 
@@ -42,7 +42,10 @@ public class RunService {
     }
 
     // 달리기 기록 조회
-    public Run findRun() {
-        return new Run();
+    public RunResponse findRun(Long runId) {
+        Run run = runRepository.findById(runId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RUN_NOT_FOUND));
+
+        return runMapper.runToRunPostResponse(run);
     }
 }
