@@ -1,6 +1,7 @@
 package com.by.dallinday.run;
 
 import com.by.dallinday.run.dto.RunPostRequest;
+import com.by.dallinday.run.dto.RunPostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,10 @@ public class RunController {
         Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
         Long memberId = Long.valueOf(principal.get("memberId").toString());
 
-        Run run = runService.createRun(memberId, request);
-        return new ResponseEntity<>(run, HttpStatus.OK);
+        request.setMemberId(memberId);
+
+        RunPostResponse response = runService.createRun(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 달리기 기록 조회

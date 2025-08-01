@@ -5,7 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RunPostRequest {
+public class RunPostResponse {
+    private Long runId;
+
     private Long memberId;
 
     private String courseId;
@@ -23,4 +25,6 @@ public class RunPostRequest {
     private String startTime;
 
     private String endTime;
+
+
 }
