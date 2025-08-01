@@ -2,15 +2,15 @@ package com.by.dallinday.member;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
+import com.by.dallinday.member.dto.MemberGetResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    private final MemberMapper memberMapper;
 
     // 마이 페이지 조회
     public Member findMyPage() {
@@ -38,8 +38,11 @@ public class MemberService {
     }
 
     // 멤버 조회
-    public Member findMember(Long id){
-        return memberRepository.findById(id)
+    public MemberGetResponse findMember(Long memberId){
+
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        return memberMapper.memberToMemberGetResponse(member);
     }
 }

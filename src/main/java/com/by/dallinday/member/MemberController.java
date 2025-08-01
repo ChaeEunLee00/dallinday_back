@@ -1,5 +1,7 @@
 package com.by.dallinday.member;
 
+import com.by.dallinday.member.dto.MemberGetResponse;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,37 +13,33 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    // 마이 페이지 조회
+    // 멤버 조회
     @GetMapping("/{member-id}")
+    public ResponseEntity getMember(@PathVariable("member-id") @Positive Long memberId) {
+
+        MemberGetResponse response = memberService.findMember(memberId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 마이 페이지 조회
+    @GetMapping("/{member-id}/mypage")
     public ResponseEntity getMyPage() {
-
+        // 순위
+        // 달리기 리스트
+        // 개인 기록
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 개인 기록 조회
-    @GetMapping("/{member-id}/record")
-    public ResponseEntity getMyRecord() {
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    // 순위 조회
-    @GetMapping("/{member-id}/ranking")
+    // 순위 상세 조회
+    @GetMapping("/{member-id}/mypage/ranking")
     public ResponseEntity getMyRanking() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 나의 뱃지 리스트 조회
-    @GetMapping("/{member-id}/badges")
-    public ResponseEntity getMyBadges() {
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    // 나의 달리기 리스트 조회
-    @GetMapping("/{member-id}/runs")
-    public ResponseEntity getMyRuns() {
+    // 개인 기록 상세 조회
+    @GetMapping("/{member-id}/mypage/record")
+    public ResponseEntity getMyRecord() {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -20,24 +20,38 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String provider;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String providerId;
 
+    @Column
     private String imageUrl;
 
+    @Column
     private String role;
 
     @Column
     private LocalDateTime createdAt;
+
+    @Column
+    private Double totalDistance;
+
+    @Column
+    private Double totalDuration;
+
+    @Column
+    private Double avgPace;
+
+    @Column
+    private String badges;
 
     @OneToMany(mappedBy = "member")
     private List<Run> runList = new ArrayList<>();

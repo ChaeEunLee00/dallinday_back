@@ -33,9 +33,9 @@ public class RunController {
 
     // 달리기 기록 조회
     @GetMapping("/{run-id}")
-    public ResponseEntity getRun(@PathVariable("run-id") @Positive Long memberId) {
+    public ResponseEntity getRun(@PathVariable("run-id") @Positive Long runId) {
 
-        RunResponse response = runService.findRun(memberId);
+        RunResponse response = runService.findRun(runId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

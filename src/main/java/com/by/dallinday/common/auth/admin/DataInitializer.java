@@ -38,6 +38,7 @@ public class DataInitializer implements CommandLineRunner {
             admin.setUsername("관리자");
             admin.setCreatedAt(LocalDateTime.now());
             admin.setImageUrl("https://wanderworld-bucket.s3.ap-northeast-2.amazonaws.com/default_profile.jpg");
+            admin.setBadges("000000000");
 
             memberRepository.save(admin);
             log.info("Admin user created.");

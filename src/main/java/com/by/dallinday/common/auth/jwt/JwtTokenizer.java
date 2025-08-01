@@ -1,6 +1,9 @@
 package com.by.dallinday.common.auth.jwt;
 
+import com.by.dallinday.common.exception.BusinessLogicException;
+import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.member.Member;
+import com.by.dallinday.member.MemberRepository;
 import com.by.dallinday.member.MemberService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -40,7 +43,7 @@ public class JwtTokenizer {
     @Value("${jwt.refresh.header}")
     private String refreshHeader;
 
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     public String encodedBase64SecretKey(String secretKey) {
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -58,7 +61,8 @@ public class JwtTokenizer {
         log.info("[generateToken] accessToken 생성");
 
         Date expiration = getExpiration(accessTokenExpirationMinutes); // 만료시간
-        Member foundMember = memberService.findMember(memberId); // 사용자 정보 조회
+        Member foundMember = memberRepository.findById(memberId)// 사용자 정보 조회
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return Jwts.builder()
                 .setSubject(foundMember.getEmail())

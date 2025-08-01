@@ -89,6 +89,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         member.setImageUrl(oAuth2UserInfo.getImageUrl());
         member.setRole(Role.USER.getRole());
         member.setCreatedAt(LocalDateTime.now());
+        member.setBadges("000000000");
         return memberRepository.save(member);
     }
 }
