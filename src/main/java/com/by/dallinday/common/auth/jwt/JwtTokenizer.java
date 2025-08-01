@@ -42,7 +42,6 @@ public class JwtTokenizer {
 
     private final MemberService memberService;
 
-
     public String encodedBase64SecretKey(String secretKey) {
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     }

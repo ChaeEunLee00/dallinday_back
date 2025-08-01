@@ -10,11 +10,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -62,7 +65,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         principal.put("username", claims.get("username"));
         principal.put("role", claims.get("role"));
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null);
+        // 마지막 인자로 권한 (GrantedAuthority) 리스트를 줘야 인증된 것으로 인식 -> 그래야 이후 oAuth login 필터가 작동안함
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, authorities);
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
