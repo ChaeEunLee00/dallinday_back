@@ -25,7 +25,7 @@ public class RunMapper {
         return run;
     }
 
-    public RunResponse runToRunPostResponse(Run run) {
+    public RunResponse runToRunResponse(Run run) {
         if ( run == null ) {
             return null;
         }

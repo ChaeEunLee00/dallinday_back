@@ -1,6 +1,7 @@
 package com.by.dallinday.member;
 
 import com.by.dallinday.member.dto.MemberGetResponse;
+import com.by.dallinday.member.dto.MyPageGetResponse;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,12 @@ public class MemberController {
 
     // 마이 페이지 조회
     @GetMapping("/{member-id}/mypage")
-    public ResponseEntity getMyPage() {
-        // 순위
-        // 달리기 리스트
-        // 개인 기록
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity getMyPage(@PathVariable("member-id") @Positive Long memberId) {
+
+        // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
+        System.out.println(1);
+        MyPageGetResponse response = memberService.findMyPage(memberId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 순위 상세 조회

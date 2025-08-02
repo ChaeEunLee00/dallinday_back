@@ -42,17 +42,17 @@ public class Member {
     private LocalDateTime createdAt;
 
     @Column
-    private Double totalDistance;
+    private Double totalDistance = 0.0;
 
     @Column
-    private Double totalDuration;
+    private Double totalDuration = 0.0;
 
     @Column
-    private Double avgPace;
+    private Double avgPace = 0.0;
 
     @Column
-    private String badges;
+    private String badges = "000000000";
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();
 }
