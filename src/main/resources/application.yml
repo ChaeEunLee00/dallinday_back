@@ -2,7 +2,7 @@ spring:
   application:
     name: dallinday
   profiles:
-    active: dev,security
+    active: prod,security
   output:
     ansi:
       enabled: DETECT
