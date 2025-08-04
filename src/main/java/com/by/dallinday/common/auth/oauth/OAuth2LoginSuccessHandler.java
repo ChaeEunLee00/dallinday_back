@@ -1,6 +1,7 @@
 package com.by.dallinday.common.auth.oauth;
 
 import com.by.dallinday.common.auth.jwt.JwtTokenizer;
+import com.by.dallinday.common.auth.util.UriUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,23 +43,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 응답 상태코드
         response.setStatus(HttpStatus.OK.value());
 
-//        // 로그인 성공 후 리다이렉트 주소 -> 프론트 주소
-//        response.sendRedirect(createURI(accessToken, refreshToken));
+        // 로그인 성공 후 리다이렉트 주소 -> 프론트 주소
+        // 크롬에서 벗어나 프론트로 돌아가기 위함
+        response.sendRedirect(UriUtil.buildMyAppRedirectUri(accessToken, refreshToken, oAuth2User.getMemberId()));
     }
-
-//    private String createURI(String accessToken, String refreshToken) {
-//        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-//        queryParams.add("access_token", accessToken);
-//        queryParams.add("refresh_token", refreshToken);
-//
-//        return UriComponentsBuilder.newInstance()
-//                .scheme("https")
-//                .host("dallinday.com")
-// //                .port(3000)
-//                .path("/oauth")
-//                .queryParams(queryParams)
-//                .encode(StandardCharsets.UTF_8)
-//                .build()
-//                .toUriString();
-//    }
 }

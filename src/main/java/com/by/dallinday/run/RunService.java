@@ -35,10 +35,18 @@ public class RunService {
         run.setCourse(course);
 
         // 서비스 로직
+        // 멤버 기록 업데이트
+        member.setTotalDistance(member.getTotalDistance() + run.getDistance());
+        member.setTotalDuration(member.getTotalDuration() + run.getDuration());
+        member.setAvgPace(member.getTotalDistance() / member.getTotalDuration());
+
+        // 저장
+        // 달리기 기록 저장
         runRepository.save(run);
+        memberRepository.save(member);
 
         // entity -> dto
-        return runMapper.runToRunPostResponse(run);
+        return runMapper.runToRunResponse(run);
     }
 
     // 달리기 기록 조회
@@ -46,6 +54,6 @@ public class RunService {
         Run run = runRepository.findById(runId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RUN_NOT_FOUND));
 
-        return runMapper.runToRunPostResponse(run);
+        return runMapper.runToRunResponse(run);
     }
 }
