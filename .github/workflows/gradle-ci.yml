@@ -31,12 +31,12 @@ jobs:
         distribution: 'temurin'
 
     - name: make application.yml
-        run:|
-          cd ./src/main/resources
-          touch ./application-prod.yml
-          touch ./application-security.yml
-          echo "${{ secrets.APPLICATION_PROD }}" > ./application-prod.yml
-          echo "${{ secrets.APPLICATION_SECURITY }}" > ./application-security.yml
+      run: |
+        cd ./src/main/resources
+        touch ./application-prod.yml
+        touch ./application-security.yml
+        echo "${{ secrets.APPLICATION_PROD }}" > ./application-prod.yml
+        echo "${{ secrets.APPLICATION_SECURITY }}" > ./application-security.yml
         
     - name: Add permission
       run: chmod +x gradlew
