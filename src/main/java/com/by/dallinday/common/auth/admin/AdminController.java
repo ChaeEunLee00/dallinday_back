@@ -1,6 +1,7 @@
 package com.by.dallinday.common.auth.admin;
 
 import com.by.dallinday.common.auth.jwt.JwtTokenizer;
+import com.by.dallinday.common.auth.util.UriUtil;
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,7 @@ public class AdminController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Refresh", refreshToken);
+        headers.add(HttpHeaders.LOCATION, UriUtil.buildMyAppRedirectUri(accessToken, refreshToken, member.getMemberId()));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
