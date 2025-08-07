@@ -48,9 +48,6 @@ public class MemberMapper {
         myPageGetResponse.setAvgPace(member.getAvgPace());
         myPageGetResponse.setBadges(member.getBadges());
 
-        System.out.println("member = " + member);
-        System.out.println("member = " + member.getRunList());
-
         List<RunResponse> runResponseList = member.getRunList().stream()
                 .map(run -> runMapper.runToRunResponse(run))
                 .toList();
