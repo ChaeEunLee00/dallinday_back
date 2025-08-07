@@ -3,10 +3,9 @@ package com.by.dallinday.course;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.course.dto.CourseListResponse;
-import com.by.dallinday.common.gpx.DistanceUtil;
-import com.by.dallinday.common.gpx.GpxParser;
+import com.by.dallinday.course.data.gpxUtil.DistanceUtil;
+import com.by.dallinday.course.data.gpxUtil.GpxParser;
 import com.by.dallinday.course.dto.CourseResponse;
-import com.by.dallinday.member.Member;
 import com.by.dallinday.spot.SpotAPIClient;
 import com.by.dallinday.spot.SpotItem;
 import io.jenetics.jpx.WayPoint;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -87,17 +85,8 @@ public class CourseService {
         List<CourseItem> courseItems = courseAPIClient.callCourseAPI(size, page);
 
         for (CourseItem item : courseItems) {
-            // 이미 존재하는 코스인지 확인
-            Optional<Course> foundCourse = courseRepository.findById(item.getCourseId());
-            if (foundCourse.isPresent()) {
-                // 이미 있다면 업데이트
-                Course course = foundCourse.get();
-                course.updateFrom(item);
-            } else {
-                // 없으면 새로 저장
-                Course newCourse = Course.from(item);
-                courseRepository.save(newCourse);
-            }
+            Course newCourse = courseMapper.courseItemToCourse(item);
+            courseRepository.save(newCourse);
         }
     }
 }

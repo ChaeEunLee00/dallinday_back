@@ -1,10 +1,9 @@
-package com.by.dallinday.common.gpx;
+package com.by.dallinday.course.data.gpxUtil;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 

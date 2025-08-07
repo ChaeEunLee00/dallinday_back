@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DataInitializer implements CommandLineRunner {
+public class AdminDataInitializer implements CommandLineRunner {
 
     @Value("${admin.id}")
     private String adminId;
