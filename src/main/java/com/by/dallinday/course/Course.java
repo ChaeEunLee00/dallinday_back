@@ -83,36 +83,19 @@ public class Course {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();
 
-    // courseItem으로부터 Course 객체 생성
-    public static Course from(CourseItem item) {
-        log.info("New course created: id={}, name={}", item.getCourseId(), item.getCrsKorNm());
+    public static Course of(String courseId, String name, double distance, int duration, int level,
+                            String summary, String tourInfo, String gpx, String created, String modified) {
         Course course = new Course();
-        course.courseId = item.getCourseId();
-        course.crsKorNm = item.getCrsKorNm();
-        course.crsDstnc = item.getCrsDstnc();
-        course.crsTotlRqrmHour = item.getCrsTotlRqrmHour();
-        course.crsLevel = item.getCrsLevel();
-        course.crsSummary = item.getCrsSummary();
-        course.crsTourInfo = item.getCrsTourInfo();
-        course.gpxpath = item.getGpxpath();
-        course.createdtime = item.getCreatedtime();
-        course.modifiedtime = item.getModifiedtime();
+        course.setCourseId(courseId);
+        course.setCrsKorNm(name);
+        course.setCrsDstnc(distance);
+        course.setCrsTotlRqrmHour(duration);
+        course.setCrsLevel(level);
+        course.setCrsSummary(summary);
+        course.setCrsTourInfo(tourInfo);
+        course.setGpxpath(gpx);
+        course.setCreatedtime(created);
+        course.setModifiedtime(modified);
         return course;
-    }
-
-    // CourseItem으로부터 기존 Course 객체 업데이트
-    public void updateFrom(CourseItem item) {
-        if (!this.modifiedtime.equals(item.getModifiedtime())) {
-            log.info("Course updated: id={}, name={}", item.getCourseId(), item.getCrsKorNm());
-
-            this.crsKorNm = item.getCrsKorNm();
-            this.crsDstnc = item.getCrsDstnc();
-            this.crsTotlRqrmHour = item.getCrsTotlRqrmHour();
-            this.crsLevel = item.getCrsLevel();
-            this.crsSummary = item.getCrsSummary();
-            this.crsTourInfo = item.getCrsTourInfo();
-            this.gpxpath = item.getGpxpath();
-            this.modifiedtime = item.getModifiedtime();
-        }
     }
 }

@@ -55,6 +55,10 @@ public class CourseMapper {
     }
 
     private CourseRunResponse runToCourseRunResponse(Run run) {
+        if ( run == null ) {
+            return null;
+        }
+
         CourseRunResponse courseRunResponse = new CourseRunResponse();
 
         courseRunResponse.setRunId(run.getRunId());
@@ -63,5 +67,25 @@ public class CourseMapper {
         courseRunResponse.setDuration(run.getDuration());
 
         return courseRunResponse;
+    }
+
+    public Course courseItemToCourse(CourseItem item) {
+        if ( item == null ) {
+            return null;
+        }
+
+        Course course = new Course();
+
+        course.setCourseId(item.getCourseId());
+        course.setCrsKorNm(item.getCrsKorNm());
+        course.setCrsDstnc(item.getCrsDstnc());
+        course.setCrsTotlRqrmHour(item.getCrsTotlRqrmHour());
+        course.setCrsLevel(item.getCrsLevel());
+        course.setCrsSummary(item.getCrsSummary());
+        course.setCrsTourInfo(item.getCrsTourInfo());
+        course.setGpxpath(item.getGpxpath());
+        course.setCreatedtime(item.getCreatedtime());
+        course.setModifiedtime(item.getModifiedtime());
+        return course;
     }
 }
