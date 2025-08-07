@@ -1,8 +1,12 @@
 package com.by.dallinday.course;
 
+import com.by.dallinday.common.exception.BusinessLogicException;
+import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.common.gpx.DistanceUtil;
 import com.by.dallinday.common.gpx.GpxParser;
+import com.by.dallinday.course.dto.CourseResponse;
+import com.by.dallinday.member.Member;
 import com.by.dallinday.spot.SpotAPIClient;
 import com.by.dallinday.spot.SpotItem;
 import io.jenetics.jpx.WayPoint;
@@ -24,8 +28,12 @@ public class CourseService {
     private final SpotAPIClient spotAPIClient;
 
     // 코스 조회
-    public Course findCourse() {
-        return new Course();
+    public CourseResponse findCourse(String courseId) {
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+
+        return courseMapper.courseToCourseResponse(course);
     }
 
     // 관광지 별 코스 리스트 조회

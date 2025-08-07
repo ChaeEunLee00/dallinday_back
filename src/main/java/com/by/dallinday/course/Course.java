@@ -80,7 +80,7 @@ public class Course {
     @JoinColumn(name = "themeId")
     private Theme theme;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();
 
     // courseItem으로부터 Course 객체 생성

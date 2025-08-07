@@ -25,6 +25,4 @@ public class RunResponse {
     private String startTime;
 
     private String endTime;
-
-
 }
