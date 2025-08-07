@@ -27,7 +27,7 @@ public class MemberController {
     public ResponseEntity getMyPage(@PathVariable("member-id") @Positive Long memberId) {
 
         // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
-        System.out.println(1);
+
         MyPageGetResponse response = memberService.findMyPage(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

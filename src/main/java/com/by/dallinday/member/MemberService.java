@@ -22,13 +22,13 @@ public class MemberService {
     public MyPageGetResponse findMyPage(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        System.out.println(2);
+
         // 개인 기록, 뱃지, 달리기 리스트
         MyPageGetResponse myPageGetResponse = memberMapper.memberToMyPageGetResponse(member);
-        System.out.println(3);
+
         // 랭킹 계산
         myPageGetResponse.setRanking(getMyRanking(memberId));
-        System.out.println(7);
+
         return myPageGetResponse;
     }
 
@@ -53,12 +53,12 @@ public class MemberService {
 
     public MyRankingResponse getMyRanking(Long memberId) {
         MyRankingResponse myRankingResponse = new MyRankingResponse();
-        System.out.println(4);
+
         // 1. 전체 멤버를 totalDistance 내림차순으로 조회
         List<Member> sortedMembers = memberRepository.findAll().stream()
                 .sorted(Comparator.comparingDouble(Member::getTotalDistance).reversed())
                 .toList();
-        System.out.println(5);
+
         // 2. memberId로 해당 멤버의 순위 조회
         int rank = 0;
         for (int i = 0; i < sortedMembers.size(); i++) {
@@ -67,7 +67,7 @@ public class MemberService {
                 break;
             }
         }
-        System.out.println(6);
+
         System.out.println(sortedMembers.size());
         // totalNum
         myRankingResponse.setTotalNum((long) sortedMembers.size());
