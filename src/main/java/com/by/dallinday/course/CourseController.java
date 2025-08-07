@@ -1,12 +1,13 @@
 package com.by.dallinday.course;
 
+import com.by.dallinday.course.dto.CourseListResponse;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,9 +24,10 @@ public class CourseController {
 
     // 관광지 별 코스 리스트 조회
     @GetMapping("/spot/{spot-id}")
-    public ResponseEntity getSpotCourses() {
+    public ResponseEntity getSpotCourses(@PathVariable("spot-id") @Positive Long spotId) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<CourseListResponse> response = courseService.findSpotCourseList(spotId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 테마 별 코스 리스트 조회

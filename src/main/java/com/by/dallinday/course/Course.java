@@ -35,22 +35,11 @@ public class Course {
 
     @Lob
     @Column
-    private String crsContents; // 상세 설명
-
-    @Lob
-    @Column
     private String crsSummary; // 요약 설명
 
     @Lob
     @Column
     private String crsTourInfo; // 관광 정보
-
-    @Lob
-    @Column
-    private String travelerInfo; // 여행자 정보
-
-    @Column
-    private String sigun; // 지역
 
     @Column
     private String gpxpath; // GPX 파일 경로
@@ -70,11 +59,22 @@ public class Course {
 //    @Column
 //    private String crsCycle; // 순환형 여부 (예: 순환형, 비순환형)
 
-    @Column
-    private String type;
+//    @Lob
+//    @Column
+//    private String crsContents; // 상세 설명
 
-    @Column
-    private String spotId;
+//    @Lob
+//    @Column
+//    private String travelerInfo; // 여행자 정보
+
+//    @Column
+//    private String sigun; // 지역
+
+//    @Column
+//    private String spotId;
+
+//    @Column
+//    private String type;
 
     @ManyToOne
     @JoinColumn(name = "themeId")
@@ -92,11 +92,8 @@ public class Course {
         course.crsDstnc = item.getCrsDstnc();
         course.crsTotlRqrmHour = item.getCrsTotlRqrmHour();
         course.crsLevel = item.getCrsLevel();
-        course.crsContents = item.getCrsContents();
         course.crsSummary = item.getCrsSummary();
         course.crsTourInfo = item.getCrsTourInfo();
-        course.travelerInfo = item.getTravelerInfo();
-        course.sigun = item.getSigun();
         course.gpxpath = item.getGpxpath();
         course.createdtime = item.getCreatedtime();
         course.modifiedtime = item.getModifiedtime();
@@ -112,11 +109,8 @@ public class Course {
             this.crsDstnc = item.getCrsDstnc();
             this.crsTotlRqrmHour = item.getCrsTotlRqrmHour();
             this.crsLevel = item.getCrsLevel();
-            this.crsContents = item.getCrsContents();
             this.crsSummary = item.getCrsSummary();
             this.crsTourInfo = item.getCrsTourInfo();
-            this.travelerInfo = item.getTravelerInfo();
-            this.sigun = item.getSigun();
             this.gpxpath = item.getGpxpath();
             this.modifiedtime = item.getModifiedtime();
         }
