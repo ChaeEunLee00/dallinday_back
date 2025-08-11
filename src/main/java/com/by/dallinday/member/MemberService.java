@@ -59,6 +59,15 @@ public class MemberService {
                 .toList();
     }
 
+    // 멤버 탈퇴
+    public void removeMember(Long memberId) {
+        // 멤버가 존재하는지 확인
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        memberRepository.delete(member);
+    }
+
     // 개인 기록 조회
     public Member findMyRecord() {
         return new Member();
