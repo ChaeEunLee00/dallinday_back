@@ -7,9 +7,12 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,6 +43,21 @@ public class MemberController {
 
         List<CourseListResponse> response = memberService.findFavorites(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 멤버 탈퇴
+    @DeleteMapping("/{member-id}")
+    public ResponseEntity deleteMember(@PathVariable("member-id") @Positive Long pathMemberId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
+        Long tokenMemberId = Long.valueOf(principal.get("memberId").toString());
+
+        if (!pathMemberId.equals(tokenMemberId)) {
+            return new ResponseEntity<>("본인만 탈퇴할 수 있습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        memberService.removeMember(pathMemberId);
+        return new ResponseEntity<>("탈퇴가 완료되었습니다.", HttpStatus.OK);
     }
 
     // 순위 상세 조회
