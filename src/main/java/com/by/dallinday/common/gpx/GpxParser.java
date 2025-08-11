@@ -1,4 +1,4 @@
-package com.by.dallinday.course.data.gpxUtil;
+package com.by.dallinday.common.gpx;
 
 import java.io.InputStream;
 import java.net.URL;

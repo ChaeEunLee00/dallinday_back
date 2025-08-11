@@ -1,6 +1,8 @@
 package com.by.dallinday.spot;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
+import com.by.dallinday.spot.tourAPI.SpotAPIClient;
+import com.by.dallinday.spot.tourAPI.SpotItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

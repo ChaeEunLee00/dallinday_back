@@ -6,9 +6,12 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +39,26 @@ public class CourseController {
     @GetMapping("/theme/{theme-id}")
     public ResponseEntity getThemeCourses() {
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{courseId}/favorite")
+    public ResponseEntity postCourseFavorite(@PathVariable("course-id") String courseId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
+        Long memberId = Long.valueOf(principal.get("memberId").toString());
+
+        courseService.createCourseFavorite(courseId, memberId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{courseId}/like")
+    public ResponseEntity deleteCourseFavorite(@PathVariable("course-id") String courseId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
+        Long memberId = Long.valueOf(principal.get("memberId").toString());
+
+        courseService.removeCourseFavorite(courseId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

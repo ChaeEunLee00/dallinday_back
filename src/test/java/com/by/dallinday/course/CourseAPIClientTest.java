@@ -1,6 +1,8 @@
 package com.by.dallinday.course;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
+import com.by.dallinday.course.tourAPI.CourseAPIClient;
+import com.by.dallinday.course.tourAPI.CourseItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

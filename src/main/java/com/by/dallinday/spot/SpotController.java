@@ -1,5 +1,6 @@
 package com.by.dallinday.spot;
 
+import com.by.dallinday.spot.tourAPI.SpotItem;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

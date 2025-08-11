@@ -1,4 +1,4 @@
-package com.by.dallinday.spot;
+package com.by.dallinday.spot.tourAPI;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;

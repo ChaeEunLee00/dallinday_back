@@ -2,16 +2,23 @@ package com.by.dallinday.course;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
+import com.by.dallinday.course.tourAPI.CourseAPIClient;
+import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
-import com.by.dallinday.course.data.gpxUtil.DistanceUtil;
-import com.by.dallinday.course.data.gpxUtil.GpxParser;
+import com.by.dallinday.common.gpx.DistanceUtil;
+import com.by.dallinday.common.gpx.GpxParser;
 import com.by.dallinday.course.dto.CourseResponse;
-import com.by.dallinday.spot.SpotAPIClient;
-import com.by.dallinday.spot.SpotItem;
+import com.by.dallinday.favorite.Favorite;
+import com.by.dallinday.favorite.FavoriteRepository;
+import com.by.dallinday.member.Member;
+import com.by.dallinday.member.MemberRepository;
+import com.by.dallinday.spot.tourAPI.SpotAPIClient;
+import com.by.dallinday.spot.tourAPI.SpotItem;
 import io.jenetics.jpx.WayPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +27,13 @@ import java.util.List;
 public class CourseService {
 
     private final CourseMapper courseMapper;
-    private final CourseAPIClient courseAPIClient;
-    private final CourseRepository courseRepository;
 
     private final SpotAPIClient spotAPIClient;
+    private final CourseAPIClient courseAPIClient;
+
+    private final CourseRepository courseRepository;
+    private final MemberRepository memberRepository;
+    private final FavoriteRepository favoriteRepository;
 
     // 코스 조회
     public CourseResponse findCourse(String courseId) {
@@ -77,6 +87,40 @@ public class CourseService {
     // 테마 별 코스 리스트 조회
     public Course findThemeCourseList() {
         return new Course();
+    }
+
+    public void createCourseFavorite(String courseId, Long memberId) {
+        // course와 member가 존재하는지 확인
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        // 이미 좋아요 하였는지 확인
+        boolean alreadyFavorite = favoriteRepository.existsByMemberAndCourse(member, course);
+        if (alreadyFavorite) {
+            throw new BusinessLogicException(ExceptionCode.FAVORITE_EXIST);
+        }
+
+        Favorite favorite = new Favorite();
+        favorite.setMember(member);
+        favorite.setCourse(course);
+        favorite.setFavoriteAt(LocalDateTime.now());
+
+        favoriteRepository.save(favorite);
+    }
+
+    public void removeCourseFavorite(String courseId, Long memberId) {
+        // course와 member가 존재하는지 확인
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        Favorite favorite = favoriteRepository.findByMemberAndCourse(member, course)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.FAVORITE_NOT_FOUND));
+
+        favoriteRepository.delete(favorite);
     }
 
     // TourAPI를 통해 가져온 코스 데이터 저장 및 동기화

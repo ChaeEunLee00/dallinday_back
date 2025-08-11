@@ -1,4 +1,4 @@
-package com.by.dallinday.course;
+package com.by.dallinday.course.tourAPI;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
