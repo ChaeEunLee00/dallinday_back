@@ -1,5 +1,6 @@
 package com.by.dallinday.member;
 
+import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.run.Run;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -55,4 +56,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Favorite> favoriteList = new ArrayList<>();
 }

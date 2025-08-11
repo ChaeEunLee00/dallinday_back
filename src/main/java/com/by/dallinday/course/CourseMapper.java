@@ -1,5 +1,6 @@
 package com.by.dallinday.course;
 
+import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.course.dto.CourseResponse;
 import com.by.dallinday.course.dto.CourseRunResponse;

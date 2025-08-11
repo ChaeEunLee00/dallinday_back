@@ -1,5 +1,7 @@
 package com.by.dallinday.spot;
 
+import com.by.dallinday.spot.tourAPI.SpotAPIClient;
+import com.by.dallinday.spot.tourAPI.SpotItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

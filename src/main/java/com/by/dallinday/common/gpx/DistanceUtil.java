@@ -1,4 +1,4 @@
-package com.by.dallinday.course.data.gpxUtil;
+package com.by.dallinday.common.gpx;
 
 public class DistanceUtil {
     public static double haversine(double lat1, double lon1, double lat2, double lon2) {
