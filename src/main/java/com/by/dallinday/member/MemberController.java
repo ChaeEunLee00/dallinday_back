@@ -1,5 +1,6 @@
 package com.by.dallinday.member;
 
+import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.member.dto.MemberGetResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import jakarta.validation.constraints.Positive;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +30,15 @@ public class MemberController {
     public ResponseEntity getMyPage(@PathVariable("member-id") @Positive Long memberId) {
 
         // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
-
         MyPageGetResponse response = memberService.findMyPage(memberId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 찜 코스 리스트 조회
+    @GetMapping("/{member-id}/favorites")
+    public ResponseEntity getFavorites(@PathVariable("member-id") @Positive Long memberId) {
+
+        List<CourseListResponse> response = memberService.findFavorites(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

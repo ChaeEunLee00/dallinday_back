@@ -42,7 +42,8 @@ public class CourseController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/{courseId}/favorite")
+    // 찜 생성
+    @PostMapping("/{course-id}/favorite")
     public ResponseEntity postCourseFavorite(@PathVariable("course-id") String courseId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
@@ -52,7 +53,8 @@ public class CourseController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{courseId}/like")
+    // 찜 취소
+    @DeleteMapping("/{course-id}/favorite")
     public ResponseEntity deleteCourseFavorite(@PathVariable("course-id") String courseId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();

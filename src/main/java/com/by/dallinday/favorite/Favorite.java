@@ -17,9 +17,11 @@ public class Favorite {
     private Long likeId;
 
     @ManyToOne // ManyToOne은 EAGER이 디폴트
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
 
     private LocalDateTime favoriteAt;
