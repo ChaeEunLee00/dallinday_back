@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -121,6 +122,57 @@ public class CourseService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.FAVORITE_NOT_FOUND));
 
         favoriteRepository.delete(favorite);
+    }
+
+    // 코스 생성 (관리자용)
+    public Course createCourse(Course course) {
+        // 이미 존재하는 코스 아이디인지 확인
+        Optional<Course> existingCourse = courseRepository.findById(course.getCourseId());
+        if (existingCourse.isPresent()) throw new BusinessLogicException(ExceptionCode.COURSE_EXIST);
+
+        return courseRepository.save(course);
+    }
+
+    // 코스 수정 (관리자용)
+    public Course updateCourse(String courseId, Course updatedCourse) {
+        // 해당 코스가 존재하는지 확인
+        Course existingCourse = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+
+        // Optional.ofNullable 패턴으로 일부 필드만 수정
+        Optional.ofNullable(updatedCourse.getCrsKorNm())
+                .ifPresent(existingCourse::setCrsKorNm);
+
+        Optional.ofNullable(updatedCourse.getCrsDstnc())
+                .ifPresent(existingCourse::setCrsDstnc);
+
+        Optional.ofNullable(updatedCourse.getCrsTotlRqrmMin())
+                .ifPresent(existingCourse::setCrsTotlRqrmMin);
+
+        Optional.ofNullable(updatedCourse.getCrsLevel())
+                .ifPresent(existingCourse::setCrsLevel);
+
+        Optional.ofNullable(updatedCourse.getCrsSummary())
+                .ifPresent(existingCourse::setCrsSummary);
+
+        Optional.ofNullable(updatedCourse.getCrsTourInfo())
+                .ifPresent(existingCourse::setCrsTourInfo);
+
+        Optional.ofNullable(updatedCourse.getGpxpath())
+                .ifPresent(existingCourse::setGpxpath);
+
+        Optional.ofNullable(updatedCourse.getModifiedtime())
+                .ifPresent(existingCourse::setModifiedtime);
+
+        return courseRepository.save(existingCourse);
+    }
+
+    // 코스 삭제 (관리자용)
+    public void removeCourse(String courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+
+        courseRepository.delete(course);
     }
 
     // TourAPI를 통해 가져온 코스 데이터 저장 및 동기화

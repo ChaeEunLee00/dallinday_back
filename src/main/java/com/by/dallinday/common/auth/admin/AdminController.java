@@ -2,6 +2,7 @@ package com.by.dallinday.common.auth.admin;
 
 import com.by.dallinday.common.auth.util.UriUtil;
 import com.by.dallinday.course.Course;
+import com.by.dallinday.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
+    private final CourseService courseService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequest request) {
@@ -38,7 +40,7 @@ public class AdminController {
     @PostMapping("/courses")
     public ResponseEntity postCourse(@RequestBody Course request) {
 
-        Course response = adminService.createCourse(request);
+        Course response = courseService.createCourse(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -48,7 +50,7 @@ public class AdminController {
             @PathVariable("course-id") String courseId,
             @RequestBody Course request) { // 수정하고싶은 필드만 작성하여 전송
 
-        Course response = adminService.updateCourse(courseId, request);
+        Course response = courseService.updateCourse(courseId, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -56,7 +58,14 @@ public class AdminController {
     @DeleteMapping("/courses/{course-id}")
     public ResponseEntity deleteCourse(@PathVariable("course-id") String courseId) {
 
-        adminService.removeCourse(courseId);
+        courseService.removeCourse(courseId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 코스 데이터 동기화 요청
+    @PostMapping("/courses/sync")
+    public ResponseEntity syncCourses() {
+        courseService.syncCourses();
+        return new ResponseEntity<>("Course data synced", HttpStatus.OK);
     }
 }

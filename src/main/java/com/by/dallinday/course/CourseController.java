@@ -63,11 +63,4 @@ public class CourseController {
         courseService.removeCourseFavorite(courseId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    // 코스 데이터 동기화 요청
-    @PostMapping("/sync")
-    public ResponseEntity syncCourses() {
-        courseService.syncCourses();
-        return new ResponseEntity<>("Course data synced", HttpStatus.OK);
-    }
 }
