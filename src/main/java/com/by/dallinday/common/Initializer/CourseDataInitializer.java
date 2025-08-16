@@ -1,4 +1,4 @@
-package com.by.dallinday.course.courseInit;
+package com.by.dallinday.common.Initializer;
 
 import com.by.dallinday.course.Course;
 import com.by.dallinday.course.CourseRepository;

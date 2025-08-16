@@ -1,4 +1,4 @@
-package com.by.dallinday.common.auth.admin;
+package com.by.dallinday.common.Initializer;
 
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
