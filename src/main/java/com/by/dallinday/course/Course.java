@@ -25,13 +25,13 @@ public class Course {
     private String crsKorNm; // 코스명
 
     @Column
-    private double crsDstnc; // 거리 (단위: km)
+    private Double crsDstnc; // 거리 (단위: km)
 
     @Column
-    private int crsTotlRqrmHour; // 소요시간 (단위: 분)
+    private Integer crsTotlRqrmMin; // 소요시간 (단위: 분)
 
     @Column
-    private int crsLevel; // 난이도 (1~3 등급)
+    private Integer crsLevel; // 난이도 (1~3 등급)
 
     @Lob
     @Column
@@ -83,13 +83,13 @@ public class Course {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();
 
-    public static Course of(String courseId, String name, double distance, int duration, int level,
+    public static Course of(String courseId, String name, Double distance, Integer duration, Integer level,
                             String summary, String tourInfo, String gpx, String created, String modified) {
         Course course = new Course();
         course.setCourseId(courseId);
         course.setCrsKorNm(name);
         course.setCrsDstnc(distance);
-        course.setCrsTotlRqrmHour(duration);
+        course.setCrsTotlRqrmMin(duration);
         course.setCrsLevel(level);
         course.setCrsSummary(summary);
         course.setCrsTourInfo(tourInfo);

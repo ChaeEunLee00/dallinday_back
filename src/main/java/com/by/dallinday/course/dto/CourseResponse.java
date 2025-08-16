@@ -15,11 +15,11 @@ public class CourseResponse {
 
     private String crsKorNm;
 
-    private double crsDstnc;
+    private Double crsDstnc;
 
-    private int crsTotlRqrmHour;
+    private Integer crsTotlRqrmMin;
 
-    private int crsLevel;
+    private Integer crsLevel;
 
     private String crsSummary;
 
