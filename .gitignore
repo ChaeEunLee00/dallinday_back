@@ -12,3 +12,6 @@ out/
 # yml 설정파일
 application-prod.yml
 application-security.yml
+
+# 코스 데이터 백업용
+data/
