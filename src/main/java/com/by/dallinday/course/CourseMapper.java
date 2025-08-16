@@ -22,7 +22,7 @@ public class CourseMapper {
         courseListResponse.setCourseId(course.getCourseId());
         courseListResponse.setCrsKorNm(course.getCrsKorNm());
         courseListResponse.setCrsDstnc(course.getCrsDstnc());
-        courseListResponse.setCrsTotlRqrmHour(course.getCrsTotlRqrmHour());
+        courseListResponse.setCrsTotlRqrmMin(course.getCrsTotlRqrmMin());
         courseListResponse.setCrsLevel(course.getCrsLevel());
         courseListResponse.setCrsTourInfo(course.getCrsTourInfo());
 
@@ -39,7 +39,7 @@ public class CourseMapper {
         courseResponse.setCourseId(course.getCourseId());
         courseResponse.setCrsKorNm(course.getCrsKorNm());
         courseResponse.setCrsDstnc(course.getCrsDstnc());
-        courseResponse.setCrsTotlRqrmHour(course.getCrsTotlRqrmHour());
+        courseResponse.setCrsTotlRqrmMin(course.getCrsTotlRqrmMin());
         courseResponse.setCrsLevel(course.getCrsLevel());
         courseResponse.setCrsSummary(course.getCrsSummary());
         courseResponse.setCrsTourInfo(course.getCrsTourInfo());
@@ -80,7 +80,7 @@ public class CourseMapper {
         course.setCourseId(item.getCourseId());
         course.setCrsKorNm(item.getCrsKorNm());
         course.setCrsDstnc(item.getCrsDstnc());
-        course.setCrsTotlRqrmHour(item.getCrsTotlRqrmHour());
+        course.setCrsTotlRqrmMin(item.getCrsTotlRqrmHour());
         course.setCrsLevel(item.getCrsLevel());
         course.setCrsSummary(item.getCrsSummary());
         course.setCrsTourInfo(item.getCrsTourInfo());

@@ -47,8 +47,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/h2-console/**").permitAll() // h2 데이터베이스 접근 모두 허용 (개발용)
                                 .requestMatchers("/health").permitAll() // 로드밸런서 대상그룹 health check
                                 .requestMatchers("/admin/login").permitAll() // admin 로그인 요청 모두 허용
+                                .requestMatchers("/admin").hasRole("ADMIN") // 나머지 admin 관련 요청은 역할이 ADMIN인 경우만 가능
                                 .requestMatchers("/privacy-policy.html", "/delete-account.html").permitAll()
-//                                .requestMatchers("/admin/**").hasRole("ADMIN") // admin 관련 요청은 역할이 ADMIN인 경우만 가능 - 필요 시 사용
 //                                .anyRequest().permitAll() // 임시 보안 해제
                                 .anyRequest().authenticated()
                 )

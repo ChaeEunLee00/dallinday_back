@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class CourseSyncScheduler {
     private final CourseService courseService;
 
-    @Scheduled(cron = "0 0 3 * * *") // 초 분 시 일 월 요일 => 매일 새벽 3시
+//    @Scheduled(cron = "0 0 3 * * *") // 초 분 시 일 월 요일 => 매일 새벽 3시
     public void scheduledSync() {
         log.info("[동기화 시작] 현재 시각: " + LocalDateTime.now());
         courseService.syncCourses();
