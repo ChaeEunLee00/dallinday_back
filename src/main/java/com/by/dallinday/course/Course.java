@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @Table(name = "courses")
 public class Course {
     @Id
-    private String courseId;
+    private Long courseId;
 
     @Column
     private String crsKorNm; // 코스명
@@ -45,40 +46,18 @@ public class Course {
     private String gpxpath; // GPX 파일 경로
 
     @Column
-    private String createdtime; // 생성일시 (yyyyMMddHHmmss)
+    private LocalDateTime createdAt; // 생성일시
 
     @Column
-    private String modifiedtime; // 수정일시 (yyyyMMddHHmmss)
-
-//    @Column
-//    private String routeId;
-
-//    @Column
-//    private String brdDiv; // 분류 코드
-
-//    @Column
-//    private String crsCycle; // 순환형 여부 (예: 순환형, 비순환형)
-
-//    @Lob
-//    @Column
-//    private String crsContents; // 상세 설명
-
-//    @Lob
-//    @Column
-//    private String travelerInfo; // 여행자 정보
-
-//    @Column
-//    private String sigun; // 지역
+    private LocalDateTime modifiedAt; // 수정일시
 
 //    @Column
 //    private String spotId;
 
-//    @Column
-//    private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "themeId")
-    private Theme theme;
+//    @ManyToOne
+//    @JoinColumn(name = "themeId")
+//    private Theme theme;
 
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();
