@@ -42,10 +42,9 @@ public class Course {
     @Column
     private String gpxpath; // GPX 파일 경로
 
-    @Column
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     @OrderBy("orderIndex ASC")
-    private List<CourseSpot> spots; // 지나는 관광지 목록
+    private List<CourseSpot> courseSpotList; // 지나는 관광지 목록
 
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<Run> runList = new ArrayList<>();

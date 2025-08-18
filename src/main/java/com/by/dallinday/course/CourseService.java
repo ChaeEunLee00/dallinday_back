@@ -3,7 +3,6 @@ package com.by.dallinday.course;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.common.gpx.GpxResult;
-import com.by.dallinday.course.dto.CourseSpotResponse;
 import com.by.dallinday.course.tourAPI.CourseAPIClient;
 import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
@@ -45,13 +44,6 @@ public class CourseService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
 
         // 응답 형식에 맞춰 변환
-        CourseResponse courseResponse = courseMapper.courseToCourseResponse(course);
-        List<CourseSpotResponse> courseSpotResponses = course.getSpots().stream()
-                .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
-                .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
-                .toList();
-        courseResponse.setSpots(courseSpotResponses);
-
         return courseMapper.courseToCourseResponse(course);
     }
 
@@ -60,19 +52,11 @@ public class CourseService {
         List<CourseSpot> courseSpots = courseSpotRepository.findBySpotId(spotId);
         List<Course> courses = courseSpots.stream()
                 .map(CourseSpot::getCourse)
-                .distinct()
                 .toList();
 
-        return courses.stream().map(course -> {
-            CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
-            List<CourseSpotResponse> courseSpotResponses = course.getSpots().stream()
-                    .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
-                    .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
-                    .toList();
-
-            courseListResponse.setSpots(courseSpotResponses);
-            return courseListResponse;
-        }).toList();
+        return courses.stream()
+                .map(course -> courseMapper.courseToCourseListResponse(course))
+                .toList();
     }
 
     public void createCourseFavorite(Long courseId, Long memberId) {
@@ -135,17 +119,11 @@ public class CourseService {
         System.out.println(courseSpots.size());
 
         // 코스-스팟 연결정보 저장
-        savedCourse.setSpots(courseSpots);
+        savedCourse.setCourseSpotList(courseSpots);
+        courseSpotRepository.saveAll(courseSpots);
 
-        // 응답 형식에 맞춰 변환
-        CourseResponse courseResponse = courseMapper.courseToCourseResponse(course);
-        List<CourseSpotResponse> courseSpotResponses = courseSpots.stream()
-                .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
-                .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
-                .toList();
-        courseResponse.setSpots(courseSpotResponses);
-
-        return courseResponse;
+        // 응답 형식에 맞춰 반환
+        return courseMapper.courseToCourseResponse(savedCourse);
     }
 
     // 코스 삭제 (관리자용)

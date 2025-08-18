@@ -19,5 +19,5 @@ public class CourseListResponse {
 
     private Integer difficulty; // 난이도 (1~3 등급)
 
-    private List<CourseSpotResponse> spots; // 루트 정보
+    private List<CourseSpotResponse> courseSpotList; // 루트 정보
 }

@@ -5,14 +5,12 @@ import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.course.Course;
 import com.by.dallinday.course.CourseMapper;
 import com.by.dallinday.course.dto.CourseListResponse;
-import com.by.dallinday.course.dto.CourseSpotResponse;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
 import com.by.dallinday.member.dto.MemberGetResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import com.by.dallinday.member.dto.MyRankingResponse;
 import com.by.dallinday.member.dto.RankingResponse;
-import com.by.dallinday.spot.tourAPI.SpotAPIClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +25,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
-
-    private final SpotAPIClient spotAPIClient;
 
     // 마이 페이지 조회
     public MyPageGetResponse findMyPage(Long memberId) {
@@ -58,16 +54,9 @@ public class MemberService {
                 .map(favorite -> favorite.getCourse()) // eager이기 때문에 1번의 쿼리 예상 (확인 필요)
                 .toList();
 
-        return favoriteCourses.stream().map(course -> {
-            CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
-            List<CourseSpotResponse> courseSpotResponses = course.getSpots().stream()
-                    .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
-                    .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
-                    .toList();
-
-            courseListResponse.setSpots(courseSpotResponses);
-            return courseListResponse;
-        }).toList();
+        return favoriteCourses.stream()
+                .map(course -> courseMapper.courseToCourseListResponse(course))
+                .toList();
     }
 
     // 멤버 탈퇴

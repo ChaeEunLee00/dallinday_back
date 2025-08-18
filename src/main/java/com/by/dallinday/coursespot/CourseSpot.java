@@ -25,7 +25,15 @@ public class CourseSpot {
     @Column(nullable = false)
     private Long spotId;
 
+    @Column
+    private String name;
+
+    @Column
+    private Double longitude;  // 경도
+
+    @Column
+    private Double latitude;  // 위도
+
     @Column(nullable = false)
     private Integer orderIndex;
-
 }

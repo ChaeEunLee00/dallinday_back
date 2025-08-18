@@ -26,7 +26,7 @@ public class CourseResponse {
     private String gpxpath;
 
     // spots 배열: spotId, name, mapx, mapy
-    private List<CourseSpotResponse> spots = new ArrayList<>();
+    private List<CourseSpotResponse> courseSpotList = new ArrayList<>();
 
     // 러닝 기록 목록
     private List<CourseRunResponse> runList = new ArrayList<>();

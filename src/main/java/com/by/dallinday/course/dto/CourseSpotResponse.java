@@ -10,7 +10,7 @@ public class CourseSpotResponse {
 
     private String name;
 
-    private Double mapx;  // 경도
+    private Double longitude;  // 경도
 
-    private Double mapy;  // 위도
+    private Double latitude;  // 위도
 }

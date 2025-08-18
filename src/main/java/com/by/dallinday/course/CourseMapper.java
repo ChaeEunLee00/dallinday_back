@@ -7,7 +7,6 @@ import com.by.dallinday.course.dto.CourseResponse;
 import com.by.dallinday.course.dto.CourseRunResponse;
 import com.by.dallinday.coursespot.CourseSpot;
 import com.by.dallinday.run.Run;
-import com.by.dallinday.spot.tourAPI.SpotItem;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,6 +26,11 @@ public class CourseMapper {
         courseListResponse.setDistance(course.getDistance());
         courseListResponse.setDuration(course.getDuration());
         courseListResponse.setDifficulty(course.getDifficulty());
+
+        List<CourseSpotResponse> courseSpotResponsesList = course.getCourseSpotList().stream()
+                .map(courseSpot -> courseSpotToCourseSpotResponse(courseSpot))
+                .toList();
+        courseListResponse.setCourseSpotList(courseSpotResponsesList);
 
         return courseListResponse;
     }
@@ -48,6 +52,11 @@ public class CourseMapper {
         courseResponse.setCreatedAt(course.getCreatedAt());
         courseResponse.setModifiedAt(course.getModifiedAt());
 
+        List<CourseSpotResponse> courseSpotResponsesList = course.getCourseSpotList().stream()
+                .map(courseSpot -> courseSpotToCourseSpotResponse(courseSpot))
+                .toList();
+        courseResponse.setCourseSpotList(courseSpotResponsesList);
+
         List<CourseRunResponse> courseRunResponsesList = course.getRunList().stream()
                 .map(run -> runToCourseRunResponse(run))
                 .toList();
@@ -56,16 +65,16 @@ public class CourseMapper {
         return courseResponse;
     }
 
-    public CourseSpotResponse spotItemToCourseSpotResponse(SpotItem spotItem) {
-        if ( spotItem == null ) {
+    public CourseSpotResponse courseSpotToCourseSpotResponse(CourseSpot courseSpot) {
+        if ( courseSpot == null ) {
             return null;
         }
 
         CourseSpotResponse courseSpotResponse = new CourseSpotResponse();
-        courseSpotResponse.setSpotId(spotItem.getSpotId());
-        courseSpotResponse.setName(spotItem.getTitle());
-        courseSpotResponse.setMapy(spotItem.getMapy());
-        courseSpotResponse.setMapx(spotItem.getMapx());
+        courseSpotResponse.setSpotId(courseSpot.getSpotId());
+        courseSpotResponse.setName(courseSpot.getName());
+        courseSpotResponse.setLatitude(courseSpot.getLatitude());
+        courseSpotResponse.setLongitude(courseSpot.getLongitude());
 
         return courseSpotResponse;
     }

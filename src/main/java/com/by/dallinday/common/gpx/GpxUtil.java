@@ -109,14 +109,21 @@ public class GpxUtil {
      * - 동점 방지: 정렬은 실수형 alongMeters로 하고, 저장용 orderIndex는 0..N-1로 재부여
      */
     public List<CourseSpot> pickSpots(Course course, GpxResult result, List<SpotItem> spots) {
-        // 후보 수집: (spotId, alongMeters, minDistMeters)
-        class Sel { Long spotId; double along; double dist; Sel(Long s, double a, double d){ spotId=s; along=a; dist=d; } }
+        // 후보 수집: (spotId, alongMeters, minDistMeters, name, lon, lat)
+        class Sel {
+            Long spotId; double along; double dist;
+            String name; Double lon; Double lat;
+            Sel(Long s, double a, double d, String n, Double x, Double y) {
+                spotId = s; along = a; dist = d; name = n; lon = x; lat = y;
+            }
+        }
         List<Sel> candidates = new ArrayList<>();
 
         for (SpotItem s : spots) {
             Nearest near = nearestOnPath(s.getMapy(), s.getMapx(), result.getPath(), result.getSegLen(), result.getPrefix());
             if (near.minDistanceMeters <= RADIUS_M) {
-                candidates.add(new Sel(s.getSpotId(), near.alongMeters, near.minDistanceMeters));
+                candidates.add(new Sel( s.getSpotId(), near.alongMeters, near.minDistanceMeters,
+                        s.getTitle(), s.getMapx(), s.getMapy()));
             }
         }
 
@@ -133,6 +140,9 @@ public class GpxUtil {
             cs.setCourse(course);
             cs.setSpotId(s.spotId);
             cs.setOrderIndex(idx++);
+            cs.setName(s.name);
+            cs.setLongitude(s.lon);
+            cs.setLatitude(s.lat);
             courseSpots.add(cs);
         }
         return courseSpots;
