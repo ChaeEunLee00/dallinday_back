@@ -10,7 +10,7 @@ public class RunResponse {
 
     private Long memberId;
 
-    private String courseId;
+    private Long courseId;
 
     private Double distance;
 

@@ -3,20 +3,21 @@ package com.by.dallinday.course.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 public class CourseListResponse {
 
-    private String courseId;
+    private Long courseId;
 
-    private String crsKorNm; // 코스명
+    private String name; // 코스명
 
-    private Double crsDstnc; // 거리 (단위: km)
+    private Double distance; // 거리 (단위: km)
 
-    private Integer crsTotlRqrmMin; // 소요시간 (단위: 분)
+    private Integer duration; // 소요시간 (단위: 분)
 
-    private Integer crsLevel; // 난이도 (1~3 등급)
+    private Integer difficulty; // 난이도 (1~3 등급)
 
-    private String crsTourInfo; // 루트 정보
-
+    private List<CourseSpotResponse> spots; // 루트 정보
 }

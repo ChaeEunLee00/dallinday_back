@@ -3,6 +3,7 @@ package com.by.dallinday.common.auth.admin;
 import com.by.dallinday.common.auth.util.UriUtil;
 import com.by.dallinday.course.Course;
 import com.by.dallinday.course.CourseService;
+import com.by.dallinday.course.dto.CourseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -40,23 +41,13 @@ public class AdminController {
     @PostMapping("/courses")
     public ResponseEntity postCourse(@RequestBody Course request) {
 
-        Course response = courseService.createCourse(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // 코스 수정 (관리자용)
-    @PatchMapping("/courses/{course-id}")
-    public ResponseEntity<Course> patchCourse(
-            @PathVariable("course-id") String courseId,
-            @RequestBody Course request) { // 수정하고싶은 필드만 작성하여 전송
-
-        Course response = courseService.updateCourse(courseId, request);
+        CourseResponse response = courseService.createCourse(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 코스 삭제 (관리자용)
     @DeleteMapping("/courses/{course-id}")
-    public ResponseEntity deleteCourse(@PathVariable("course-id") String courseId) {
+    public ResponseEntity deleteCourse(@PathVariable("course-id") Long courseId) {
 
         courseService.removeCourse(courseId);
         return new ResponseEntity<>(HttpStatus.OK);

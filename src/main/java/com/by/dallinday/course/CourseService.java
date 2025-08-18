@@ -2,26 +2,26 @@ package com.by.dallinday.course;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
+import com.by.dallinday.common.gpx.GpxResult;
+import com.by.dallinday.course.dto.CourseSpotResponse;
 import com.by.dallinday.course.tourAPI.CourseAPIClient;
 import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
-import com.by.dallinday.common.gpx.DistanceUtil;
-import com.by.dallinday.common.gpx.GpxParser;
+import com.by.dallinday.common.gpx.GpxUtil;
 import com.by.dallinday.course.dto.CourseResponse;
+import com.by.dallinday.coursespot.CourseSpot;
+import com.by.dallinday.coursespot.CourseSpotRepository;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
 import com.by.dallinday.spot.tourAPI.SpotAPIClient;
 import com.by.dallinday.spot.tourAPI.SpotItem;
-import io.jenetics.jpx.WayPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,62 +35,47 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
+    private final CourseSpotRepository courseSpotRepository;
+
+    private final GpxUtil gpxUtil;
 
     // 코스 조회
-    public CourseResponse findCourse(String courseId) {
-
+    public CourseResponse findCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+
+        // 응답 형식에 맞춰 변환
+        CourseResponse courseResponse = courseMapper.courseToCourseResponse(course);
+        List<CourseSpotResponse> courseSpotResponses = course.getSpots().stream()
+                .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
+                .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
+                .toList();
+        courseResponse.setSpots(courseSpotResponses);
 
         return courseMapper.courseToCourseResponse(course);
     }
 
     // 관광지 별 코스 리스트 조회
     public List<CourseListResponse> findSpotCourseList(Long spotId) {
-        // spot 좌표 가져오기
-        SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(spotId);
-        double spotLat = spotItem.getMapy();
-        double spotLon = spotItem.getMapx();
-
-        double radius = 10000.0; // 10km 기준
-
-        List<Course> allCourses = courseRepository.findAll();
-        List<Course> matchedCourses = new ArrayList<>();
-
-        for (Course course : allCourses) {
-            try {
-                List<WayPoint> points = GpxParser.extractCoordinates(course.getGpxpath());
-
-                boolean withinRadius = points.stream().anyMatch(point ->
-                        DistanceUtil.haversine(
-                                point.getLatitude().doubleValue(),
-                                point.getLongitude().doubleValue(),
-                                spotLat,
-                                spotLon
-                        ) < radius
-                );
-
-                if (withinRadius) {
-                    matchedCourses.add(course);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Course -> CourseListResponse 맵핑
-        return matchedCourses.stream()
-                .map(course -> courseMapper.courseCourseListResponse(course))
+        List<CourseSpot> courseSpots = courseSpotRepository.findBySpotId(spotId);
+        List<Course> courses = courseSpots.stream()
+                .map(CourseSpot::getCourse)
+                .distinct()
                 .toList();
+
+        return courses.stream().map(course -> {
+            CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
+            List<CourseSpotResponse> courseSpotResponses = course.getSpots().stream()
+                    .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
+                    .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
+                    .toList();
+
+            courseListResponse.setSpots(courseSpotResponses);
+            return courseListResponse;
+        }).toList();
     }
 
-    // 테마 별 코스 리스트 조회
-    public Course findThemeCourseList() {
-        return new Course();
-    }
-
-    public void createCourseFavorite(String courseId, Long memberId) {
+    public void createCourseFavorite(Long courseId, Long memberId) {
         // course와 member가 존재하는지 확인
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
@@ -111,7 +96,7 @@ public class CourseService {
         favoriteRepository.save(favorite);
     }
 
-    public void removeCourseFavorite(String courseId, Long memberId) {
+    public void removeCourseFavorite(Long courseId, Long memberId) {
         // course와 member가 존재하는지 확인
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
@@ -125,50 +110,46 @@ public class CourseService {
     }
 
     // 코스 생성 (관리자용)
-    public Course createCourse(Course course) {
-        // 이미 존재하는 코스 아이디인지 확인
-        Optional<Course> existingCourse = courseRepository.findById(course.getCourseId());
-        if (existingCourse.isPresent()) throw new BusinessLogicException(ExceptionCode.COURSE_EXIST);
+    public CourseResponse createCourse(Course course) {
+        // 이미 존재하는 코스 이름인지 확인
+        if (courseRepository.findByName(course.getName()).isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.COURSE_NAME_EXIST);
+        }
 
-        return courseRepository.save(course);
-    }
+        // gpx파일 분석 - 거리 시간 난이도
+        GpxResult result = gpxUtil.analyzeGpx(course.getGpxpath());
 
-    // 코스 수정 (관리자용)
-    public Course updateCourse(String courseId, Course updatedCourse) {
-        // 해당 코스가 존재하는지 확인
-        Course existingCourse = courseRepository.findById(courseId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+        // 분석값을 코스 엔티티에 채움
+        course.setDistance(result.getDistanceKm()); // km
+        course.setDuration(result.getMovingMinutes()); // 분
+        course.setDifficulty(result.getDifficulty()); // 1~3
+        course.setCreatedAt(LocalDateTime.now()); // 생성시간
+        course.setModifiedAt(LocalDateTime.now()); // 수정시간
 
-        // Optional.ofNullable 패턴으로 일부 필드만 수정
-        Optional.ofNullable(updatedCourse.getCrsKorNm())
-                .ifPresent(existingCourse::setCrsKorNm);
+        // 코스 우선 저장 (코스 PK 필요)
+        Course savedCourse = courseRepository.save(course);
 
-        Optional.ofNullable(updatedCourse.getCrsDstnc())
-                .ifPresent(existingCourse::setCrsDstnc);
+        // spot 203개와 비교하여 장소 목록을 저장
+        List<SpotItem> spots = spotAPIClient.callAreaBasedAPI(7,300, 1);
+        List<CourseSpot> courseSpots = gpxUtil.pickSpots(savedCourse, result, spots);
+        System.out.println(courseSpots.size());
 
-        Optional.ofNullable(updatedCourse.getCrsTotlRqrmMin())
-                .ifPresent(existingCourse::setCrsTotlRqrmMin);
+        // 코스-스팟 연결정보 저장
+        savedCourse.setSpots(courseSpots);
 
-        Optional.ofNullable(updatedCourse.getCrsLevel())
-                .ifPresent(existingCourse::setCrsLevel);
+        // 응답 형식에 맞춰 변환
+        CourseResponse courseResponse = courseMapper.courseToCourseResponse(course);
+        List<CourseSpotResponse> courseSpotResponses = courseSpots.stream()
+                .map(courseSpot -> spotAPIClient.callContentIdBasedAPI(courseSpot.getSpotId()))
+                .map(spotItem -> courseMapper.spotItemToCourseSpotResponse(spotItem))
+                .toList();
+        courseResponse.setSpots(courseSpotResponses);
 
-        Optional.ofNullable(updatedCourse.getCrsSummary())
-                .ifPresent(existingCourse::setCrsSummary);
-
-        Optional.ofNullable(updatedCourse.getCrsTourInfo())
-                .ifPresent(existingCourse::setCrsTourInfo);
-
-        Optional.ofNullable(updatedCourse.getGpxpath())
-                .ifPresent(existingCourse::setGpxpath);
-
-        Optional.ofNullable(updatedCourse.getModifiedtime())
-                .ifPresent(existingCourse::setModifiedtime);
-
-        return courseRepository.save(existingCourse);
+        return courseResponse;
     }
 
     // 코스 삭제 (관리자용)
-    public void removeCourse(String courseId) {
+    public void removeCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
 

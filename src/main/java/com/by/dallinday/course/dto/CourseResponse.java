@@ -1,9 +1,9 @@
 package com.by.dallinday.course.dto;
 
-import com.by.dallinday.run.dto.RunResponse;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,25 +11,27 @@ import java.util.List;
 @Setter
 public class CourseResponse {
 
-    private String courseId;
+    private Long courseId;
 
-    private String crsKorNm;
+    private String name;          // "둘레길 코스"
 
-    private Double crsDstnc;
+    private String description;   // 요약 설명
 
-    private Integer crsTotlRqrmMin;
+    private Double distance;      // km
 
-    private Integer crsLevel;
+    private Integer duration;     // 분
 
-    private String crsSummary;
-
-    private String crsTourInfo;
+    private Integer difficulty;   // 1~3
 
     private String gpxpath;
 
-    private String createdtime;
+    // spots 배열: spotId, name, mapx, mapy
+    private List<CourseSpotResponse> spots = new ArrayList<>();
 
-    private String modifiedtime;
-
+    // 러닝 기록 목록
     private List<CourseRunResponse> runList = new ArrayList<>();
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime modifiedAt;
 }

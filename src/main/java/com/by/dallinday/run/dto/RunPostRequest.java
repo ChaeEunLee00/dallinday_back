@@ -8,7 +8,7 @@ import lombok.Setter;
 public class RunPostRequest {
     private Long memberId;
 
-    private String courseId;
+    private Long courseId;
 
     private Double distance;
 

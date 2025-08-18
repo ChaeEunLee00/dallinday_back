@@ -1,7 +1,7 @@
 package com.by.dallinday.course;
 
+import com.by.dallinday.coursespot.CourseSpot;
 import com.by.dallinday.run.Run;
-import com.by.dallinday.theme.Theme;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,30 +20,35 @@ import java.util.List;
 @Table(name = "courses")
 public class Course {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
     @Column
-    private String crsKorNm; // 코스명
-
-    @Column
-    private Double crsDstnc; // 거리 (단위: km)
-
-    @Column
-    private Integer crsTotlRqrmMin; // 소요시간 (단위: 분)
-
-    @Column
-    private Integer crsLevel; // 난이도 (1~3 등급)
+    private String name; // 코스명
 
     @Lob
     @Column
-    private String crsSummary; // 요약 설명
+    private String description; // 요약 설명
 
-    @Lob
     @Column
-    private String crsTourInfo; // 관광 정보
+    private Double distance; // 거리 (단위: km)
+
+    @Column
+    private Integer duration; // 소요시간 (단위: 분)
+
+    @Column
+    private Integer difficulty; // 난이도 (1~3 등급)
 
     @Column
     private String gpxpath; // GPX 파일 경로
+
+    @Column
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy("orderIndex ASC")
+    private List<CourseSpot> spots; // 지나는 관광지 목록
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    private List<Run> runList = new ArrayList<>();
 
     @Column
     private LocalDateTime createdAt; // 생성일시
@@ -54,27 +59,15 @@ public class Course {
 //    @Column
 //    private String spotId;
 
-
 //    @ManyToOne
 //    @JoinColumn(name = "themeId")
 //    private Theme theme;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
-    private List<Run> runList = new ArrayList<>();
-
-    public static Course of(String courseId, String name, Double distance, Integer duration, Integer level,
-                            String summary, String tourInfo, String gpx, String created, String modified) {
+    public static Course of(String name, String description, String gpxpath) {
         Course course = new Course();
-        course.setCourseId(courseId);
-        course.setCrsKorNm(name);
-        course.setCrsDstnc(distance);
-        course.setCrsTotlRqrmMin(duration);
-        course.setCrsLevel(level);
-        course.setCrsSummary(summary);
-        course.setCrsTourInfo(tourInfo);
-        course.setGpxpath(gpx);
-        course.setCreatedtime(created);
-        course.setModifiedtime(modified);
+        course.setName(name);
+        course.setDescription(description);
+        course.setGpxpath(gpxpath);
         return course;
     }
 }

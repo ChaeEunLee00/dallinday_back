@@ -92,6 +92,7 @@ public class SpotAPIClient {
 
     // 특정 관광지 정보
     public SpotItem callContentIdBasedAPI(Long spotId) {
+        System.out.println("spotId = " + spotId);
         try {
             String result = "";
 
@@ -107,7 +108,7 @@ public class SpotAPIClient {
             // : 내부적으로 HttpURLConnection을 생성해 HTTP GET 요청을 보냄
             BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
-
+            System.out.println(result);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(result);  // 전체 JSON 파싱
             JsonNode itemArray = rootNode.findValue("item"); // 중첩 구조에서 item 배열 추출
