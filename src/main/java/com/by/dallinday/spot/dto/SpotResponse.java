@@ -27,8 +27,6 @@ public class SpotResponse {
 
     private String areacode;
 
-    private String tel;
-
     private String zipcode;
 
     private String contenttypeid;

@@ -24,9 +24,9 @@ public class SpotMapper {
         spotResponse.setFirstimage2(item.getFirstimage2());
         spotResponse.setAddr1(item.getAddr1());
         spotResponse.setAddr2(item.getAddr2());
-        spotResponse.setTel(item.getTel());
         spotResponse.setZipcode(item.getZipcode());
         spotResponse.setAreacode(item.getAreacode());
+        spotResponse.setContenttypeid(item.getContenttypeid());
         spotResponse.setCpyrhtDivCd(item.getCpyrhtDivCd());
         spotResponse.setMlevel(item.getMlevel());
         spotResponse.setCreatedtime(item.getCreatedtime());
