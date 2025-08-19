@@ -93,7 +93,7 @@ public class RunService {
 
     @Transactional
     private void recalcMonthRanks(String yearMonth) {
-        List<Ranking> list = rankingRepository.findByYearMonthOrderByMonthlyRank(yearMonth);
+        List<Ranking> list = rankingRepository.findByYearMonthOrderByMonthlyTotalDistanceDesc(yearMonth);
 
         double prevDist = Double.NaN;
         long currentRank = 0;
