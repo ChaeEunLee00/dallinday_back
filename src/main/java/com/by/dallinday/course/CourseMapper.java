@@ -1,9 +1,11 @@
 package com.by.dallinday.course;
 
+import com.by.dallinday.course.dto.CourseSpotResponse;
 import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.course.dto.CourseResponse;
 import com.by.dallinday.course.dto.CourseRunResponse;
+import com.by.dallinday.coursespot.CourseSpot;
 import com.by.dallinday.run.Run;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Component
 public class CourseMapper {
 
-    public CourseListResponse courseCourseListResponse(Course course) {
+    public CourseListResponse courseToCourseListResponse(Course course) {
         if ( course == null ) {
             return null;
         }
@@ -20,11 +22,15 @@ public class CourseMapper {
         CourseListResponse courseListResponse = new CourseListResponse();
 
         courseListResponse.setCourseId(course.getCourseId());
-        courseListResponse.setCrsKorNm(course.getCrsKorNm());
-        courseListResponse.setCrsDstnc(course.getCrsDstnc());
-        courseListResponse.setCrsTotlRqrmMin(course.getCrsTotlRqrmMin());
-        courseListResponse.setCrsLevel(course.getCrsLevel());
-        courseListResponse.setCrsTourInfo(course.getCrsTourInfo());
+        courseListResponse.setName(course.getName());
+        courseListResponse.setDistance(course.getDistance());
+        courseListResponse.setDuration(course.getDuration());
+        courseListResponse.setDifficulty(course.getDifficulty());
+
+        List<CourseSpotResponse> courseSpotResponsesList = course.getCourseSpotList().stream()
+                .map(courseSpot -> courseSpotToCourseSpotResponse(courseSpot))
+                .toList();
+        courseListResponse.setCourseSpotList(courseSpotResponsesList);
 
         return courseListResponse;
     }
@@ -37,22 +43,40 @@ public class CourseMapper {
         CourseResponse courseResponse = new CourseResponse();
 
         courseResponse.setCourseId(course.getCourseId());
-        courseResponse.setCrsKorNm(course.getCrsKorNm());
-        courseResponse.setCrsDstnc(course.getCrsDstnc());
-        courseResponse.setCrsTotlRqrmMin(course.getCrsTotlRqrmMin());
-        courseResponse.setCrsLevel(course.getCrsLevel());
-        courseResponse.setCrsSummary(course.getCrsSummary());
-        courseResponse.setCrsTourInfo(course.getCrsTourInfo());
+        courseResponse.setName(course.getName());
+        courseResponse.setDescription(course.getDescription());
+        courseResponse.setDistance(course.getDistance());
+        courseResponse.setDuration(course.getDuration());
+        courseResponse.setDifficulty(course.getDifficulty());
         courseResponse.setGpxpath(course.getGpxpath());
-        courseResponse.setCreatedtime(course.getCreatedtime());
-        courseResponse.setModifiedtime(course.getModifiedtime());
+        courseResponse.setCreatedAt(course.getCreatedAt());
+        courseResponse.setModifiedAt(course.getModifiedAt());
+
+        List<CourseSpotResponse> courseSpotResponsesList = course.getCourseSpotList().stream()
+                .map(courseSpot -> courseSpotToCourseSpotResponse(courseSpot))
+                .toList();
+        courseResponse.setCourseSpotList(courseSpotResponsesList);
 
         List<CourseRunResponse> courseRunResponsesList = course.getRunList().stream()
                 .map(run -> runToCourseRunResponse(run))
                 .toList();
-
         courseResponse.setRunList(courseRunResponsesList);
+
         return courseResponse;
+    }
+
+    public CourseSpotResponse courseSpotToCourseSpotResponse(CourseSpot courseSpot) {
+        if ( courseSpot == null ) {
+            return null;
+        }
+
+        CourseSpotResponse courseSpotResponse = new CourseSpotResponse();
+        courseSpotResponse.setSpotId(courseSpot.getSpotId());
+        courseSpotResponse.setName(courseSpot.getName());
+        courseSpotResponse.setLatitude(courseSpot.getLatitude());
+        courseSpotResponse.setLongitude(courseSpot.getLongitude());
+
+        return courseSpotResponse;
     }
 
     private CourseRunResponse runToCourseRunResponse(Run run) {
@@ -77,16 +101,12 @@ public class CourseMapper {
 
         Course course = new Course();
 
-        course.setCourseId(item.getCourseId());
-        course.setCrsKorNm(item.getCrsKorNm());
-        course.setCrsDstnc(item.getCrsDstnc());
-        course.setCrsTotlRqrmMin(item.getCrsTotlRqrmHour());
-        course.setCrsLevel(item.getCrsLevel());
-        course.setCrsSummary(item.getCrsSummary());
-        course.setCrsTourInfo(item.getCrsTourInfo());
+        course.setName(item.getCrsKorNm());
+        course.setDescription(item.getCrsSummary()); // 필요시 summary+tourInfo 합치기
+        course.setDistance(item.getCrsDstnc());
+        course.setDuration(item.getCrsTotlRqrmHour()); // 원 데이터가 '시간'이면 분 단위로 변환 필요
+        course.setDifficulty(item.getCrsLevel());
         course.setGpxpath(item.getGpxpath());
-        course.setCreatedtime(item.getCreatedtime());
-        course.setModifiedtime(item.getModifiedtime());
         return course;
     }
 }

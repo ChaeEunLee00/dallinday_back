@@ -2,19 +2,20 @@ package com.by.dallinday.course;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
+import com.by.dallinday.common.gpx.GpxResult;
 import com.by.dallinday.course.tourAPI.CourseAPIClient;
 import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
-import com.by.dallinday.common.gpx.DistanceUtil;
-import com.by.dallinday.common.gpx.GpxParser;
+import com.by.dallinday.common.gpx.GpxUtil;
 import com.by.dallinday.course.dto.CourseResponse;
+import com.by.dallinday.coursespot.CourseSpot;
+import com.by.dallinday.coursespot.CourseSpotRepository;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
 import com.by.dallinday.spot.tourAPI.SpotAPIClient;
 import com.by.dallinday.spot.tourAPI.SpotItem;
-import io.jenetics.jpx.WayPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,62 +35,35 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
+    private final CourseSpotRepository courseSpotRepository;
+
+    private final GpxUtil gpxUtil;
 
     // 코스 조회
-    public CourseResponse findCourse(String courseId) {
-
+    public CourseResponse findCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
 
+        // 응답 형식에 맞춰 변환
         return courseMapper.courseToCourseResponse(course);
     }
 
     // 관광지 별 코스 리스트 조회
-    public List<CourseListResponse> findSpotCourseList(Long spotId) {
-        // spot 좌표 가져오기
-        SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(spotId);
-        double spotLat = spotItem.getMapy();
-        double spotLon = spotItem.getMapx();
+    public List<CourseListResponse> findSpotCourseList(Long spotId, String sortBy) {
+        List<CourseSpot> courseSpots = new ArrayList<>();
+        if(sortBy.equals("distance")) courseSpots = courseSpotRepository.findBySpotIdOrderByCourse_DistanceAsc(spotId);
+        else if(sortBy.equals("difficulty")) courseSpots = courseSpotRepository.findBySpotIdOrderByCourse_DifficultyAsc(spotId);
 
-        double radius = 10000.0; // 10km 기준
+        List<Course> courses = courseSpots.stream()
+                .map(CourseSpot::getCourse)
+                .toList();
 
-        List<Course> allCourses = courseRepository.findAll();
-        List<Course> matchedCourses = new ArrayList<>();
-
-        for (Course course : allCourses) {
-            try {
-                List<WayPoint> points = GpxParser.extractCoordinates(course.getGpxpath());
-
-                boolean withinRadius = points.stream().anyMatch(point ->
-                        DistanceUtil.haversine(
-                                point.getLatitude().doubleValue(),
-                                point.getLongitude().doubleValue(),
-                                spotLat,
-                                spotLon
-                        ) < radius
-                );
-
-                if (withinRadius) {
-                    matchedCourses.add(course);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Course -> CourseListResponse 맵핑
-        return matchedCourses.stream()
-                .map(course -> courseMapper.courseCourseListResponse(course))
+        return courses.stream()
+                .map(course -> courseMapper.courseToCourseListResponse(course))
                 .toList();
     }
 
-    // 테마 별 코스 리스트 조회
-    public Course findThemeCourseList() {
-        return new Course();
-    }
-
-    public void createCourseFavorite(String courseId, Long memberId) {
+    public void createCourseFavorite(Long courseId, Long memberId) {
         // course와 member가 존재하는지 확인
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
@@ -110,7 +84,7 @@ public class CourseService {
         favoriteRepository.save(favorite);
     }
 
-    public void removeCourseFavorite(String courseId, Long memberId) {
+    public void removeCourseFavorite(Long courseId, Long memberId) {
         // course와 member가 존재하는지 확인
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
@@ -121,6 +95,47 @@ public class CourseService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.FAVORITE_NOT_FOUND));
 
         favoriteRepository.delete(favorite);
+    }
+
+    // 코스 생성 (관리자용)
+    public CourseResponse createCourse(Course course) {
+        // 이미 존재하는 코스 이름인지 확인
+        if (courseRepository.findByName(course.getName()).isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.COURSE_NAME_EXIST);
+        }
+
+        // gpx파일 분석 - 거리 시간 난이도
+        GpxResult result = gpxUtil.analyzeGpx(course.getGpxpath());
+
+        // 분석값을 코스 엔티티에 채움
+        course.setDistance(result.getDistanceKm()); // km
+        course.setDuration(result.getMovingMinutes()); // 분
+        course.setDifficulty(result.getDifficulty()); // 1~3
+        course.setCreatedAt(LocalDateTime.now()); // 생성시간
+        course.setModifiedAt(LocalDateTime.now()); // 수정시간
+
+        // 코스 우선 저장 (코스 PK 필요)
+        Course savedCourse = courseRepository.save(course);
+
+        // spot 203개와 비교하여 장소 목록을 저장
+        List<SpotItem> spots = spotAPIClient.callAreaBasedAPI(7,300, 1);
+        List<CourseSpot> courseSpots = gpxUtil.pickSpots(savedCourse, result, spots);
+        System.out.println(courseSpots.size());
+
+        // 코스-스팟 연결정보 저장
+        savedCourse.setCourseSpotList(courseSpots);
+        courseSpotRepository.saveAll(courseSpots);
+
+        // 응답 형식에 맞춰 반환
+        return courseMapper.courseToCourseResponse(savedCourse);
+    }
+
+    // 코스 삭제 (관리자용)
+    public void removeCourse(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+
+        courseRepository.delete(course);
     }
 
     // TourAPI를 통해 가져온 코스 데이터 저장 및 동기화

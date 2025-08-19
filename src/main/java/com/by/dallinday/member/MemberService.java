@@ -22,6 +22,7 @@ import java.util.List;
 public class MemberService {
     private final MemberMapper memberMapper;
     private final CourseMapper courseMapper;
+
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
 
@@ -53,9 +54,8 @@ public class MemberService {
                 .map(favorite -> favorite.getCourse()) // eager이기 때문에 1번의 쿼리 예상 (확인 필요)
                 .toList();
 
-        // Course -> CourseListResponse 맵핑
         return favoriteCourses.stream()
-                .map(course -> courseMapper.courseCourseListResponse(course))
+                .map(course -> courseMapper.courseToCourseListResponse(course))
                 .toList();
     }
 

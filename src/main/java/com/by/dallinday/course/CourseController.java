@@ -21,7 +21,7 @@ public class CourseController {
 
     // 코스 조회
     @GetMapping("/{course-id}")
-    public ResponseEntity getCourse(@PathVariable("course-id") String courseId) {
+    public ResponseEntity getCourse(@PathVariable("course-id") Long courseId) {
 
         CourseResponse response = courseService.findCourse(courseId);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -29,22 +29,16 @@ public class CourseController {
 
     // 관광지 별 코스 리스트 조회
     @GetMapping("/spot/{spot-id}")
-    public ResponseEntity getSpotCourses(@PathVariable("spot-id") @Positive Long spotId) {
+    public ResponseEntity getSpotCourses(@PathVariable("spot-id") @Positive Long spotId,
+                                         @RequestParam(defaultValue = "distance") String sortBy) {
 
-        List<CourseListResponse> response = courseService.findSpotCourseList(spotId);
+        List<CourseListResponse> response = courseService.findSpotCourseList(spotId, sortBy);
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // 테마 별 코스 리스트 조회
-    @GetMapping("/theme/{theme-id}")
-    public ResponseEntity getThemeCourses() {
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 찜 생성
     @PostMapping("/{course-id}/favorite")
-    public ResponseEntity postCourseFavorite(@PathVariable("course-id") String courseId) {
+    public ResponseEntity postCourseFavorite(@PathVariable("course-id") Long courseId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
         Long memberId = Long.valueOf(principal.get("memberId").toString());
@@ -55,19 +49,12 @@ public class CourseController {
 
     // 찜 취소
     @DeleteMapping("/{course-id}/favorite")
-    public ResponseEntity deleteCourseFavorite(@PathVariable("course-id") String courseId) {
+    public ResponseEntity deleteCourseFavorite(@PathVariable("course-id") Long courseId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
         Long memberId = Long.valueOf(principal.get("memberId").toString());
 
         courseService.removeCourseFavorite(courseId, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    // 코스 데이터 동기화 요청
-    @PostMapping("/sync")
-    public ResponseEntity syncCourses() {
-        courseService.syncCourses();
-        return new ResponseEntity<>("Course data synced", HttpStatus.OK);
     }
 }
