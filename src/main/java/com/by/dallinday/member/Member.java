@@ -52,7 +52,7 @@ public class Member {
     private Double avgPace = 0.0;
 
     @Column
-    private String badges = "000000000";
+    private String badges = "100000000";
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Run> runList = new ArrayList<>();
