@@ -13,7 +13,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RefreshService {
 
-    private final MemberService memberService;
     private final JwtTokenizer jwtTokenizer;
 
     public String createNewAccessToken(String refreshToken){

@@ -1,4 +1,4 @@
-package com.by.dallinday.member.dto;
+package com.by.dallinday.ranking.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ public class RankingResponse {
 
     private String username;
 
-    private Long ranking;
+    private Long monthlyRank;
 
-    private Double totalDistance;
+    private Double monthlyDistance;
 }

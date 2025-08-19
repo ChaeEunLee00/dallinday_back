@@ -6,8 +6,8 @@ import com.by.dallinday.course.Course;
 import com.by.dallinday.course.CourseRepository;
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
-import com.by.dallinday.rank.Rank;
-import com.by.dallinday.rank.RankRepository;
+import com.by.dallinday.ranking.Ranking;
+import com.by.dallinday.ranking.RankingRepository;
 import com.by.dallinday.run.dto.RunPostRequest;
 import com.by.dallinday.run.dto.RunResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class RunService {
     private final RunRepository runRepository;
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
-    private final RankRepository rankRepository;
+    private final RankingRepository rankingRepository;
 
     // 달리기 기록 생성
     public RunResponse createRun(RunPostRequest request) {
@@ -75,17 +75,17 @@ public class RunService {
         String ym = YearMonth.from(runTime).toString(); // "YYYY-MM"
 
         // 월별 달리기 기록 업데이트
-        Rank rank = rankRepository.findByMemberAndYearMonth(member, ym)
+        Ranking ranking = rankingRepository.findByMemberAndYearMonth(member, ym)
                 .orElseGet(() -> {
-                    Rank r = new Rank();
+                    Ranking r = new Ranking();
                     r.setMember(member);
                     r.setYearMonth(ym);
                     return r;
                 });
 
-        rank.setTotalDistance(rank.getTotalDistance() + distanceKm);
-        rank.setUpdatedAt(LocalDateTime.now());
-        rankRepository.save(rank);
+        ranking.setMonthlyTotalDistance(ranking.getMonthlyTotalDistance() + distanceKm);
+        ranking.setUpdatedAt(LocalDateTime.now());
+        rankingRepository.save(ranking);
 
         // 해당 달 랭킹 재계산 (Dense Rank)
         recalcMonthRanks(ym);
@@ -93,20 +93,20 @@ public class RunService {
 
     @Transactional
     private void recalcMonthRanks(String yearMonth) {
-        List<Rank> list = rankRepository.findByYearMonthOrderByTotalDistanceDesc(yearMonth);
+        List<Ranking> list = rankingRepository.findByYearMonthOrderByMonthlyRank(yearMonth);
 
         double prevDist = Double.NaN;
-        int currentRank = 0;
-        int index = 0;
-        for (Rank r : list) {
+        long currentRank = 0;
+        long index = 0;
+        for (Ranking r : list) {
             index++;
-            if (Double.compare(r.getTotalDistance(), prevDist) != 0) {
+            if (Double.compare(r.getMonthlyTotalDistance(), prevDist) != 0) {
                 currentRank = index; // Dense Rank: 값이 바뀌면 현재 index가 랭크
-                prevDist = r.getTotalDistance();
+                prevDist = r.getMonthlyTotalDistance();
             }
-            r.setRank(currentRank);
+            r.setMonthlyRank(currentRank);
             r.setUpdatedAt(LocalDateTime.now());
         }
-        rankRepository.saveAll(list);
+        rankingRepository.saveAll(list);
     }
 }

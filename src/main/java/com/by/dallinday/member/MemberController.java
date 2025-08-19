@@ -66,11 +66,4 @@ public class MemberController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    // 개인 기록 상세 조회
-    @GetMapping("/{member-id}/mypage/record")
-    public ResponseEntity getMyRecord() {
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
