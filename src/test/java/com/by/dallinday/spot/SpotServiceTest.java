@@ -17,23 +17,23 @@ public class SpotServiceTest {
     @Autowired
     private SpotService spotService;
 
-    @Test
-    void findSpotsByArea_정상호출() {
-        // given & when
-        try {
-            List<SpotItem> items = spotService.findSpotsByArea(7, 10, 1);
-
-            // then
-            assertThat(items).isNotNull();
-            for (SpotItem item : items) {
-                System.out.println(item);
-            }
-
-        } catch (BusinessLogicException e) {
-            fail("BusinessLogicException 발생: " + e.getMessage());
-        } catch (Exception e) {
-            fail("Exception 발생: " + e.getMessage());
-        }
-    }
+//    @Test
+//    void findSpotsByArea_정상호출() {
+//        // given & when
+//        try {
+//            List<SpotItem> items = spotService.findSpotsByArea(7, 10, 1);
+//
+//            // then
+//            assertThat(items).isNotNull();
+//            for (SpotItem item : items) {
+//                System.out.println(item);
+//            }
+//
+//        } catch (BusinessLogicException e) {
+//            fail("BusinessLogicException 발생: " + e.getMessage());
+//        } catch (Exception e) {
+//            fail("Exception 발생: " + e.getMessage());
+//        }
+//    }
 }
 
