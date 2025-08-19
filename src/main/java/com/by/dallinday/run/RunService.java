@@ -6,10 +6,17 @@ import com.by.dallinday.course.Course;
 import com.by.dallinday.course.CourseRepository;
 import com.by.dallinday.member.Member;
 import com.by.dallinday.member.MemberRepository;
+import com.by.dallinday.rank.Rank;
+import com.by.dallinday.rank.RankRepository;
 import com.by.dallinday.run.dto.RunPostRequest;
 import com.by.dallinday.run.dto.RunResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +26,7 @@ public class RunService {
     private final RunRepository runRepository;
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
+    private final RankRepository rankRepository;
 
     // 달리기 기록 생성
     public RunResponse createRun(RunPostRequest request) {
@@ -40,6 +48,11 @@ public class RunService {
         member.setTotalDuration(member.getTotalDuration() + run.getDuration());
         member.setAvgPace(member.getTotalDistance() / member.getTotalDuration());
 
+        // 뱃지 조건 확인 후 업데이트
+
+        // 월별 달리기 기록, 랭킹 업데이트
+        updateMonthlyRanking(member, run.getDistance(), run.getStartTime());
+
         // 저장
         // 달리기 기록 저장
         runRepository.save(run);
@@ -55,5 +68,45 @@ public class RunService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RUN_NOT_FOUND));
 
         return runMapper.runToRunResponse(run);
+    }
+
+    @Transactional
+    private void updateMonthlyRanking(Member member, double distanceKm, LocalDateTime runTime) {
+        String ym = YearMonth.from(runTime).toString(); // "YYYY-MM"
+
+        // 월별 달리기 기록 업데이트
+        Rank rank = rankRepository.findByMemberAndYearMonth(member, ym)
+                .orElseGet(() -> {
+                    Rank r = new Rank();
+                    r.setMember(member);
+                    r.setYearMonth(ym);
+                    return r;
+                });
+
+        rank.setTotalDistance(rank.getTotalDistance() + distanceKm);
+        rank.setUpdatedAt(LocalDateTime.now());
+        rankRepository.save(rank);
+
+        // 해당 달 랭킹 재계산 (Dense Rank)
+        recalcMonthRanks(ym);
+    }
+
+    @Transactional
+    private void recalcMonthRanks(String yearMonth) {
+        List<Rank> list = rankRepository.findByYearMonthOrderByTotalDistanceDesc(yearMonth);
+
+        double prevDist = Double.NaN;
+        int currentRank = 0;
+        int index = 0;
+        for (Rank r : list) {
+            index++;
+            if (Double.compare(r.getTotalDistance(), prevDist) != 0) {
+                currentRank = index; // Dense Rank: 값이 바뀌면 현재 index가 랭크
+                prevDist = r.getTotalDistance();
+            }
+            r.setRank(currentRank);
+            r.setUpdatedAt(LocalDateTime.now());
+        }
+        rankRepository.saveAll(list);
     }
 }

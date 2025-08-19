@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -34,10 +36,10 @@ public class Run {
     private Double accuracy;
 
     @Column
-    private String startTime;
+    private LocalDateTime startTime;
 
     @Column
-    private String endTime;
+    private LocalDateTime endTime;
 
     // 실제 지나간 관광지 목록..?
 
