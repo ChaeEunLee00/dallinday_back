@@ -29,9 +29,10 @@ public class CourseController {
 
     // 관광지 별 코스 리스트 조회
     @GetMapping("/spot/{spot-id}")
-    public ResponseEntity getSpotCourses(@PathVariable("spot-id") @Positive Long spotId) {
+    public ResponseEntity getSpotCourses(@PathVariable("spot-id") @Positive Long spotId,
+                                         @RequestParam(value = "sort", defaultValue = "distance") @Positive String sortBy) {
 
-        List<CourseListResponse> response = courseService.findSpotCourseList(spotId);
+        List<CourseListResponse> response = courseService.findSpotCourseList(spotId, sortBy);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,8 +49,11 @@ public class CourseService {
     }
 
     // 관광지 별 코스 리스트 조회
-    public List<CourseListResponse> findSpotCourseList(Long spotId) {
-        List<CourseSpot> courseSpots = courseSpotRepository.findBySpotId(spotId);
+    public List<CourseListResponse> findSpotCourseList(Long spotId, String sortBy) {
+        List<CourseSpot> courseSpots = new ArrayList<>();
+        if(sortBy.equals("distance")) courseSpots = courseSpotRepository.findBySpotIdOrderByCourse_DistanceAsc(spotId);
+        else if(sortBy.equals("difficulty")) courseSpots = courseSpotRepository.findBySpotIdOrderByCourse_DifficultyAsc(spotId);
+
         List<Course> courses = courseSpots.stream()
                 .map(CourseSpot::getCourse)
                 .toList();

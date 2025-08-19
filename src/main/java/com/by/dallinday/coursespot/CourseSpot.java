@@ -18,7 +18,7 @@ public class CourseSpot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne // default = EAGER
     @JoinColumn(name = "courseId")
     private Course course;
 
