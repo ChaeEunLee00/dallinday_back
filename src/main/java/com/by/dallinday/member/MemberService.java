@@ -7,7 +7,7 @@ import com.by.dallinday.course.CourseMapper;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
-import com.by.dallinday.member.dto.MemberGetResponse;
+import com.by.dallinday.member.dto.MemberResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import com.by.dallinday.member.dto.MyRankingDetailResponse;
 import com.by.dallinday.member.dto.MyRankingResponse;
@@ -18,6 +18,7 @@ import com.by.dallinday.ranking.RankingMapper;
 import com.by.dallinday.ranking.RankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -84,12 +85,30 @@ public class MemberService {
     }
 
     // 멤버 조회
-    public MemberGetResponse findMember(Long memberId){
+    public MemberResponse findMember(Long memberId){
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        return memberMapper.memberToMemberGetResponse(member);
+        return memberMapper.memberToMemberResponse(member);
+    }
+
+    // 멤버 수정
+    public MemberResponse updateMember(Long memberId, String username, MultipartFile image) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        // 닉네임 갱신
+        if (username != null) member.setUsername(username);
+
+        // 이미지 업로드 & URL 저장
+        if (image != null) {
+//            String url = s3Uploader.uploadProfileImage(memberId, image);
+//            member.setImageUrl(url);
+        }
+
+        // JPA 영속성으로 자동 flush
+        return memberMapper.memberToMemberResponse(member);
     }
 
     private MyRankingResponse getMyRanking(Long memberId) {
