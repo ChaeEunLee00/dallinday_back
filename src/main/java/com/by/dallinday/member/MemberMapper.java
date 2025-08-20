@@ -1,6 +1,6 @@
 package com.by.dallinday.member;
 
-import com.by.dallinday.member.dto.MemberGetResponse;
+import com.by.dallinday.member.dto.MemberResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import com.by.dallinday.run.RunMapper;
 import com.by.dallinday.run.dto.RunResponse;
@@ -15,23 +15,23 @@ public class MemberMapper {
 
     private final RunMapper runMapper;
 
-    public MemberGetResponse memberToMemberGetResponse(Member member) {
+    public MemberResponse memberToMemberResponse(Member member) {
         if ( member == null ) {
             return null;
         }
 
-        MemberGetResponse memberGetResponse = new MemberGetResponse();
+        MemberResponse memberResponse = new MemberResponse();
 
-        memberGetResponse.setMemberId(member.getMemberId());
-        memberGetResponse.setEmail(member.getEmail());
-        memberGetResponse.setUsername(member.getUsername());
-        memberGetResponse.setProvider(member.getProvider());
-        memberGetResponse.setProviderId(member.getProviderId());
-        memberGetResponse.setImageUrl(member.getImageUrl());
-        memberGetResponse.setRole(member.getRole());
-        memberGetResponse.setCreatedAt(member.getCreatedAt());
+        memberResponse.setMemberId(member.getMemberId());
+        memberResponse.setEmail(member.getEmail());
+        memberResponse.setUsername(member.getUsername());
+        memberResponse.setProvider(member.getProvider());
+        memberResponse.setProviderId(member.getProviderId());
+        memberResponse.setImageUrl(member.getImageUrl());
+        memberResponse.setRole(member.getRole());
+        memberResponse.setCreatedAt(member.getCreatedAt());
 
-        return memberGetResponse;
+        return memberResponse;
     }
 
     public MyPageGetResponse memberToMyPageGetResponse(Member member) {

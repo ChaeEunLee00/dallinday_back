@@ -1,6 +1,6 @@
 package com.by.dallinday.spot;
 
-import com.by.dallinday.coursespot.CourseSpotRepository;
+import com.by.dallinday.courseSpot.CourseSpotRepository;
 import com.by.dallinday.spot.dto.SpotResponse;
 import com.by.dallinday.spot.tourAPI.SpotAPIClient;
 import com.by.dallinday.spot.tourAPI.SpotItem;

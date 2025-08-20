@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class MemberGetResponse {
+public class MemberResponse {
     private Long memberId;
 
     private String email;

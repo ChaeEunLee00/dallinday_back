@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class Favorite {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
 
     @ManyToOne // ManyToOne은 EAGER이 디폴트

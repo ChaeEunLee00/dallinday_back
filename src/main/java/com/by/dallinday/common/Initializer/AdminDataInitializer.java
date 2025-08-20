@@ -35,9 +35,9 @@ public class AdminDataInitializer implements CommandLineRunner {
             admin.setProviderId(passwordEncoder.encode(adminPassword)); // 비밀번호 역할
             admin.setProvider("dallinday");
             admin.setRole(Role.ADMIN.getRole());
-            admin.setUsername("관리자");
+            admin.setUsername("달린데이");
             admin.setCreatedAt(LocalDateTime.now());
-            admin.setImageUrl("https://wanderworld-bucket.s3.ap-northeast-2.amazonaws.com/default_profile.jpg");
+            admin.setImageUrl("https://dallinday-bucket.s3.ap-northeast-2.amazonaws.com/profile/default_profile.jpg");
 
             memberRepository.save(admin);
             log.info("Admin user created.");

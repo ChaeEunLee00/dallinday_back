@@ -3,6 +3,8 @@ package com.by.dallinday.run.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class RunResponse {
@@ -22,7 +24,7 @@ public class RunResponse {
 
     private Double accuracy;
 
-    private String startTime;
+    private LocalDateTime startTime;
 
-    private String endTime;
+    private LocalDateTime endTime;
 }

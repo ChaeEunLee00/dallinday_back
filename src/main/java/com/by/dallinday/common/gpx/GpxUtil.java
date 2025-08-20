@@ -12,7 +12,7 @@ import java.util.List;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.course.Course;
-import com.by.dallinday.coursespot.CourseSpot;
+import com.by.dallinday.courseSpot.CourseSpot;
 import com.by.dallinday.spot.tourAPI.SpotItem;
 import io.jenetics.jpx.GPX;
 import io.jenetics.jpx.Length;

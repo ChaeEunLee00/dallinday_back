@@ -38,4 +38,15 @@ public class RunController {
         RunResponse response = runService.findRun(runId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    // 달리기 기록 삭제
+    @DeleteMapping("/{run-id}")
+    public ResponseEntity deleteRun(@PathVariable("run-id") @Positive Long runId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
+        Long tokenMemberId = Long.valueOf(principal.get("memberId").toString());
+
+        runService.removeRun(tokenMemberId, runId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
