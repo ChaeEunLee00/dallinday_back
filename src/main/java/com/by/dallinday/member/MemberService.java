@@ -102,7 +102,7 @@ public class MemberService {
         if (username != null) member.setUsername(username);
 
         // 이미지 업로드 & URL 저장
-        if (image != null) {
+        if (image != null && !image.isEmpty()) {
 //            String url = s3Uploader.uploadProfileImage(memberId, image);
 //            member.setImageUrl(url);
         }
