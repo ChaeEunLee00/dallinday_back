@@ -9,7 +9,9 @@ import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
 import com.by.dallinday.member.dto.MemberGetResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
+import com.by.dallinday.member.dto.MyRankingDetailResponse;
 import com.by.dallinday.member.dto.MyRankingResponse;
+import com.by.dallinday.ranking.dto.RankingHistoryResponse;
 import com.by.dallinday.ranking.dto.RankingResponse;
 import com.by.dallinday.ranking.Ranking;
 import com.by.dallinday.ranking.RankingMapper;
@@ -75,8 +77,10 @@ public class MemberService {
     }
 
     // 순위 조회
-    public Member findMyRanking() {
-        return new Member();
+    public MyRankingDetailResponse findMyRanking(Long memberId) {
+
+        // 랭킹 계산 (현재 월 기준)
+        return getMyDetailRanking(memberId);
     }
 
     // 멤버 조회
@@ -129,5 +133,60 @@ public class MemberService {
         }
 
         return myRankingResponse;
+    }
+
+    private MyRankingDetailResponse getMyDetailRanking(Long memberId) {
+        MyRankingDetailResponse myRankingDetailResponse = new MyRankingDetailResponse();
+
+        // 1. 현재 월 기준 Ranking 기록을 가진 전체 멤버 등수 순으로 조회
+        String ym = YearMonth.from(LocalDateTime.now()).toString(); // "YYYY-MM"
+        List<Ranking> monthlyRankings = rankingRepository.findByYearMonthOrderByMonthlyRank(ym);
+
+        // 2. memberId로 해당 멤버의 순위 조회
+        int idx = -1;
+        for (int i = 0; i < monthlyRankings.size(); i++) {
+            if (monthlyRankings.get(i).getMember().getMemberId().equals(memberId)) {
+                idx = i;
+                break;
+            }
+        }
+
+        // yearMonth
+        myRankingDetailResponse.setYearMonth(ym);
+
+        // totalNum
+        myRankingDetailResponse.setMonthlyTotalNum((long) monthlyRankings.size());
+
+        if(idx != -1){
+            // my
+            RankingResponse myRanking = rankingMapper.rankingToRankingResponse(monthlyRankings.get(idx));
+            myRankingDetailResponse.setMy(myRanking);
+
+            // prev
+            if(idx-1 >= 0){
+                RankingResponse prevRanking = rankingMapper.rankingToRankingResponse(monthlyRankings.get(idx-1));
+                myRankingDetailResponse.setPrev(prevRanking);
+            }
+
+            // next
+            if(idx+1 < monthlyRankings.size()){
+                RankingResponse nextRanking = rankingMapper.rankingToRankingResponse(monthlyRankings.get(idx+1));
+                myRankingDetailResponse.setNext(nextRanking);
+            }
+        }
+
+        // total ranking
+        List<RankingResponse> totalRanking = monthlyRankings.stream()
+                .map(rank -> rankingMapper.rankingToRankingResponse(rank))
+                .toList();
+        myRankingDetailResponse.setTotalRanking(totalRanking);
+
+        // ranking history
+        List<Ranking> history = rankingRepository.findByMember_MemberIdOrderByYearMonthDesc(memberId);
+        List<RankingHistoryResponse> rankingHistory = history.stream()
+                .map(rank -> rankingMapper.rankingToRankingHistroyResponse(rank))
+                .toList();
+
+        return myRankingDetailResponse;
     }
 }

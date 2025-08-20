@@ -14,4 +14,6 @@ public interface RankingRepository extends JpaRepository<Ranking, Long> {
     List<Ranking> findByYearMonthOrderByMonthlyTotalDistanceDesc(String yearMonth);
 
     List<Ranking> findByYearMonthOrderByMonthlyRank(String yearMonth);
+
+    List<Ranking> findByMember_MemberIdOrderByYearMonthDesc(Long memberId);
 }

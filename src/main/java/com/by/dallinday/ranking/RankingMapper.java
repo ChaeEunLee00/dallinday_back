@@ -1,5 +1,6 @@
 package com.by.dallinday.ranking;
 
+import com.by.dallinday.ranking.dto.RankingHistoryResponse;
 import com.by.dallinday.ranking.dto.RankingResponse;
 import org.springframework.stereotype.Component;
 
@@ -18,5 +19,18 @@ public class RankingMapper {
         rankingResponse.setMonthlyDistance(ranking.getMonthlyTotalDistance());
 
         return rankingResponse;
+    }
+
+    public RankingHistoryResponse rankingToRankingHistroyResponse(Ranking ranking){
+        if ( ranking == null ) {
+            return null;
+        }
+
+        RankingHistoryResponse rankingHistoryResponse = new RankingHistoryResponse();
+
+        rankingHistoryResponse.setYearMonth(ranking.getYearMonth());
+        rankingHistoryResponse.setMonthlyRank(ranking.getMonthlyRank());
+
+        return rankingHistoryResponse;
     }
 }

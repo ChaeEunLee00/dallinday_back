@@ -3,6 +3,7 @@ package com.by.dallinday.member;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.member.dto.MemberGetResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
+import com.by.dallinday.member.dto.MyRankingDetailResponse;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -62,8 +63,10 @@ public class MemberController {
 
     // 순위 상세 조회
     @GetMapping("/{member-id}/mypage/ranking")
-    public ResponseEntity getMyRanking() {
+    public ResponseEntity getMyRanking(@PathVariable("member-id") @Positive Long memberId) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
+        MyRankingDetailResponse response = memberService.findMyRanking(memberId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
