@@ -34,13 +34,13 @@ public class SpotController {
     // 위치 기반 관광지 리스트 조회
     @GetMapping("/location")
     public ResponseEntity getSpotsByLocation(
-            @RequestParam double mapX, @RequestParam double mapY,
+            @RequestParam double lon, @RequestParam double lat,
             @RequestParam(defaultValue = "7") int areaCode,
             @RequestParam(defaultValue = "20000") int radius,
             @RequestParam(defaultValue = "10") @Positive int numOfRows,
             @RequestParam(defaultValue = "1") @Positive int pageNo) {
 
-        List<SpotResponse> responses = spotService.findSpotsByLocation(mapX, mapY, areaCode, radius, numOfRows, pageNo);
+        List<SpotResponse> responses = spotService.findSpotsByLocation(lon, lat, areaCode, radius, numOfRows, pageNo);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 }
