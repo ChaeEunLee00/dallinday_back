@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8">
-    <title>[앱 이름] 개인정보처리방침</title>
+    <title>달린데이 개인정보처리방침</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body{font-family: Arial, sans-serif; max-width: 900px; margin: auto; padding: 24px; line-height: 1.7}
@@ -16,10 +16,10 @@
     </style>
 </head>
 <body>
-<h1>[앱 이름] 개인정보처리방침</h1>
-<small>시행일: <strong>YYYY-MM-DD</strong> | 최종 업데이트: <strong>YYYY-MM-DD</strong></small>
+<h1>달린데이 개인정보처리방침</h1>
+<small>시행일: <strong>2025-08-16</strong> | 최종 업데이트: <strong>2025-08-20</strong></small>
 
-<p>㈜[회사명](이하 “회사”)은 「개인정보 보호법」, 「정보통신망법」, GDPR 등 관련 법령을 준수하며, 이용자의 개인정보를 안전하게 처리하기 위해 다음과 같이 개인정보처리방침을 수립·공개합니다.</p>
+<p>맨발의 청춘(이하 “회사”)은 「개인정보 보호법」, 「정보통신망법」 등 관련 법령을 준수하며, 이용자의 개인정보를 안전하게 처리하기 위해 다음과 같이 개인정보처리방침을 수립·공개합니다.</p>
 
 <div class="toc">
     <strong>목차</strong>
@@ -29,113 +29,133 @@
     <a href="#share">4. 제3자 제공 및 처리위탁</a>
     <a href="#rights">5. 이용자 및 법정대리인의 권리</a>
     <a href="#security">6. 안전성 확보 조치</a>
-    <a href="#overseas">7. 국외 이전(해외 보관/처리 시)</a>
-    <a href="#sdk">8. 연동 SDK/분석 도구 목록</a>
-    <a href="#children">9. 아동의 개인정보</a>
-    <a href="#contact">10. 문의처(개인정보 보호책임자)</a>
-    <a href="#changes">11. 방침 변경 공지</a>
+    <a href="#overseas">7. 국외 이전</a>
+    <a href="#sdk">8. 연동 서비스/API 목록</a>
+    <a href="#ads">9. 광고/분석 서비스 사용 여부</a>
+    <a href="#children">10. 아동의 개인정보</a>
+    <a href="#googleplay">11. 구글 플레이스토어 배포 안내</a>
+    <a href="#contact">12. 문의처(개인정보 보호책임자)</a>
+    <a href="#changes">13. 방침 변경 공지</a>
 </div>
 
 <h2 id="collect">1. 수집하는 개인정보 항목 및 방법</h2>
 <div class="box">
-    <p><strong>필수</strong>: 이메일, 닉네임, 기기식별자(예: Instance ID), 접속 로그, 서비스 이용기록</p>
-    <p><strong>선택</strong>: 프로필 이미지, 위치 정보(서비스 기능 사용 시), 알림 토큰</p>
-    <p><strong>수집 방법</strong>: 회원가입, 서비스 이용 과정, 고객센터 문의, 쿠키/유사 기술</p>
+    <p><strong>소셜 로그인 시</strong> (카카오, 네이버, 구글): 이메일, 닉네임, 프로필 사진</p>
+    <p><strong>서비스 이용 시</strong>: 위치정보(GPS/네트워크), 코스 기록, 러닝 기록(거리·시간·속도), 접속 로그</p>
+    <p><strong>수집 방법</strong>: 회원가입(소셜 로그인 연동), 서비스 이용 과정, 고객센터 문의</p>
 </div>
 
 <h2 id="purpose">2. 개인정보의 처리 목적</h2>
 <ul>
-    <li>회원관리(본인확인, 부정이용 방지, 문의 응대)</li>
-    <li>서비스 제공 및 기능 운영(콘텐츠 제공, 알림 전송 등)</li>
-    <li>서비스 개선 및 통계 분석(오류 분석, 이용행태 분석)</li>
-    <li>법령 준수 및 분쟁 대응</li>
+    <li>회원 식별 및 계정 관리</li>
+    <li>러닝 경로 추적, 코스 추천, 기록 저장 등 서비스 제공</li>
+    <li>이용 패턴 분석을 통한 서비스 개선</li>
+    <li>부정 이용 방지 및 분쟁 대응, 법령 준수</li>
 </ul>
 
 <h2 id="retain">3. 보유·이용기간 및 파기</h2>
 <ul>
-    <li>회원탈퇴 시 지체 없이 파기(단, 관련 법령에 따라 <strong>[예: 3년]</strong> 보관이 필요한 경우 그 기간 동안 보관 후 파기)</li>
-    <li>접속 로그/IP: 통신비밀보호법에 따라 <strong>[예: 3개월]</strong> 보관</li>
+    <li>이용자가 <strong>계정 탈퇴 시 즉시 모든 개인정보를 삭제</strong>하며, 소셜 로그인 연동도 즉시 해제됩니다.</li>
+    <li>단, 관련 법령에 따라 보존이 필요한 경우에는 해당 기간 동안만 보관합니다.
+        <ul>
+            <li>전자상거래 관련 기록(계약, 결제 등): 5년</li>
+            <li>소비자 불만·분쟁처리 기록: 3년</li>
+            <li>접속 로그(IP 포함): 통신비밀보호법에 따라 3개월</li>
+        </ul>
+    </li>
 </ul>
-<p>파기방법: 전자적 파일은 복구 불가능한 기술적 방법으로, 인쇄물은 분쇄 또는 소각</p>
+<p>파기방법: 전자적 파일은 복구 불가능한 기술적 방법으로 삭제, 인쇄물은 분쇄 또는 소각</p>
 
 <h2 id="share">4. 제3자 제공 및 처리위탁</h2>
-<p><strong>제3자 제공</strong>: 원칙적으로 제공하지 않음. 다만 법령 근거가 있거나 이용자 동의가 있는 경우에 한함.</p>
+<p><strong>제3자 제공</strong>: 회사는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만 법령 근거가 있거나 이용자 동의가 있는 경우에만 제공합니다.</p>
 <p><strong>처리위탁</strong> (예시):</p>
 <table>
     <thead><tr><th>수탁업체</th><th>위탁업무</th><th>보유·이용기간</th></tr></thead>
     <tbody>
-    <tr><td>[예: Amazon Web Services]</td><td>인프라 운영/데이터 보관</td><td>위탁계약 종료 시까지</td></tr>
-    <tr><td>[예: Google Firebase]</td><td>푸시/분석/인증</td><td>위탁계약 종료 시까지</td></tr>
+    <tr><td>Amazon Web Services</td><td>서비스 인프라 운영 및 데이터 보관</td><td>위탁계약 종료 시까지</td></tr>
     </tbody>
 </table>
 
 <h2 id="rights">5. 이용자 및 법정대리인의 권리</h2>
 <ul>
-    <li>개인정보 열람·정정·삭제·처리정지 요구 가능</li>
-    <li>동의 철회 및 회원탈퇴 가능</li>
-    <li>권리 행사는 <a href="mailto:support@example.com">support@example.com</a> 또는 아래 “계정 삭제/데이터 요청”을 통해 가능합니다.</li>
+    <li>개인정보 열람, 정정, 삭제, 처리정지 요구 가능</li>
+    <li>소셜 로그인 연결 해제 및 계정 탈퇴 가능</li>
+    <li>권리 행사는 <a href="mailto:support@example.com">chaeeun06437@gmail.com</a> 또는 아래 버튼을 통해 가능합니다.</li>
 </ul>
 <p>
-    <a class="btn danger" href="https://example.com/delete-account" target="_blank">계정 삭제</a>
-    &nbsp;
-    <a class="btn" href="https://example.com/data-request" target="_blank">데이터 열람/다운로드 요청</a>
+    <a class="btn danger" href="https://dallinday.site/delete-account.html" target="_blank">계정 삭제</a>
 </p>
 
 <h2 id="security">6. 안전성 확보 조치</h2>
 <ul>
-    <li>암호화 저장 및 전송(비밀번호·토큰 등)</li>
-    <li>접근권한 관리 및 최소권한 원칙</li>
-    <li>침입차단 및 모니터링, 로그 점검</li>
-    <li>임직원 보안 교육 및 위·수탁사 관리</li>
+    <li>중요 정보 암호화 저장 및 전송</li>
+    <li>모든 데이터 전송은 HTTPS(TLS) 암호화 통신으로 보호</li>
+    <li>접근 권한 최소화 및 관리</li>
+    <li>서버 방화벽, 모니터링, 로그 점검</li>
+    <li>임직원 보안 교육</li>
 </ul>
 
-<h2 id="overseas">7. 국외 이전(해외 보관/처리 시 기재)</h2>
+<h2 id="overseas">7. 국외 이전</h2>
 <div class="box">
-    <p><strong>이전 받는 자</strong>: [예: Google LLC], <strong>이전 국가</strong>: 미국</p>
-    <p><strong>이전 항목</strong>: 계정 식별자, 로그, 진단 데이터</p>
-    <p><strong>이전 시점/방법</strong>: 서비스 이용 시 네트워크 전송</p>
-    <p><strong>보유·이용기간</strong>: 목적 달성 시 또는 이용자 삭제 요청/계약 종료 시</p>
+    <p><strong>이전 받는 자</strong>: Amazon Web Services Inc.</p>
+    <p><strong>이전 국가</strong>: 미국</p>
+    <p><strong>이전 항목</strong>: 서비스 데이터 및 계정 정보</p>
+    <p><strong>이전 방법</strong>: 서비스 이용 시 네트워크 전송 (HTTPS/TLS 암호화 적용)</p>
+    <p><strong>보유·이용기간</strong>: 계약 종료 또는 이용자 요청 시까지</p>
 </div>
 
-<h2 id="sdk">8. 연동 SDK/분석 도구 목록</h2>
+<h2 id="sdk">8. 연동 서비스/API 목록</h2>
 <table>
-    <thead><tr><th>SDK/서비스</th><th>수집 항목</th><th>목적</th><th>개인정보처리방침</th></tr></thead>
+    <thead><tr><th>서비스/API</th><th>수집 항목</th><th>목적</th><th>개인정보처리방침</th></tr></thead>
     <tbody>
     <tr>
-        <td>Firebase Analytics</td>
-        <td>앱 이용 이벤트, 기기/광고 ID 등</td>
-        <td>사용성 분석/개선</td>
-        <td><a href="https://policies.google.com/privacy" target="_blank">보기</a></td>
+        <td>카카오/네이버/구글 로그인</td>
+        <td>이메일, 닉네임, 프로필 이미지</td>
+        <td>회원 인증 및 계정 생성</td>
+        <td><a href="https://www.kakao.com/policy/privacy" target="_blank">카카오</a> /
+            <a href="https://policy.naver.com/policy/privacy.html" target="_blank">네이버</a> /
+            <a href="https://policies.google.com/privacy" target="_blank">구글</a></td>
     </tr>
     <tr>
-        <td>Firebase Cloud Messaging</td>
-        <td>푸시 토큰</td>
-        <td>알림 전송</td>
-        <td><a href="https://firebase.google.com/support/privacy" target="_blank">보기</a></td>
+        <td>카카오맵 API</td>
+        <td>위치 정보</td>
+        <td>지도 표시 및 경로 안내</td>
+        <td><a href="https://www.kakao.com/policy/privacy" target="_blank">보기</a></td>
     </tr>
-    <!-- 사용 SDK를 실제로 나열하세요 -->
+    <tr>
+        <td>한국관광공사 TourAPI</td>
+        <td>관광지 정보(비개인정보)</td>
+        <td>코스 추천/관광지 데이터 제공</td>
+        <td><a href="https://knto.or.kr/helpdeskPolicyPrivacyHomepage" target="_blank">보기</a></td>
+    </tr>
     </tbody>
 </table>
 
-<h2 id="children">9. 아동의 개인정보</h2>
-<p>원칙적으로 만 14세 미만(또는 현지법령 적용 연령)의 아동으로부터는 법정대리인 동의 없이 개인정보를 수집하지 않습니다. 아동의 정보가 수집된 것을 알게 된 경우 지체 없이 삭제합니다.</p>
+<h2 id="ads">9. 광고/분석 서비스 사용 여부</h2>
+<p>회사는 광고 및 제3자 분석 서비스를 사용하지 않습니다. (✅ 미사용)</p>
 
-<h2 id="contact">10. 문의처(개인정보 보호책임자)</h2>
+<h2 id="children">10. 아동의 개인정보</h2>
+<p>만 14세 미만 아동의 개인정보는 법정대리인 동의 없이 수집하지 않습니다. 아동의 정보가 수집된 것을 알게 될 경우 즉시 삭제합니다.</p>
+
+<h2 id="googleplay">11. 구글 플레이스토어 배포 안내</h2>
+<p>본 애플리케이션은 Google Play 스토어를 통해 배포되며, 회사는 Google의 정책을 준수합니다. Google Play 스토어는 앱 다운로드·업데이트 과정에서 기기 정보(운영체제 버전, 기기 모델 등)를 수집할 수 있으며, 이는 Google의 <a href="https://policies.google.com/privacy" target="_blank">개인정보 처리방침</a>에 따릅니다.</p>
+<p>회사는 Google Play 스토어가 제공하는 설치·업데이트·결제 시스템 외의 목적으로 이용자의 개인정보를 추가 수집하지 않습니다.</p>
+
+<h2 id="contact">12. 문의처(개인정보 보호책임자)</h2>
 <table>
     <tbody>
-    <tr><th>회사명</th><td>㈜[회사명]</td></tr>
-    <tr><th>대표자</th><td>[대표자명]</td></tr>
-    <tr><th>주소</th><td>[주소]</td></tr>
-    <tr><th>개인정보 보호책임자</th><td>[성명/직책] (이메일: <a href="mailto:privacy@example.com">privacy@example.com</a>)</td></tr>
-    <tr><th>고객센터</th><td><a href="mailto:support@example.com">support@example.com</a> / [전화번호]</td></tr>
+    <tr><th>회사명</th><td>맨발의 청춘</td></tr>
+    <tr><th>대표자</th><td>이채은</td></tr>
+    <tr><th>개인정보 보호책임자</th><td> 이채은 (이메일: <a href="mailto:chaeeun06437@gmail.com">chaeeun06437@gmail.com</a>)</td></tr>
+    <tr><th>고객센터</th><td><a href="mailto:chaeeun06437@gmail.com">chaeeun06437@gmail.com</a></td></tr>
     </tbody>
 </table>
 
-<h2 id="changes">11. 방침 변경 공지</h2>
-<p>법령·서비스 변경에 따라 본 방침이 수정될 수 있으며, 변경 시 앱 내 공지 및 본 페이지를 통해 사전 고지합니다.</p>
+<h2 id="changes">13. 방침 변경 공지</h2>
+<p>관련 법령 및 서비스 변경에 따라 본 방침이 수정될 수 있으며, 변경 시 앱 내 공지 및 본 페이지를 통해 안내합니다.</p>
 
 <footer>
-    © 2025 ㈜[회사명]. All rights reserved.
+    © 2025 맨발의 청춘. All rights reserved.
 </footer>
 </body>
 </html>
