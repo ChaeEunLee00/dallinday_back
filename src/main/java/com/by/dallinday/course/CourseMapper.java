@@ -2,7 +2,7 @@ package com.by.dallinday.course;
 
 import com.by.dallinday.course.dto.*;
 import com.by.dallinday.course.tourAPI.CourseItem;
-import com.by.dallinday.coursespot.CourseSpot;
+import com.by.dallinday.courseSpot.CourseSpot;
 import com.by.dallinday.run.Run;
 import org.springframework.stereotype.Component;
 

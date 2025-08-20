@@ -1,4 +1,4 @@
-package com.by.dallinday.coursespot;
+package com.by.dallinday.courseSpot;
 
 import com.by.dallinday.course.Course;
 import jakarta.persistence.*;

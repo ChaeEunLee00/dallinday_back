@@ -1,6 +1,6 @@
 package com.by.dallinday.course;
 
-import com.by.dallinday.coursespot.CourseSpot;
+import com.by.dallinday.courseSpot.CourseSpot;
 import com.by.dallinday.run.Run;
 import jakarta.persistence.*;
 import lombok.Getter;
