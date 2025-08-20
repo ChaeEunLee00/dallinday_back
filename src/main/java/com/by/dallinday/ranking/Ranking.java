@@ -19,7 +19,7 @@ public class Ranking {
     private Long rankingId;
 
     @Column
-    private String yearMonth; // YYYY-MM 형태로 저장 (문자열) e.g. "2025-08"
+    private String rankingMonth; // YYYY-MM 형태로 저장 (문자열) e.g. "2025-08"
 
     @ManyToOne
     @JoinColumn(name = "member_id")

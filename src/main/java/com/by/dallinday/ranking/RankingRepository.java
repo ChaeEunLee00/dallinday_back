@@ -9,11 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
-    Optional<Ranking> findByMemberAndYearMonth(Member member, String yearMonth);
+    Optional<Ranking> findByMemberAndRankingMonth(Member member, String rankingMonth);
 
-    List<Ranking> findByYearMonthOrderByMonthlyTotalDistanceDesc(String yearMonth);
+    List<Ranking> findByRankingMonthOrderByMonthlyTotalDistanceDesc(String rankingMonth);
 
-    List<Ranking> findByYearMonthOrderByMonthlyRank(String yearMonth);
+    List<Ranking> findByRankingMonthOrderByMonthlyRank(String rankingMonth);
 
-    List<Ranking> findByMember_MemberIdOrderByYearMonthDesc(Long memberId);
+    List<Ranking> findByMember_MemberIdOrderByRankingMonthDesc(Long memberId);
 }

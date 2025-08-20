@@ -116,7 +116,7 @@ public class MemberService {
 
         // 1. 현재 월 기준 Ranking 기록을 가진 전체 멤버 등수 순으로 조회
         String ym = YearMonth.from(LocalDateTime.now()).toString(); // "YYYY-MM"
-        List<Ranking> monthlyRankings = rankingRepository.findByYearMonthOrderByMonthlyRank(ym);
+        List<Ranking> monthlyRankings = rankingRepository.findByRankingMonthOrderByMonthlyRank(ym);
 
         // 2. memberId로 해당 멤버의 순위 조회
         int idx = -1;
@@ -159,7 +159,7 @@ public class MemberService {
 
         // 1. 현재 월 기준 Ranking 기록을 가진 전체 멤버 등수 순으로 조회
         String ym = YearMonth.from(LocalDateTime.now()).toString(); // "YYYY-MM"
-        List<Ranking> monthlyRankings = rankingRepository.findByYearMonthOrderByMonthlyRank(ym);
+        List<Ranking> monthlyRankings = rankingRepository.findByRankingMonthOrderByMonthlyRank(ym);
 
         // 2. memberId로 해당 멤버의 순위 조회
         int idx = -1;
@@ -201,7 +201,7 @@ public class MemberService {
         myRankingDetailResponse.setTotalRanking(totalRanking);
 
         // ranking history
-        List<Ranking> history = rankingRepository.findByMember_MemberIdOrderByYearMonthDesc(memberId);
+        List<Ranking> history = rankingRepository.findByMember_MemberIdOrderByRankingMonthDesc(memberId);
         List<RankingHistoryResponse> rankingHistory = history.stream()
                 .map(rank -> rankingMapper.rankingToRankingHistroyResponse(rank))
                 .toList();

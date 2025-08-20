@@ -75,11 +75,11 @@ public class RunService {
         String ym = YearMonth.from(runTime).toString(); // "YYYY-MM"
 
         // 월별 달리기 기록 업데이트
-        Ranking ranking = rankingRepository.findByMemberAndYearMonth(member, ym)
+        Ranking ranking = rankingRepository.findByMemberAndRankingMonth(member, ym)
                 .orElseGet(() -> {
                     Ranking r = new Ranking();
                     r.setMember(member);
-                    r.setYearMonth(ym);
+                    r.setRankingMonth(ym);
                     return r;
                 });
 
@@ -93,7 +93,7 @@ public class RunService {
 
     @Transactional
     private void recalcMonthRanks(String yearMonth) {
-        List<Ranking> list = rankingRepository.findByYearMonthOrderByMonthlyTotalDistanceDesc(yearMonth);
+        List<Ranking> list = rankingRepository.findByRankingMonthOrderByMonthlyTotalDistanceDesc(yearMonth);
 
         double prevDist = Double.NaN;
         long currentRank = 0;
