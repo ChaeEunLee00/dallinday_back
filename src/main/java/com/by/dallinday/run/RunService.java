@@ -109,4 +109,21 @@ public class RunService {
         }
         rankingRepository.saveAll(list);
     }
+
+    // 달리기 기록 삭제
+    public void removeRun(Long tokenMemberId, Long runId) {
+        Run run = runRepository.findById(runId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RUN_NOT_FOUND));
+
+        Long ownerId = run.getMember().getMemberId();
+        if (!ownerId.equals(tokenMemberId)) {
+            // 소유자 아님 → 403
+            throw new BusinessLogicException(ExceptionCode.FORBIDDEN_NOT_OWNER);
+        }
+
+        // 멤버 누적 통계 되돌리기
+        // 월별 랭킹 집계 쓰는 경우, 해당 달 재계산 호출
+
+//        runRepository.delete(run);
+    }
 }

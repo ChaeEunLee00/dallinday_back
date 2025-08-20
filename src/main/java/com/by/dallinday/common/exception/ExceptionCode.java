@@ -16,7 +16,8 @@ public enum ExceptionCode {
     ONLY_ADMIN(404, "Administrator only"),
     DATABASE_ERROR(500, "Database error occurred"),
     GPX_ANALYZE_ERROR(500, "GPX analyze error occurred"),
-    PASSWORD_MISMATCH(401, "Password mismatch");
+    PASSWORD_MISMATCH(401, "Password mismatch"),
+    FORBIDDEN_NOT_OWNER(403, "You are not the owner of this resource");
 
     @Getter
     private int status;
