@@ -35,6 +35,42 @@ public class MemberService {
     private final FavoriteRepository favoriteRepository;
     private final RankingRepository rankingRepository;
 
+    // 멤버 조회
+    public MemberResponse findMember(Long memberId){
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        return memberMapper.memberToMemberResponse(member);
+    }
+
+    // 멤버 수정
+    public MemberResponse updateMember(Long memberId, String username, MultipartFile image) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        // 닉네임 갱신
+        if (username != null) member.setUsername(username);
+
+        // 이미지 업로드 & URL 저장
+        if (image != null && !image.isEmpty()) {
+//            String url = s3Uploader.uploadProfileImage(memberId, image);
+//            member.setImageUrl(url);
+        }
+
+        // JPA 영속성으로 자동 flush
+        return memberMapper.memberToMemberResponse(member);
+    }
+
+    // 멤버 탈퇴
+    public void removeMember(Long memberId) {
+        // 멤버가 존재하는지 확인
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        memberRepository.delete(member);
+    }
+
     // 마이 페이지 조회
     public MyPageGetResponse findMyPage(Long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -68,47 +104,11 @@ public class MemberService {
                 .toList();
     }
 
-    // 멤버 탈퇴
-    public void removeMember(Long memberId) {
-        // 멤버가 존재하는지 확인
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        memberRepository.delete(member);
-    }
-
     // 순위 조회
     public MyRankingDetailResponse findMyRanking(Long memberId) {
 
         // 랭킹 계산 (현재 월 기준)
         return getMyDetailRanking(memberId);
-    }
-
-    // 멤버 조회
-    public MemberResponse findMember(Long memberId){
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        return memberMapper.memberToMemberResponse(member);
-    }
-
-    // 멤버 수정
-    public MemberResponse updateMember(Long memberId, String username, MultipartFile image) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        // 닉네임 갱신
-        if (username != null) member.setUsername(username);
-
-        // 이미지 업로드 & URL 저장
-        if (image != null && !image.isEmpty()) {
-//            String url = s3Uploader.uploadProfileImage(memberId, image);
-//            member.setImageUrl(url);
-        }
-
-        // JPA 영속성으로 자동 flush
-        return memberMapper.memberToMemberResponse(member);
     }
 
     private MyRankingResponse getMyRanking(Long memberId) {

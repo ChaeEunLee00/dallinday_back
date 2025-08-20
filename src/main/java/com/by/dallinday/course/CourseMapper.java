@@ -1,10 +1,7 @@
 package com.by.dallinday.course;
 
-import com.by.dallinday.course.dto.CourseSpotResponse;
+import com.by.dallinday.course.dto.*;
 import com.by.dallinday.course.tourAPI.CourseItem;
-import com.by.dallinday.course.dto.CourseListResponse;
-import com.by.dallinday.course.dto.CourseResponse;
-import com.by.dallinday.course.dto.CourseRunResponse;
 import com.by.dallinday.coursespot.CourseSpot;
 import com.by.dallinday.run.Run;
 import org.springframework.stereotype.Component;
@@ -63,6 +60,22 @@ public class CourseMapper {
         courseResponse.setRunList(courseRunResponsesList);
 
         return courseResponse;
+    }
+
+    public CourseTop5Response courseToCourseTop5Response(Course course) {
+        if ( course == null ) {
+            return null;
+        }
+
+        CourseTop5Response courseTop5Response = new CourseTop5Response();
+
+        courseTop5Response.setCourseId(course.getCourseId());
+        courseTop5Response.setName(course.getName());
+        courseTop5Response.setDistance(course.getDistance());
+        courseTop5Response.setDuration(course.getDuration());
+        courseTop5Response.setRunCount(course.getRunList().size());
+
+        return courseTop5Response;
     }
 
     public CourseSpotResponse courseSpotToCourseSpotResponse(CourseSpot courseSpot) {

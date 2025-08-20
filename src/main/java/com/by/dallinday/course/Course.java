@@ -55,13 +55,6 @@ public class Course {
     @Column
     private LocalDateTime modifiedAt; // 수정일시
 
-//    @Column
-//    private String spotId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "themeId")
-//    private Theme theme;
-
     public static Course of(String name, String description, String gpxpath) {
         Course course = new Course();
         course.setName(name);

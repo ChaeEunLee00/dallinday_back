@@ -2,6 +2,7 @@ package com.by.dallinday.course;
 
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.course.dto.CourseResponse;
+import com.by.dallinday.course.dto.CourseTop5Response;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,14 @@ public class CourseController {
                                          @RequestParam(defaultValue = "distance") String sortBy) {
 
         List<CourseListResponse> response = courseService.findSpotCourseList(spotId, sortBy);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 인기 코스 top5 리스트 조회
+    @GetMapping("/top5")
+    public ResponseEntity getTop5Courses() {
+
+        List<CourseTop5Response> response = courseService.findTop5CourseList();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

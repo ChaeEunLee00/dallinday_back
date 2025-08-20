@@ -3,6 +3,7 @@ package com.by.dallinday.course;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.common.gpx.GpxResult;
+import com.by.dallinday.course.dto.CourseTop5Response;
 import com.by.dallinday.course.tourAPI.CourseAPIClient;
 import com.by.dallinday.course.tourAPI.CourseItem;
 import com.by.dallinday.course.dto.CourseListResponse;
@@ -60,6 +61,15 @@ public class CourseService {
 
         return courses.stream()
                 .map(course -> courseMapper.courseToCourseListResponse(course))
+                .toList();
+    }
+
+    // 인기코스 top 5 조회
+    public List<CourseTop5Response> findTop5CourseList() {
+        List<Course> top5 = courseRepository.findTop5ByRunCount();
+
+        return top5.stream()
+                .map(course -> courseMapper.courseToCourseTop5Response(course))
                 .toList();
     }
 
