@@ -28,7 +28,7 @@ public class RankingMapper {
 
         RankingHistoryResponse rankingHistoryResponse = new RankingHistoryResponse();
 
-        rankingHistoryResponse.setYearMonth(ranking.getYearMonth());
+        rankingHistoryResponse.setYearMonth(ranking.getRankingMonth());
         rankingHistoryResponse.setMonthlyRank(ranking.getMonthlyRank());
 
         return rankingHistoryResponse;
