@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "rankings")
 public class Ranking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rankId;
+    private Long rankingId;
 
     @Column
     private String yearMonth; // YYYY-MM 형태로 저장 (문자열) e.g. "2025-08"
