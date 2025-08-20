@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(name = "favorites")
 public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
