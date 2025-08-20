@@ -205,6 +205,7 @@ public class MemberService {
         List<RankingHistoryResponse> rankingHistory = history.stream()
                 .map(rank -> rankingMapper.rankingToRankingHistroyResponse(rank))
                 .toList();
+        myRankingDetailResponse.setRankingHistory(rankingHistory);
 
         return myRankingDetailResponse;
     }
