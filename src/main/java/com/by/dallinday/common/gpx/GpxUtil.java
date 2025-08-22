@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GpxUtil {
 
-    private static final double RADIUS_M = 1000.0;
+    private static final double RADIUS_M = 300.0;
     private static final int ELEV_SMOOTH_WINDOW = 5; // 이동평균 윈도우
     private static final double MIN_ELEV_DELTA = 3.0; // 총상승에 반영할 최소 고도 변화(m)
     private static final double MIN_SEG_DIST_M = 5.0; // 경사 계산 시 고려 최소 수평 거리(m)
