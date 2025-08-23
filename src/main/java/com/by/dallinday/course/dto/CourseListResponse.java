@@ -13,6 +13,8 @@ public class CourseListResponse {
 
     private String name; // 코스명
 
+    private String imageUrl; // 코스 이미지 - 시작지점 기준
+
     private Double distance; // 거리 (단위: km)
 
     private Integer duration; // 소요시간 (단위: 분)
