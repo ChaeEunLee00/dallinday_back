@@ -60,7 +60,19 @@ public class CourseService {
                 .toList();
 
         return courses.stream()
-                .map(course -> courseMapper.courseToCourseListResponse(course))
+                .map(course -> {
+                    // 기본 매핑
+                    CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
+
+                    // 시작지점 spot ID 얻기
+                    Long firstSpotId = courseListResponse.getCourseSpotList().get(0).getSpotId();
+
+                    // 외부 API 호출해서 이미지 URL 가져오기
+                    SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
+                    courseListResponse.setImageUrl(spotItem.getFirstimage());
+
+                    return courseListResponse;
+                })
                 .toList();
     }
 
