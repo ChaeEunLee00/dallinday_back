@@ -16,6 +16,8 @@ import com.by.dallinday.ranking.dto.RankingResponse;
 import com.by.dallinday.ranking.Ranking;
 import com.by.dallinday.ranking.RankingMapper;
 import com.by.dallinday.ranking.RankingRepository;
+import com.by.dallinday.spot.tourAPI.SpotAPIClient;
+import com.by.dallinday.spot.tourAPI.SpotItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    private final SpotAPIClient spotAPIClient;
+
     private final MemberMapper memberMapper;
     private final CourseMapper courseMapper;
     private final RankingMapper rankingMapper;
@@ -100,7 +104,19 @@ public class MemberService {
                 .toList();
 
         return favoriteCourses.stream()
-                .map(course -> courseMapper.courseToCourseListResponse(course))
+                .map(course -> {
+                    // 기본 매핑
+                    CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
+
+                    // 시작지점 spot ID 얻기
+                    Long firstSpotId = courseListResponse.getCourseSpotList().get(0).getSpotId();
+
+                    // 외부 API 호출해서 이미지 URL 가져오기
+                    SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
+                    courseListResponse.setImageUrl(spotItem.getFirstimage());
+
+                    return courseListResponse;
+                })
                 .toList();
     }
 
