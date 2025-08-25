@@ -34,12 +34,12 @@ public class RunMapper {
 
         runResponse.setRunId( run.getRunId());
         runResponse.setMemberId( run.getMember().getMemberId());
-        runResponse.setCourseId( run.getCourse().getCourseId());
+        if(run.getCourse() != null) runResponse.setCourseId( run.getCourse().getCourseId());
         runResponse.setDistance( run.getDistance() );
         runResponse.setDuration( run.getDuration() );
         runResponse.setPace( run.getPace() );
         runResponse.setCalorie( run.getCalorie() );
-        runResponse.setAccuracy( run.getAccuracy() );
+        if(run.getAccuracy() != null) runResponse.setAccuracy( run.getAccuracy() );
         runResponse.setStartTime( run.getStartTime() );
         runResponse.setEndTime( run.getEndTime() );
 
