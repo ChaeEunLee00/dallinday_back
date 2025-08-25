@@ -18,7 +18,7 @@ public class RunMapper {
         run.setDuration( runPostRequest.getDuration() );
         run.setPace( runPostRequest.getPace() );
         run.setCalorie( runPostRequest.getCalorie() );
-        run.setAccuracy( runPostRequest.getAccuracy() );
+        if(runPostRequest.getAccuracy() != null) run.setAccuracy( runPostRequest.getAccuracy() );
         run.setStartTime( runPostRequest.getStartTime() );
         run.setEndTime( runPostRequest.getEndTime() );
 
