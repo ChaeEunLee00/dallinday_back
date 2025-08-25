@@ -1,3 +1,4 @@
+
 package com.by.dallinday.run;
 
 import com.by.dallinday.common.exception.BusinessLogicException;
@@ -35,12 +36,13 @@ public class RunService {
 
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        Course course = courseRepository.findById(request.getCourseId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
-
         run.setMember(member);
-        run.setCourse(course);
+
+        if(request.getCourseId() != null){
+            Course course = courseRepository.findById(request.getCourseId())
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
+            run.setCourse(course);
+        }
 
         // 서비스 로직
         // 멤버 기록 업데이트
