@@ -80,8 +80,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         oAuthRefreshToken.setMember(member);
         oAuthRefreshToken.setEncryptedRefreshToken(encryptUtil.encrypt(providerRt.getTokenValue()));
 
-        System.out.println("issuedAt: " + oAuthRefreshToken.getIssuedAt());
-        System.out.println("expiresAt: " + oAuthRefreshToken.getExpiresAt());
         oAuthRefreshTokenRepository.save(oAuthRefreshToken);
     }
 }
