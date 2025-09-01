@@ -8,12 +8,12 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 @Component
-public class EncryptUtils {
+public class EncryptUtil {
 
     @Value("${aes.secret-key}")
-    private static String KEY; // 32byte
+    private String KEY; // 32byte
 
-    public static String encrypt(String strToEncrypt) {
+    public String encrypt(String strToEncrypt) {
         try {
             SecretKeySpec secretKey = new SecretKeySpec(KEY.getBytes(), "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -24,7 +24,7 @@ public class EncryptUtils {
         }
     }
 
-    public static String decrypt(String strToDecrypt) {
+    public String decrypt(String strToDecrypt) {
         try {
             SecretKeySpec secretKey = new SecretKeySpec(KEY.getBytes(), "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
