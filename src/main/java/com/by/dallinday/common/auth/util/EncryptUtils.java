@@ -9,7 +9,7 @@ import java.util.Base64;
 public class EncryptUtils {
 
     @Value("${aes.secret-key}")
-    private static String KEY; // 32byte
+    private String KEY; // 32byte
 
     public static String encrypt(String strToEncrypt) {
         try {
