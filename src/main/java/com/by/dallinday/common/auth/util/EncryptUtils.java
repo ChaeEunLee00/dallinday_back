@@ -1,15 +1,17 @@
 package com.by.dallinday.common.auth.util;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
+@Component
 public class EncryptUtils {
 
     @Value("${aes.secret-key}")
-    private String KEY; // 32byte
+    private static String KEY; // 32byte
 
     public static String encrypt(String strToEncrypt) {
         try {
