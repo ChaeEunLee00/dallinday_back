@@ -49,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(provider, attributes);
 
         // 저장되어있는 member 정보 가져오기, 없으면 회원가입 진행
-        Member member = getMember(oAuth2UserInfo);
+        Member member = getMember(oAuth2UserInfo, provider);
 
         log.info("dallinday memberId : {}", member.getMemberId());
         log.info("dallinday email : {}", member.getEmail());
@@ -74,8 +74,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     // 저장되어있는 member 정보 가져오기
-    private Member getMember(OAuth2UserInfo oAuth2UserInfo) {
-        return memberRepository.findByEmail(oAuth2UserInfo.getEmail())
+    private Member getMember(OAuth2UserInfo oAuth2UserInfo, String provider) {
+        return memberRepository.findByEmailAndProvider(oAuth2UserInfo.getEmail(), provider)
                 .orElseGet(() -> createUser(oAuth2UserInfo));
     }
 
