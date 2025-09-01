@@ -1,11 +1,15 @@
 package com.by.dallinday.common.auth.util;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 public class EncryptUtils {
-    private static final String KEY = "TheBarefootedYoungDallinDay"; // 16/24/32byte
+
+    @Value("${aes.secret-key}")
+    private static String KEY; // 32byte
 
     public static String encrypt(String strToEncrypt) {
         try {
