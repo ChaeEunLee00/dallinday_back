@@ -19,12 +19,6 @@ public class OAuthRefreshToken {
     @Column(nullable = false, length = 2048)
     private String encryptedRefreshToken;
 
-    @Column
-    private LocalDateTime issuedAt;
-
-    @Column
-    private LocalDateTime expiresAt;
-
     @OneToOne
     @JoinColumn(name = "member_id", nullable = false, unique = true)
     private Member member;
