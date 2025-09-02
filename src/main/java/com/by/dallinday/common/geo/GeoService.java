@@ -47,11 +47,11 @@ public class GeoService {
             JsonNode root = mapper.readTree(sb.toString());
 
             JsonNode doc = root.get("documents").get(0);
-            String addr = doc.has("address") && doc.get("address") != null
+            String addr = doc.has("address") && !doc.get("address").asText().equals("null")
                     ? doc.get("address").get("address_name").asText()
                     : null;
 
-            String road = doc.has("road_address") && doc.get("road_address") != null
+            String road = doc.has("road_address") && !doc.get("road_address").asText().equals("null")
                     ? doc.get("road_address").get("address_name").asText()
                     : null;
 
