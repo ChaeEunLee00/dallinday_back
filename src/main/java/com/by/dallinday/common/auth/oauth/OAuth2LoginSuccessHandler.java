@@ -21,8 +21,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Component
 @RequiredArgsConstructor
@@ -66,15 +64,17 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private void storeOAuthRefreshToken(Authentication authentication, Long memberId) {
         if (!(authentication instanceof OAuth2AuthenticationToken token)) return;
-        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(token.getAuthorizedClientRegistrationId(), token.getName());
 
+        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(token.getAuthorizedClientRegistrationId(), token.getName());
         if (client == null) return;
+
         OAuth2RefreshToken providerRt = client.getRefreshToken();
         if (providerRt == null) return;
+
         Member member = memberRepository.findById(memberId).orElse(null);
         if (member == null) return;
 
-        OAuthRefreshToken oAuthRefreshToken = oAuthRefreshTokenRepository.findByMember(member)
+        OAuthRefreshToken oAuthRefreshToken = oAuthRefreshTokenRepository.findByMember_MemberId(member.getMemberId())
                 .orElseGet(OAuthRefreshToken::new);
 
         oAuthRefreshToken.setMember(member);

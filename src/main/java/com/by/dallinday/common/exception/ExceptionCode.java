@@ -17,7 +17,8 @@ public enum ExceptionCode {
     DATABASE_ERROR(500, "Database error occurred"),
     GPX_ANALYZE_ERROR(500, "GPX analyze error occurred"),
     PASSWORD_MISMATCH(401, "Password mismatch"),
-    FORBIDDEN_NOT_OWNER(403, "You are not the owner of this resource");
+    FORBIDDEN_NOT_OWNER(403, "You are not the owner of this resource"),
+    OAUTH_REFRESH_TOKEN_NOT_FOUND(404, "oAuth Refresh Token not found");
 
     @Getter
     private int status;

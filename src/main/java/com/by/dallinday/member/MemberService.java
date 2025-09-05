@@ -30,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final SpotAPIClient spotAPIClient;
+    private final OAuthAPIClient oAuthAPIClient;
 
     private final MemberMapper memberMapper;
     private final CourseMapper courseMapper;
@@ -72,6 +73,10 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
+        // 소셜 로그인 연결 철회
+        oAuthAPIClient.revoke(member);
+
+        // 달린데이에서 회원 삭제
         memberRepository.delete(member);
     }
 
