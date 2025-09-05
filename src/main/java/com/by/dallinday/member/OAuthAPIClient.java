@@ -33,7 +33,7 @@ public class OAuthAPIClient {
     private String kakaoClientId;
 
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
-    private String kakaoClientSecret; // 사용 안 하면 비워둬도 됨
+    private String kakaoClientSecret;
 
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
@@ -62,7 +62,7 @@ public class OAuthAPIClient {
         String accessToken = fetchAccessTokenGoogle(refreshToken);
 
         // 액세스 토큰으로 연결 철회
-        postForm("https://oauth2.googleapis.com/revoke?token"+accessToken, new LinkedHashMap<>(), null);
+        postForm("https://oauth2.googleapis.com/revoke?token="+accessToken, new LinkedHashMap<>(), null);
         log.info("[Google] revoke OK");
     }
 
@@ -86,10 +86,10 @@ public class OAuthAPIClient {
         // 액세스 토큰으로 연결 철회
         String url = "https://nid.naver.com/oauth2.0/token?"
                 + "grant_type=" + "delete"
-                + "client_id=" + naverClientId
-                + "client_secret=" + naverClientSecret
-                + "refresh_token=" + refreshToken
-                + "access_token=" + "NAVER";
+                + "&client_id=" + naverClientId
+                + "&client_secret=" + naverClientSecret
+                + "&refresh_token=" + refreshToken
+                + "&access_token=" + "NAVER";
         postForm(url, new LinkedHashMap<>(), null);
         log.info("[Naver] delete OK");
     }
@@ -112,8 +112,8 @@ public class OAuthAPIClient {
     private String fetchAccessTokenKakao(String refreshToken) {
         Map<String, String> form = new LinkedHashMap<>();
         form.put("grant_type", "refresh_token");
-        form.put("client_id", googleClientId);
-        form.put("client_secret", googleClientSecret);
+        form.put("client_id", kakaoClientId);
+        form.put("client_secret", kakaoClientSecret);
         form.put("refresh_token", refreshToken);
 
         JsonNode jsonNode = postForm("https://kauth.kakao.com/oauth/token", form, null);
@@ -124,10 +124,10 @@ public class OAuthAPIClient {
 
     private String fetchAccessTokenNaver(String refreshToken) {
         String url = "https://nid.naver.com/oauth2.0/token?"
-                + "grant_type=" + "refresh_token"
-                + "client_id=" + naverClientId
-                + "client_secret=" + naverClientSecret
-                + "refresh_token=" + refreshToken;
+                + "&grant_type=" + "refresh_token"
+                + "&client_id=" + naverClientId
+                + "&client_secret=" + naverClientSecret
+                + "&refresh_token=" + refreshToken;
 
         JsonNode jsonNode = postForm(url, new LinkedHashMap<>(), null);
         String accessToken = jsonNode.path("access_token").asText(null);
