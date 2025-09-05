@@ -18,7 +18,8 @@ public enum ExceptionCode {
     GPX_ANALYZE_ERROR(500, "GPX analyze error occurred"),
     PASSWORD_MISMATCH(401, "Password mismatch"),
     FORBIDDEN_NOT_OWNER(403, "You are not the owner of this resource"),
-    OAUTH_REFRESH_TOKEN_NOT_FOUND(404, "oAuth Refresh Token not found");
+    OAUTH_REFRESH_TOKEN_NOT_FOUND(404, "oAuth Refresh Token not found"),
+    ADMIN_CANNOT_LEAVE(403, "Administrator accounts cannot be deleted");
 
     @Getter
     private int status;
