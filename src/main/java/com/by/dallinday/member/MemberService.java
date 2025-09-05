@@ -7,10 +7,7 @@ import com.by.dallinday.course.CourseMapper;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
-import com.by.dallinday.member.dto.MemberResponse;
-import com.by.dallinday.member.dto.MyPageGetResponse;
-import com.by.dallinday.member.dto.MyRankingDetailResponse;
-import com.by.dallinday.member.dto.MyRankingResponse;
+import com.by.dallinday.member.dto.*;
 import com.by.dallinday.ranking.dto.RankingHistoryResponse;
 import com.by.dallinday.ranking.dto.RankingResponse;
 import com.by.dallinday.ranking.Ranking;
@@ -20,7 +17,6 @@ import com.by.dallinday.spot.tourAPI.SpotAPIClient;
 import com.by.dallinday.spot.tourAPI.SpotItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -30,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final SpotAPIClient spotAPIClient;
+    private final OAuthAPIClient oAuthAPIClient;
 
     private final MemberMapper memberMapper;
     private final CourseMapper courseMapper;
@@ -49,18 +46,12 @@ public class MemberService {
     }
 
     // 멤버 수정
-    public MemberResponse updateMember(Long memberId, String username, MultipartFile image) {
+    public MemberResponse updateMember(Long memberId, MemberPatchRequest request) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         // 닉네임 갱신
-        if (username != null) member.setUsername(username);
-
-        // 이미지 업로드 & URL 저장
-        if (image != null && !image.isEmpty()) {
-//            String url = s3Uploader.uploadProfileImage(memberId, image);
-//            member.setImageUrl(url);
-        }
+        if (request.getUsername() != null) member.setUsername(request.getUsername());
 
         // JPA 영속성으로 자동 flush
         return memberMapper.memberToMemberResponse(member);
@@ -72,6 +63,10 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
+        // 소셜 로그인 연결 철회
+        oAuthAPIClient.revoke(member);
+
+        // 달린데이에서 회원 삭제
         memberRepository.delete(member);
     }
 

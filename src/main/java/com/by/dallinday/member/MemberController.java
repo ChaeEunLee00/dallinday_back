@@ -1,9 +1,11 @@
 package com.by.dallinday.member;
 
 import com.by.dallinday.course.dto.CourseListResponse;
+import com.by.dallinday.member.dto.MemberPatchRequest;
 import com.by.dallinday.member.dto.MemberResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import com.by.dallinday.member.dto.MyRankingDetailResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,7 @@ public class MemberController {
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(
             @PathVariable("member-id") Long pathMemberId,
-            @RequestPart(name="username") String username,
-            @RequestPart(name = "image", required = false) MultipartFile image) {
+            @Valid @RequestBody MemberPatchRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> principal = (Map<String, Object>) authentication.getPrincipal();
         Long tokenMemberId = Long.valueOf(principal.get("memberId").toString());
@@ -44,7 +44,7 @@ public class MemberController {
             return new ResponseEntity<>("본인만 수정할 수 있습니다.", HttpStatus.FORBIDDEN);
         }
 
-        MemberResponse response = memberService.updateMember(pathMemberId, username, image);
+        MemberResponse response = memberService.updateMember(pathMemberId, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
