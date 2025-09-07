@@ -73,11 +73,11 @@ public class MemberController {
         Long tokenMemberId = Long.valueOf(principal.get("memberId").toString());
 
         if (!pathMemberId.equals(tokenMemberId)) {
-            return new ResponseEntity<>("본인만 탈퇴할 수 있습니다.", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Only the account owner can delete this account", HttpStatus.FORBIDDEN);
         }
 
         memberService.removeMember(pathMemberId);
-        return new ResponseEntity<>("탈퇴가 완료되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("Your account deletion is complete", HttpStatus.OK);
     }
 
     // 순위 상세 조회

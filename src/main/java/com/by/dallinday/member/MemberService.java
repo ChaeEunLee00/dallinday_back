@@ -63,6 +63,9 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
+        // 관리자는 탈퇴 불가
+        if(member.getRole().equals("ADMIN")) throw new BusinessLogicException(ExceptionCode.ADMIN_CANNOT_LEAVE);
+
         // 소셜 로그인 연결 철회
         oAuthAPIClient.revoke(member);
 
