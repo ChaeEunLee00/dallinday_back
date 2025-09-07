@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class SpotAPIClient {
         try {
             String result = "";
 
-            URL url = new URL("http://apis.data.go.kr/B551011/KorService2/areaBasedList2?" +
+            URL url = new URL("https://apis.data.go.kr/B551011/KorService2/areaBasedList2?" +
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + numOfRows +
                     "&pageNo=" + pageNo +
@@ -45,6 +46,7 @@ public class SpotAPIClient {
             JsonNode itemArray = rootNode.findValue("item"); // 중첩 구조에서 item 배열 추출
 
             // item 배열을 SpotItem 객체 배열로 변환
+            if(itemArray == null) return new ArrayList<>();
             return Arrays.asList(mapper.treeToValue(itemArray, SpotItem[].class));
         }
         catch (Exception exception) {
@@ -57,7 +59,7 @@ public class SpotAPIClient {
         try {
             String result = "";
 
-            URL url = new URL("http://apis.data.go.kr/B551011/KorService2/locationBasedList2?" +
+            URL url = new URL("https://apis.data.go.kr/B551011/KorService2/locationBasedList2?" +
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + numOfRows +
                     "&pageNo=" + pageNo +
@@ -82,6 +84,7 @@ public class SpotAPIClient {
             JsonNode itemArray = rootNode.findValue("item"); // 중첩 구조에서 item 배열 추출
 
             // item 배열을 SpotItem 객체 배열로 변환
+            if(itemArray == null) return new ArrayList<>();
             return Arrays.asList(mapper.treeToValue(itemArray, SpotItem[].class));
         }
         catch (Exception exception) {
@@ -115,6 +118,105 @@ public class SpotAPIClient {
 
             // item 배열을 SpotItem 객체 배열로 변환
             return Arrays.asList(mapper.treeToValue(itemArray, SpotItem[].class)).get(0);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BusinessLogicException(ExceptionCode.EXTERNAL_API_ERROR);
+        }
+    }
+
+    public SpotCommon callCommonInfoAPI(Long spotId) {
+        try {
+            String result = "";
+
+            URL url = new URL("https://apis.data.go.kr/B551011/KorService2/detailCommon2?" +
+                    "serviceKey=" + serviceKey +
+                    "&numOfRows=" + 10 +
+                    "&pageNo=" + 1 +
+                    "&MobileOS=" + "ETC" +
+                    "&MobileApp=" + "AppTest" +
+                    "&_type=" + "json" +
+                    "&contentId=" + spotId);
+
+            // url.openStream()
+            // : InputStream 만 쉽게 꺼내주는 단축 메서드
+            // : 내부적으로 HttpURLConnection을 생성해 HTTP GET 요청을 보냄
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(result);  // 전체 JSON 파싱
+            JsonNode itemArray = rootNode.findValue("item"); // 중첩 구조에서 item 배열 추출
+
+            // item 배열을 SpotCommon 객체 배열로 변환
+            return mapper.treeToValue(itemArray.get(0), SpotCommon.class);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BusinessLogicException(ExceptionCode.EXTERNAL_API_ERROR);
+        }
+    }
+
+    public SpotDetail callDetailInfoAPI(Long spotId) {
+        try {
+            String result = "";
+
+            URL url = new URL("https://apis.data.go.kr/B551011/KorService2/detailIntro2?" +
+                    "serviceKey=" + serviceKey +
+                    "&numOfRows=" + 10 +
+                    "&pageNo=" + 1 +
+                    "&MobileOS=" + "ETC" +
+                    "&MobileApp=" + "AppTest" +
+                    "&_type=" + "json" +
+                    "&contentId=" + spotId +
+                    "&contentTypeId=" + "12");
+
+            // url.openStream()
+            // : InputStream 만 쉽게 꺼내주는 단축 메서드
+            // : 내부적으로 HttpURLConnection을 생성해 HTTP GET 요청을 보냄
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(result);  // 전체 JSON 파싱
+            JsonNode itemArray = rootNode.findValue("item"); // 중첩 구조에서 item 배열 추출
+
+            // item 배열을 SpotItem 객체 배열로 변환
+            return mapper.treeToValue(itemArray.get(0), SpotDetail.class);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BusinessLogicException(ExceptionCode.EXTERNAL_API_ERROR);
+        }
+    }
+
+    public List<SpotRepeat> callRepeatInfoAPI(Long spotId) {
+        try {
+            String result = "";
+
+            URL url = new URL("https://apis.data.go.kr/B551011/KorService2/detailInfo2?" +
+                    "serviceKey=" + serviceKey +
+                    "&numOfRows=" + 10 +
+                    "&pageNo=" + 1 +
+                    "&MobileOS=" + "ETC" +
+                    "&MobileApp=" + "AppTest" +
+                    "&_type=" + "json" +
+                    "&contentId=" + spotId +
+                    "&contentTypeId=" + "12");
+
+            // url.openStream()
+            // : InputStream 만 쉽게 꺼내주는 단축 메서드
+            // : 내부적으로 HttpURLConnection을 생성해 HTTP GET 요청을 보냄
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(result);  // 전체 JSON 파싱
+            JsonNode itemArray = rootNode.findValue("item"); // 중첩 구조에서 item 배열 추출
+
+            // item 배열을 SpotItem 객체 배열로 변환
+            if(itemArray == null) return new ArrayList<>();
+            return Arrays.asList(mapper.treeToValue(itemArray, SpotRepeat[].class));
         }
         catch (Exception exception) {
             exception.printStackTrace();

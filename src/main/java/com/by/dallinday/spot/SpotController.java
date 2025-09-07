@@ -1,15 +1,11 @@
 package com.by.dallinday.spot;
 
 import com.by.dallinday.spot.dto.SpotResponse;
-import com.by.dallinday.spot.tourAPI.SpotItem;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +38,11 @@ public class SpotController {
 
         List<SpotResponse> responses = spotService.findSpotsByLocation(lon, lat, areaCode, radius, numOfRows, pageNo);
         return new ResponseEntity<>(responses, HttpStatus.OK);
+    }
+
+    @GetMapping("/{spot-id}")
+    public ResponseEntity getSpot(@PathVariable("spot-id") @Positive Long spotId) {
+
+        return new ResponseEntity<>(spotService.findSpot(spotId), HttpStatus.OK);
     }
 }

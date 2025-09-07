@@ -1,9 +1,9 @@
 package com.by.dallinday.spot;
 
 import com.by.dallinday.courseSpot.CourseSpotRepository;
+import com.by.dallinday.spot.dto.SpotDetailResponse;
 import com.by.dallinday.spot.dto.SpotResponse;
-import com.by.dallinday.spot.tourAPI.SpotAPIClient;
-import com.by.dallinday.spot.tourAPI.SpotItem;
+import com.by.dallinday.spot.tourAPI.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +38,36 @@ public class SpotService {
                 .filter(spot -> existing.contains(spot.getSpotId()))
                 .map(spot -> spotMapper.spotItemToSpotResponse(spot))
                 .toList();
+    }
+
+    // 관광지 조회
+    public SpotDetailResponse findSpot(Long spotId) {
+
+        // spotApiClient를 통해 외부 API 호출
+        SpotCommon spotCommon = spotAPIClient.callCommonInfoAPI(spotId);
+        SpotDetail spotDetail = spotAPIClient.callDetailInfoAPI(spotId);
+        List<SpotRepeat> spotRepeats = spotAPIClient.callRepeatInfoAPI(spotId)
+                .stream()
+                .map(sr -> {
+                    sr.setInfoname(sr.getInfoname().replaceAll("\\s+", ""));
+                    return sr;
+                })
+                .toList();
+
+        SpotDetailResponse spotDetailResponse = new SpotDetailResponse();
+        spotDetailResponse.setSpotId(spotCommon.getContentid());
+        spotDetailResponse.setName(spotCommon.getTitle());
+        spotDetailResponse.setAddr1(spotCommon.getAddr1());
+        spotDetailResponse.setAddr2(spotCommon.getAddr2());
+        spotDetailResponse.setDescription(spotCommon.getOverview());
+        spotDetailResponse.setClosedDays(spotDetail.getRestdate());
+        spotDetailResponse.setOpeningHours(spotDetail.getUsetime());
+        spotDetailResponse.setParking(spotDetail.getParking());
+        spotDetailResponse.setBabyCarriage(spotDetail.getChkbabycarriage());
+        spotDetailResponse.setCreditCard(spotDetail.getChkcreditcard());
+        spotDetailResponse.setInfoCenter(spotDetail.getInfocenter());
+        spotDetailResponse.setEtc(spotRepeats);
+
+        return spotDetailResponse;
     }
 }
