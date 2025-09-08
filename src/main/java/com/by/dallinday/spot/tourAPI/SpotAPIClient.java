@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +22,9 @@ public class SpotAPIClient {
     @Value("${open-api.tour-api.service-key}")
     private String serviceKey;
 
+    private final String MobileOS = "AND";
+    private final String MobileApp = URLEncoder.encode("달린데이", StandardCharsets.UTF_8);
+
     public List<SpotItem> callAreaBasedAPI(int areaCode, int numOfRows, int pageNo) {
         try {
             String result = "";
@@ -28,8 +33,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + numOfRows +
                     "&pageNo=" + pageNo +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + MobileOS +
+                    "&MobileApp=" + MobileApp +
                     "&_type=" + "json" +
                     "&arrange=" + "C" +
                     "&contentTypeId=" + "12" +
@@ -63,8 +68,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + numOfRows +
                     "&pageNo=" + pageNo +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + MobileOS +
+                    "&MobileApp=" + MobileApp +
                     "&_type=" + "json" +
                     "&arrange=" + "E" +
                     "&mapX=" + mapX +
@@ -101,8 +106,8 @@ public class SpotAPIClient {
 
             URL url = new URL("https://apis.data.go.kr/B551011/KorService2/detailCommon2?" +
                     "serviceKey=" + serviceKey +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + MobileOS +
+                    "&MobileApp=" + MobileApp +
                     "&_type=" + "json" +
                     "&contentId=" + spotId);
 
@@ -133,8 +138,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + 10 +
                     "&pageNo=" + 1 +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + MobileOS +
+                    "&MobileApp=" + MobileApp +
                     "&_type=" + "json" +
                     "&contentId=" + spotId);
 
@@ -165,8 +170,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + 10 +
                     "&pageNo=" + 1 +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + MobileOS +
+                    "&MobileApp=" + MobileApp +
                     "&_type=" + "json" +
                     "&contentId=" + spotId +
                     "&contentTypeId=" + "12");
@@ -198,8 +203,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + 10 +
                     "&pageNo=" + 1 +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + MobileOS +
+                    "&MobileApp=" + MobileApp +
                     "&_type=" + "json" +
                     "&contentId=" + spotId +
                     "&contentTypeId=" + "12");
