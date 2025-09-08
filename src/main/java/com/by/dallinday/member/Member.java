@@ -55,6 +55,7 @@ public class Member {
     private String badges = "100000000";
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OrderBy("startTime DESC")
     private List<Run> runList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
