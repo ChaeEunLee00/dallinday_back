@@ -28,8 +28,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + numOfRows +
                     "&pageNo=" + pageNo +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + "AND" +
+                    "&MobileApp=" + "달린데이" +
                     "&_type=" + "json" +
                     "&arrange=" + "C" +
                     "&contentTypeId=" + "12" +
@@ -63,8 +63,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + numOfRows +
                     "&pageNo=" + pageNo +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + "AND" +
+                    "&MobileApp=" + "달린데이" +
                     "&_type=" + "json" +
                     "&arrange=" + "E" +
                     "&mapX=" + mapX +
@@ -101,8 +101,8 @@ public class SpotAPIClient {
 
             URL url = new URL("https://apis.data.go.kr/B551011/KorService2/detailCommon2?" +
                     "serviceKey=" + serviceKey +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + "AND" +
+                    "&MobileApp=" + "달린데이" +
                     "&_type=" + "json" +
                     "&contentId=" + spotId);
 
@@ -133,8 +133,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + 10 +
                     "&pageNo=" + 1 +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + "AND" +
+                    "&MobileApp=" + "달린데이" +
                     "&_type=" + "json" +
                     "&contentId=" + spotId);
 
@@ -165,8 +165,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + 10 +
                     "&pageNo=" + 1 +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + "AND" +
+                    "&MobileApp=" + "달린데이" +
                     "&_type=" + "json" +
                     "&contentId=" + spotId +
                     "&contentTypeId=" + "12");
@@ -198,8 +198,8 @@ public class SpotAPIClient {
                     "serviceKey=" + serviceKey +
                     "&numOfRows=" + 10 +
                     "&pageNo=" + 1 +
-                    "&MobileOS=" + "ETC" +
-                    "&MobileApp=" + "AppTest" +
+                    "&MobileOS=" + "AND" +
+                    "&MobileApp=" + "달린데이" +
                     "&_type=" + "json" +
                     "&contentId=" + spotId +
                     "&contentTypeId=" + "12");
