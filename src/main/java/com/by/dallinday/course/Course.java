@@ -42,7 +42,7 @@ public class Course {
     @Column
     private String gpxpath; // GPX 파일 경로
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OrderBy("orderIndex ASC")
     private List<CourseSpot> courseSpotList; // 지나는 관광지 목록
 

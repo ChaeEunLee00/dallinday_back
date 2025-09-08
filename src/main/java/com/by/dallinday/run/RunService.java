@@ -48,7 +48,7 @@ public class RunService {
         // 멤버 기록 업데이트
         member.setTotalDistance(member.getTotalDistance() + run.getDistance());
         member.setTotalDuration(member.getTotalDuration() + run.getDuration());
-        member.setAvgPace(member.getTotalDistance() / member.getTotalDuration());
+        member.setAvgPace( member.getTotalDuration() / member.getTotalDistance());
 
         // 뱃지 조건 확인 후 업데이트
 

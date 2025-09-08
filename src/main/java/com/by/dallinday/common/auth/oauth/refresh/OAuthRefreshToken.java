@@ -1,5 +1,6 @@
-package com.by.dallinday.member;
+package com.by.dallinday.common.auth.oauth.refresh;
 
+import com.by.dallinday.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
