@@ -1,5 +1,6 @@
 package com.by.dallinday.member;
 
+import com.by.dallinday.common.auth.oauth.refresh.OAuthRefreshToken;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.run.Run;
 import jakarta.persistence.*;

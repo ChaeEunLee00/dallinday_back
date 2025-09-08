@@ -1,8 +1,9 @@
-package com.by.dallinday.member;
+package com.by.dallinday.common.auth.oauth.refresh;
 
 import com.by.dallinday.common.auth.util.EncryptUtil;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
+import com.by.dallinday.member.Member;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
