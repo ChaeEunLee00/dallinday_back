@@ -2,6 +2,7 @@ package com.by.dallinday.member;
 
 import com.by.dallinday.common.auth.oauth.refresh.OAuthRefreshToken;
 import com.by.dallinday.favorite.Favorite;
+import com.by.dallinday.ranking.Ranking;
 import com.by.dallinday.run.Run;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -61,6 +62,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Favorite> favoriteList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Ranking> rankingList = new ArrayList<>(); // cascade all 삭제용으로 임시 생성
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private OAuthRefreshToken oAuthRefreshToken;
