@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-//@Profile("dev") // 개발 환경에서만 실행
+@Profile("dev") // 개발 환경에서만 실행
 @RequiredArgsConstructor
 public class CourseDataInitializer implements CommandLineRunner {
 
