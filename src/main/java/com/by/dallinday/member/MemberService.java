@@ -52,7 +52,10 @@ public class MemberService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         // 닉네임 갱신
-        if (request.getUsername() != null) member.setUsername(request.getUsername());
+        if (request.getUsername() != null) {
+            member.setUsername(request.getUsername());
+            memberRepository.save(member);
+        }
 
         // JPA 영속성으로 자동 flush
         return memberMapper.memberToMemberResponse(member);
