@@ -36,7 +36,7 @@ public class RunController {
     public ResponseEntity getRun(@PathVariable("run-id") @Positive Long runId) {
 
         RunResponse response = runService.findRun(runId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 달리기 기록 삭제
