@@ -23,7 +23,9 @@ public class CourseResponse {
 
     private Integer difficulty;   // 1~3
 
-    private String gpxpath;
+    private String gpxpath; // gpx 파일 url
+
+    private String imageUrl; // 코스 이미지 - 시작지점 기준
 
     // spots 배열: spotId, name, mapx, mapy
     private List<CourseSpotResponse> courseSpotList = new ArrayList<>();

@@ -3,6 +3,7 @@ package com.by.dallinday.course;
 import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.common.gpx.GpxResult;
+import com.by.dallinday.course.dto.CourseSpotResponse;
 import com.by.dallinday.course.dto.CourseTop5Response;
 import com.by.dallinday.course.tourAPI.CourseAPIClient;
 import com.by.dallinday.course.tourAPI.CourseItem;
@@ -46,7 +47,13 @@ public class CourseService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COURSE_NOT_FOUND));
 
         // 응답 형식에 맞춰 변환
-        return courseMapper.courseToCourseResponse(course);
+        CourseResponse courseResponse = courseMapper.courseToCourseResponse(course);
+
+        // 코스 이미지 지정
+        String courseImageUrl = getCourseImageUrl(courseResponse.getCourseSpotList());
+        courseResponse.setImageUrl(courseImageUrl);
+
+        return courseResponse;
     }
 
     // 관광지 별 코스 리스트 조회
@@ -64,12 +71,9 @@ public class CourseService {
                     // 기본 매핑
                     CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
 
-                    // 시작지점 spot ID 얻기
-                    Long firstSpotId = courseListResponse.getCourseSpotList().get(0).getSpotId();
-
-                    // 외부 API 호출해서 이미지 URL 가져오기
-                    SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
-                    courseListResponse.setImageUrl(spotItem.getFirstimage());
+                    // 코스 이미지 지정
+                    String courseImageUrl = getCourseImageUrl(courseListResponse.getCourseSpotList());
+                    courseListResponse.setImageUrl(courseImageUrl);
 
                     return courseListResponse;
                 })
@@ -169,5 +173,14 @@ public class CourseService {
             Course newCourse = courseMapper.courseItemToCourse(item);
             courseRepository.save(newCourse);
         }
+    }
+
+    public String getCourseImageUrl(List<CourseSpotResponse> courseSpotList){
+        // 시작지점 spot ID 얻기
+        Long firstSpotId = courseSpotList.get(0).getSpotId();
+
+        // 외부 API 호출해서 이미지 URL 가져오기
+        SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
+        return spotItem.getFirstimage();
     }
 }
