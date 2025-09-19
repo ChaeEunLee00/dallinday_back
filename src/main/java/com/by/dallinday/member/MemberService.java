@@ -5,6 +5,7 @@ import com.by.dallinday.common.exception.BusinessLogicException;
 import com.by.dallinday.common.exception.ExceptionCode;
 import com.by.dallinday.course.Course;
 import com.by.dallinday.course.CourseMapper;
+import com.by.dallinday.course.CourseService;
 import com.by.dallinday.course.dto.CourseListResponse;
 import com.by.dallinday.favorite.Favorite;
 import com.by.dallinday.favorite.FavoriteRepository;
@@ -14,8 +15,6 @@ import com.by.dallinday.ranking.dto.RankingResponse;
 import com.by.dallinday.ranking.Ranking;
 import com.by.dallinday.ranking.RankingMapper;
 import com.by.dallinday.ranking.RankingRepository;
-import com.by.dallinday.spot.tourAPI.SpotAPIClient;
-import com.by.dallinday.spot.tourAPI.SpotItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +25,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-    private final SpotAPIClient spotAPIClient;
     private final OAuthAPIClient oAuthAPIClient;
 
     private final MemberMapper memberMapper;
     private final CourseMapper courseMapper;
     private final RankingMapper rankingMapper;
+
+    private final CourseService courseService;
 
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
@@ -110,12 +110,9 @@ public class MemberService {
                     // 기본 매핑
                     CourseListResponse courseListResponse = courseMapper.courseToCourseListResponse(course);
 
-                    // 시작지점 spot ID 얻기
-                    Long firstSpotId = courseListResponse.getCourseSpotList().get(0).getSpotId();
-
-                    // 외부 API 호출해서 이미지 URL 가져오기
-                    SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
-                    courseListResponse.setImageUrl(spotItem.getFirstimage());
+                    // 코스 이미지 지정
+                    String courseImageUrl = courseService.getCourseImageUrl(courseListResponse.getCourseSpotList());
+                    courseListResponse.setImageUrl(courseImageUrl);
 
                     return courseListResponse;
                 })
