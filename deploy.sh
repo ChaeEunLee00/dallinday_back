@@ -1,5 +1,13 @@
 #!/bin/bash
-# 빌드 파일의 이름이 콘텐츠와 다르다면 다음 줄의 .jar 파일 이름을 수정하시기 바랍니다.
+# CodeDeploy의 SSH로 스크립트 실행 (즉, EC2의 SSH에서 로그 확인 불가)
+# 배포 훅 실행 로그 확인: sudo tail -n 200 /var/log/aws/codedeploy-agent/codedeploy-agent.log
+# 애플리케이션(Spring) 로그 확인:
+# 1) 최근 100줄
+#    sudo journalctl -u dallinday -n 100 --no-pager
+# 2) 실시간(종료: Ctrl+C)
+#    sudo journalctl -u dallinday -f
+
+# 빌드 파일의 이름이 콘텐츠와 다르다면 다음 줄의 .jar 파일 이름을 수정
 BUILD_JAR=$(ls /home/ubuntu/action/build/libs/dallinday-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
@@ -21,26 +29,3 @@ sudo systemctl restart dallinday
 echo "> 상태 확인"
 sleep 2
 sudo systemctl status dallinday --no-pager -l || true
-
-echo "> 최근 100줄 로그"
-sudo journalctl -u dallinday -n 100 --no-pager
-
-#echo "> 실시간 로그(종료: Ctrl+C)"
-#sudo journalctl -u dallinday -f
-
-#echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ubuntu/deploy.log
-#CURRENT_PID=$(pgrep -f $JAR_NAME)
-#
-#if [ -z $CURRENT_PID ]
-#then
-#  echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> /home/ubuntu/deploy.log
-#else
-#  echo "> kill -9 $CURRENT_PID" >> /home/ubuntu/deploy.log
-#  sudo kill -9 $CURRENT_PID
-#  sleep 5
-#fi
-#
-#
-#DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
-#echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy.log
-#sudo nohup java -jar $DEPLOY_JAR >> /home/ubuntu/deploy.log 2>/home/ubuntu/deploy_err.log &
