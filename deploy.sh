@@ -23,7 +23,10 @@ sleep 2
 sudo systemctl status dallinday --no-pager -l || true
 
 echo "> 최근 100줄 로그"
-sudo journalctl -u "$SERVICE" -n 100 --no-pager
+sudo journalctl -u dallinday -n 100 --no-pager
+
+#echo "> 실시간 로그(종료: Ctrl+C)"
+#sudo journalctl -u dallinday -f
 
 #echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ubuntu/deploy.log
 #CURRENT_PID=$(pgrep -f $JAR_NAME)
