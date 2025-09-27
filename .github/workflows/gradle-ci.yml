@@ -43,7 +43,7 @@ jobs:
       working-directory: ${{ env.working-directory }}
       
     - name: Build with Gradle
-      run: ./gradlew clean build --debug
+      run: ./gradlew clean build --info
       working-directory: ${{ env.working-directory }}
 
     # 테스트 코드 작성 시 추가
