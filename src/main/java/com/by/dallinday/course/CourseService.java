@@ -177,10 +177,14 @@ public class CourseService {
 
     public String getCourseImageUrl(List<CourseSpotResponse> courseSpotList){
         // 시작지점 spot ID 얻기
-        Long firstSpotId = courseSpotList.get(0).getSpotId();
+        if(!courseSpotList.isEmpty()){
+            Long firstSpotId = courseSpotList.get(0).getSpotId();
 
-        // 외부 API 호출해서 이미지 URL 가져오기
-        SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
-        return spotItem.getFirstimage();
+            // 외부 API 호출해서 이미지 URL 가져오기
+            SpotItem spotItem = spotAPIClient.callContentIdBasedAPI(firstSpotId);
+            return spotItem.getFirstimage();
+        }else{
+            return "https://dallinday-bucket.s3.ap-northeast-2.amazonaws.com/images/default_course.jpg";
+        }
     }
 }
