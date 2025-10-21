@@ -19,6 +19,7 @@ import com.by.dallinday.member.MemberRepository;
 import com.by.dallinday.spot.tourAPI.SpotAPIClient;
 import com.by.dallinday.spot.tourAPI.SpotItem;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -82,7 +83,7 @@ public class CourseService {
 
     // 인기코스 top 5 조회
     public List<CourseTop5Response> findTop5CourseList() {
-        List<Course> top5 = courseRepository.findTop5ByRunCount();
+        List<Course> top5 = courseRepository.findTopNByRunCount(PageRequest.of(0, 5));
 
         return top5.stream()
                 .map(course -> courseMapper.courseToCourseTop5Response(course))
