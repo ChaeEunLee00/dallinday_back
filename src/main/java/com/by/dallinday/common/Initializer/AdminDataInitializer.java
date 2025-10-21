@@ -37,7 +37,7 @@ public class AdminDataInitializer implements CommandLineRunner {
             admin.setRole(Role.ADMIN.getRole());
             admin.setUsername("달린데이");
             admin.setCreatedAt(LocalDateTime.now());
-            admin.setImageUrl("https://dallinday-bucket.s3.ap-northeast-2.amazonaws.com/profile/default_profile.jpg");
+            admin.setImageUrl("https://dallinday-bucket.s3.ap-northeast-2.amazonaws.com/images/default_profile.jpg");
 
             memberRepository.save(admin);
             log.info("Admin user created.");
