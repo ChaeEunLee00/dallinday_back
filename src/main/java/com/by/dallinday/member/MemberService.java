@@ -15,6 +15,8 @@ import com.by.dallinday.ranking.dto.RankingResponse;
 import com.by.dallinday.ranking.Ranking;
 import com.by.dallinday.ranking.RankingMapper;
 import com.by.dallinday.ranking.RankingRepository;
+import com.by.dallinday.run.RunMapper;
+import com.by.dallinday.run.dto.RunResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ import java.util.List;
 public class MemberService {
     private final OAuthAPIClient oAuthAPIClient;
 
+    private final RunMapper runMapper;
     private final MemberMapper memberMapper;
     private final CourseMapper courseMapper;
     private final RankingMapper rankingMapper;
@@ -82,13 +85,20 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        // 개인 기록, 뱃지, 달리기 리스트
+        // 개인 기록, 뱃지
         MyPageGetResponse myPageGetResponse = memberMapper.memberToMyPageGetResponse(member);
 
         // 랭킹 계산 (현재 월 기준)
         myPageGetResponse.setRanking(getMyRanking(memberId));
 
         return myPageGetResponse;
+    }
+
+    // 순위 조회
+    public MyRankingDetailResponse findMyRanking(Long memberId) {
+
+        // 랭킹 계산 (현재 월 기준)
+        return getMyDetailRanking(memberId);
     }
 
     // 찜한 코스 리스트 조회
@@ -119,11 +129,16 @@ public class MemberService {
                 .toList();
     }
 
-    // 순위 조회
-    public MyRankingDetailResponse findMyRanking(Long memberId) {
 
-        // 랭킹 계산 (현재 월 기준)
-        return getMyDetailRanking(memberId);
+    // 달리기 목록 조회
+    public List<RunResponse> findRuns(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        // 달리기 리스트
+        return member.getRunList().stream()
+                .map(run -> runMapper.runToRunResponse(run))
+                .toList();
     }
 
     private MyRankingResponse getMyRanking(Long memberId) {
