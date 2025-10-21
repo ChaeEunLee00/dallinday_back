@@ -3,11 +3,8 @@ package com.by.dallinday.member;
 import com.by.dallinday.member.dto.MemberResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import com.by.dallinday.run.RunMapper;
-import com.by.dallinday.run.dto.RunResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -47,12 +44,6 @@ public class MemberMapper {
         myPageGetResponse.setTotalDuration(member.getTotalDuration());
         myPageGetResponse.setAvgPace(member.getAvgPace());
         myPageGetResponse.setBadges(member.getBadges());
-
-        List<RunResponse> runResponseList = member.getRunList().stream()
-                .map(run -> runMapper.runToRunResponse(run))
-                .toList();
-
-        myPageGetResponse.setRunList(runResponseList);
 
         return myPageGetResponse;
     }

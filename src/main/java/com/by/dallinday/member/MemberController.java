@@ -5,6 +5,7 @@ import com.by.dallinday.member.dto.MemberPatchRequest;
 import com.by.dallinday.member.dto.MemberResponse;
 import com.by.dallinday.member.dto.MyPageGetResponse;
 import com.by.dallinday.member.dto.MyRankingDetailResponse;
+import com.by.dallinday.run.dto.RunResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +54,17 @@ public class MemberController {
     @GetMapping("/{member-id}/mypage")
     public ResponseEntity getMyPage(@PathVariable("member-id") @Positive Long memberId) {
 
-        // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
+        // 개인 기록, 순위, 뱃지 전달
         MyPageGetResponse response = memberService.findMyPage(memberId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 순위 상세 조회
+    @GetMapping("/{member-id}/mypage/ranking")
+    public ResponseEntity getMyRanking(@PathVariable("member-id") @Positive Long memberId) {
+
+        // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
+        MyRankingDetailResponse response = memberService.findMyRanking(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -62,6 +73,14 @@ public class MemberController {
     public ResponseEntity getFavorites(@PathVariable("member-id") @Positive Long memberId) {
 
         List<CourseListResponse> response = memberService.findFavorites(memberId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 달리기 목록 조회
+    @GetMapping("/{member-id}/runs")
+    public ResponseEntity getRuns(@PathVariable("member-id") @Positive Long memberId) {
+
+        List<RunResponse> response = memberService.findRuns(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -78,14 +97,5 @@ public class MemberController {
 
         memberService.removeMember(pathMemberId);
         return new ResponseEntity<>("Your account deletion is complete", HttpStatus.OK);
-    }
-
-    // 순위 상세 조회
-    @GetMapping("/{member-id}/mypage/ranking")
-    public ResponseEntity getMyRanking(@PathVariable("member-id") @Positive Long memberId) {
-
-        // 개인 기록, 순위, 뱃지, 달리기 리스트 전달
-        MyRankingDetailResponse response = memberService.findMyRanking(memberId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
