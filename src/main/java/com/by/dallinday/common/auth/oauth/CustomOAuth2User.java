@@ -19,6 +19,7 @@ public class CustomOAuth2User extends DefaultOAuth2User {
 
     private String role;
 
+    private boolean isNew;
 
     /**
      * Constructs a {@code DefaultOAuth2User} using the provided parameters.
@@ -33,23 +34,27 @@ public class CustomOAuth2User extends DefaultOAuth2User {
                             String nameAttributeKey,
                             Long memberId,
                             String email,
-                            String role) {
+                            String role,
+                            boolean isNew) {
         super(authorities, attributes, nameAttributeKey);
         this.memberId = memberId;
         this.email = email;
         this.role = role;
+        this.isNew = isNew;
     }
 
     public static CustomOAuth2User of(Member member,
                                       Map<String, Object> attributes,
-                                      String nameAttributeKey) {
+                                      String nameAttributeKey,
+                                      boolean isNew) {
         return new CustomOAuth2User(
                 List.of(new SimpleGrantedAuthority(member.getRole())),
                 attributes,
                 nameAttributeKey,
                 member.getMemberId(),
                 member.getEmail(),
-                member.getRole()
+                member.getRole(),
+                isNew
         );
     }
 }

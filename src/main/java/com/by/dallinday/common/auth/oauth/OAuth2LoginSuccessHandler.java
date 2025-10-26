@@ -59,7 +59,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // 로그인 성공 후 리다이렉트 주소 -> 프론트 주소
         // 크롬에서 벗어나 프론트로 돌아가기 위함
-        response.sendRedirect(UriUtil.buildMyAppRedirectUri(accessToken, refreshToken, oAuth2User.getMemberId()));
+        response.sendRedirect(UriUtil.buildMyAppRedirectUri(accessToken, refreshToken, oAuth2User.getMemberId(), oAuth2User.isNew()));
     }
 
     private void storeOAuthRefreshToken(Authentication authentication, Long memberId) {
