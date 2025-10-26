@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -48,8 +49,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // UserInfo 가져오기 - provider 별로 사용자 데이터 구조, 필드 이름 등이 다르기 때문에 공통 인터페이스 정의
         OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(provider, attributes);
 
+        // member 존재 여부 확인
+        Optional<Member> existing = memberRepository.findByEmailAndProvider(oAuth2UserInfo.getEmail(), provider);
+        boolean isNew = existing.isEmpty();
+
         // 저장되어있는 member 정보 가져오기, 없으면 회원가입 진행
-        Member member = getMember(oAuth2UserInfo, provider);
+        Member member = existing.orElseGet(() -> createUser(oAuth2UserInfo));
 
         log.info("dallinday memberId : {}", member.getMemberId());
         log.info("dallinday email : {}", member.getEmail());
@@ -57,7 +62,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 커스텀 OAuth2User 전달
         log.info("CustomOAuth2UserSerivce.loadUser() 종료");
-        return CustomOAuth2User.of(member, attributes, providerId);
+        return CustomOAuth2User.of(member, attributes, providerId, isNew);
     }
 
     private OAuth2UserInfo getOAuth2UserInfo(String provider, Map<String, Object> attributes) {
@@ -74,10 +79,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     // 저장되어있는 member 정보 가져오기
-    private Member getMember(OAuth2UserInfo oAuth2UserInfo, String provider) {
-        return memberRepository.findByEmailAndProvider(oAuth2UserInfo.getEmail(), provider)
-                .orElseGet(() -> createUser(oAuth2UserInfo));
-    }
+//    private Member getMember(OAuth2UserInfo oAuth2UserInfo, String provider) {
+//        return memberRepository.findByEmailAndProvider(oAuth2UserInfo.getEmail(), provider)
+//                .orElseGet(() -> createUser(oAuth2UserInfo));
+//    }
 
     // 회원가입 진행
     private Member createUser(OAuth2UserInfo oAuth2UserInfo) {
