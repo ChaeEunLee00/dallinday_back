@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/admin/login").permitAll() // admin 로그인 요청 모두 허용
                                 .requestMatchers("/admin").hasRole("ADMIN") // 나머지 admin 관련 요청은 역할이 ADMIN인 경우만 가능
                                 .requestMatchers("/privacy-policy.html", "/delete-account.html").permitAll()
+                                .requestMatchers("/actuator/**").permitAll()
 //                                .anyRequest().permitAll() // 임시 보안 해제
                                 .anyRequest().authenticated()
                 )
